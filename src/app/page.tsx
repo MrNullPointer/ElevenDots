@@ -1,10 +1,4 @@
-'use client';
-
-import dynamic from 'next/dynamic';
-
-const HomeShell = dynamic(() => import('@/components/ui/HomeShell'), {
-  ssr: false,
-});
+import HomeShell from '@/components/ui/HomeShell';
 
 export default function Home() {
   return <HomeShell />;

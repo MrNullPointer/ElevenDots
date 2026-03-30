@@ -45,7 +45,9 @@ test.describe('Default shell with JS', () => {
   test('renders home shell', async ({ page }) => {
     await page.goto('/');
     await page.waitForTimeout(500); // Let dynamic import load
-    await expect(page.locator('text=elevendots')).toBeVisible();
+    await expect(
+      page.locator('header').getByText('elevendots', { exact: true }),
+    ).toBeVisible();
     await expect(page).toHaveScreenshot('default-shell.png');
   });
 });
