@@ -6,11 +6,18 @@ export default function AboutContent() {
     <div className={styles.content}>
       <h1 className={styles.heading}>{ABOUT.heading}</h1>
       <p className={styles.subheading}>{ABOUT.subheading}</p>
-      <div className={styles.bio}>
-        {ABOUT.bio.map((paragraph, i) => (
-          <p key={i}>{paragraph}</p>
-        ))}
-      </div>
+      {ABOUT.bio.length > 0 && (
+        <div className={styles.bio}>
+          {ABOUT.bio.map((paragraph, i) => (
+            <p key={i} dangerouslySetInnerHTML={{
+              __html: paragraph.replace(
+                /\bElevenDots\b/g,
+                '<strong>ElevenDots</strong>'
+              ),
+            }} />
+          ))}
+        </div>
+      )}
       <nav className={styles.links} aria-label="Social links">
         {ABOUT.links.map((link) => (
           <a
