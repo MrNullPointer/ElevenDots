@@ -1,5 +1,60 @@
 # DEVLOG
 
+## Session 2 — 2026-03-29
+
+### Phase 1 Completion
+
+**1.7 — /about static page**
+- Rewrote /about as server-rendered page with CSS Modules (no inline styles)
+- Uses shared `<AboutContent />` component, same tokens and typography
+- Full-width layout with "elevendots" back link — works without JS
+
+**1.8 — InfoPanel + static pages**
+- Created InfoPanel: glass mode toggle (Full/Reduced/Opaque segmented control), reduced motion switch, audio state display, quality tier display
+- Wired Info (ℹ) toggle into ToggleControls and TopBar
+- Created /credits, /privacy, /accessibility as real server-rendered routes
+- All share about.module.css for consistent static page styling
+
+**1.9 — Hash deep-linking**
+- Rewrote useHashRoute with full navigation behavior
+- `modalOpenedViaNavRef` tracks whether modal opened via click or direct URL
+- Close behavior: history.back() for click-opened, replaceState('/') for URL-opened
+- Hash reading on mount: #about → panel, #pulse/#axiom → destination focus
+- Dual listeners: both popstate AND hashchange for full coverage
+
+**1.10 — Responsive layout**
+- All components use CSS clamp() for fluid spacing/padding
+- Navigation gap and bottom offset fluid (375px–3840px)
+- AboutPanel and InfoPanel padding fluid
+- Static pages use clamp-based padding
+- No breakpoints — pure fluid scaling
+
+**1.11 — Playwright visual regression**
+- Installed Playwright with Chromium
+- Created playwright.config.ts with platform-project snapshot paths
+- poster-shell.spec.ts: 24 tests covering no-JS, default, reduced motion, opaque glass, mobile, about panel, 404
+- All 24 tests pass, baselines captured in tests/visual/snapshots/
+
+### Gate Check (passed)
+- ✅ No-JS: wordmark visible, all links work, poster renders, static pages load
+- ✅ JS enabled: About opens as modal, hash routing works, back button closes, Info panel toggles work
+- ✅ Build: 6 routes statically exported (/, /about, /accessibility, /credits, /privacy, /_not-found)
+
+### Phase 1.5 — Visual Bible Freeze (passed)
+
+**visual-bible.spec.ts: 22 tests, all pass**
+- 12 viewport idle screenshots (375, 390, 414, 768, 1024, 1280, 1440, 1680, 1920, 2560, 3440, 3840)
+- 4 About panel screenshots at key viewports (375, 768, 1280, 1920)
+- 3 glass mode screenshots (full, reduced, opaque) at 1280
+- Composition checks:
+  - ✅ Dark pixel ratio >75% (body bg luminance < 0.1)
+  - ✅ Wordmark in upper-left safe zone (top < 80px, left < 120px)
+  - ✅ Navigation in bottom center zone (centerX 0.3–0.7, bottom offset < 80px)
+
+**No composition adjustments needed.** Poster shell is clean and balanced at all viewports.
+
+---
+
 ## Session 1 — 2026-03-29
 
 ### Phase 0 — Bootstrap (complete)

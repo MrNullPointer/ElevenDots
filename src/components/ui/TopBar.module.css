@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-3) clamp(var(--space-4), 3vw, var(--space-6));
   pointer-events: none;
 }
 

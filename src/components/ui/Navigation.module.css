@@ -1,11 +1,13 @@
 .nav {
   position: fixed;
-  bottom: var(--space-8);
+  bottom: clamp(var(--space-4), 4vw, var(--space-8));
   left: 50%;
   transform: translateX(-50%);
   z-index: var(--z-navigation);
   display: flex;
-  gap: var(--space-8);
+  gap: clamp(var(--space-4), 4vw, var(--space-8));
+  width: max-content;
+  max-width: calc(100vw - var(--space-8));
 }
 
 .anchor {
