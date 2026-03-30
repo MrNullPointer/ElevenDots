@@ -1,0 +1,5 @@
+.shell {
+  position: relative;
+  min-height: 100dvh;
+  z-index: var(--z-ui-base);
+}

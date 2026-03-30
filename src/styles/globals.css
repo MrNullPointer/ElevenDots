@@ -1,0 +1,66 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-obsidian);
+  color: var(--color-frost);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ── Focus styles ── */
+:focus-visible {
+  outline: 2px solid var(--color-accent-cyan);
+  outline-offset: 2px;
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--color-cryogenic);
+  color: var(--color-frost);
+}
+
+/* ── Glass mode utilities ── */
+.glass-full {
+  background: var(--glass-bg-full);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-reduced {
+  background: var(--glass-bg-reduced);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-opaque {
+  background: var(--glass-bg-opaque);
+  border: 1px solid var(--glass-border);
+}
+
+/* ── Frozen body class ── */
+body.frozen * {
+  animation-play-state: paused !important;
+}
