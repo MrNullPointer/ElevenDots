@@ -2,11 +2,14 @@
 
 import { useEffect, useRef } from 'react';
 import { useAppStore } from '@/lib/store';
+import type { WorldDestination } from '@/lib/store';
 import AboutContent from './AboutContent';
 import styles from './AboutPanel.module.css';
 
 interface AboutPanelProps {
   onClose: () => void;
+  isOpen: boolean;
+  destination: WorldDestination;
 }
 
 const GLASS_CLASS: Record<string, string> = {
@@ -15,11 +18,9 @@ const GLASS_CLASS: Record<string, string> = {
   opaque: 'glass-opaque',
 };
 
-export default function AboutPanel({ onClose }: AboutPanelProps) {
-  const activePanel = useAppStore((s) => s.activePanel);
+export default function AboutPanel({ onClose, isOpen, destination }: AboutPanelProps) {
   const glassMode = useAppStore((s) => s.glassMode);
   const panelRef = useRef<HTMLDivElement>(null);
-  const isOpen = activePanel === 'about';
 
   // Escape key closes panel
   useEffect(() => {
@@ -44,6 +45,7 @@ export default function AboutPanel({ onClose }: AboutPanelProps) {
     <div
       className={styles.overlay}
       data-open={isOpen}
+      data-destination={destination}
       role="dialog"
       aria-modal="true"
       aria-label="About"
@@ -53,6 +55,7 @@ export default function AboutPanel({ onClose }: AboutPanelProps) {
       <div
         ref={panelRef}
         className={`${styles.panel} ${GLASS_CLASS[glassMode]}`}
+        data-open={isOpen}
         tabIndex={-1}
       >
         <button

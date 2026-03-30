@@ -1,11 +1,74 @@
 .page {
+  position: relative;
+  overflow: hidden;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: clamp(var(--space-6), 5vw, var(--space-12)) clamp(var(--space-4), 4vw, var(--space-8));
-  background: var(--color-obsidian);
+  background:
+    radial-gradient(
+      ellipse 86% 60% at 50% 42%,
+      rgba(28, 40, 58, 0.52) 0%,
+      rgba(10, 16, 26, 0.18) 48%,
+      transparent 80%
+    ),
+    linear-gradient(180deg, #04070d 0%, #04070c 34%, #020409 100%);
+}
+
+.page::before,
+.page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.page::before {
+  background:
+    radial-gradient(
+      ellipse 92% 62% at 50% 40%,
+      transparent 42%,
+      rgba(138, 162, 194, 0.18) 56%,
+      transparent 64%
+    ),
+    radial-gradient(
+      ellipse 62% 34% at 50.8% 40.8%,
+      transparent 40%,
+      rgba(130, 144, 170, 0.14) 54%,
+      transparent 62%
+    ),
+    linear-gradient(
+      108deg,
+      transparent 24%,
+      rgba(140, 154, 178, 0.08) 46%,
+      transparent 60%
+    ),
+    linear-gradient(
+      72deg,
+      transparent 28%,
+      rgba(132, 146, 170, 0.06) 50%,
+      transparent 64%
+    );
+  filter: blur(18px);
+  mix-blend-mode: screen;
+  opacity: 0.72;
+}
+
+.page::after {
+  background:
+    radial-gradient(
+      ellipse 28% 18% at 50.8% 39.2%,
+      rgba(146, 158, 182, 0.1) 0%,
+      transparent 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(3, 5, 8, 0) 0%,
+      rgba(3, 5, 8, 0.16) 58%,
+      rgba(2, 4, 8, 0.58) 100%
+    );
 }
 
 .page h1 {
@@ -68,24 +131,62 @@
 }
 
 .page > div {
+  position: relative;
   max-width: var(--measure);
   width: 100%;
+  padding: clamp(var(--space-6), 4vw, var(--space-10)) clamp(var(--space-4), 3vw, var(--space-8));
+  border: 1px solid rgba(232, 240, 255, 0.08);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(11, 16, 26, 0.8) 0%,
+      rgba(8, 12, 20, 0.9) 100%
+    );
+  box-shadow:
+    0 34px 84px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 0 40px rgba(126, 140, 162, 0.08);
+}
+
+.page > div::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(232, 240, 255, 0.05) 0%,
+      transparent 24%
+    ),
+    radial-gradient(
+      ellipse 46% 24% at 50% 0%,
+      rgba(188, 198, 218, 0.06) 0%,
+      transparent 74%
+    );
 }
 
 .backLink {
   position: fixed;
   top: var(--space-3);
   left: clamp(var(--space-4), 3vw, var(--space-6));
-  color: var(--color-frost-dim);
+  z-index: 1;
+  color: rgba(222, 230, 242, 0.7);
   text-decoration: none;
   font-family: var(--font-display);
   font-size: var(--text-sm);
   letter-spacing: 0.25em;
   text-transform: lowercase;
-  opacity: 0.6;
-  transition: opacity var(--duration-fast) var(--ease-out);
+  opacity: 0.72;
+  text-shadow: 0 0 22px rgba(24, 34, 48, 0.2);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 
 .backLink:hover {
   opacity: 1;
+  color: var(--color-frost);
 }

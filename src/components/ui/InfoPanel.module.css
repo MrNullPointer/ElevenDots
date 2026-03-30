@@ -10,8 +10,8 @@
   visibility: hidden;
   pointer-events: none;
   transition:
-    opacity var(--duration-normal) var(--ease-out),
-    visibility var(--duration-normal);
+    opacity var(--shell-duration-settle) var(--ease-out),
+    visibility var(--shell-duration-settle);
 }
 
 .overlay[data-open='true'] {
@@ -23,6 +23,11 @@
 .backdrop {
   position: absolute;
   inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(4, 6, 12, 0) 0%,
+    rgba(4, 6, 12, 0.22) 100%
+  );
   cursor: pointer;
 }
 
@@ -32,13 +37,17 @@
   max-height: 70vh;
   overflow-y: auto;
   padding: var(--space-6);
+  border: 1px solid var(--shell-panel-border);
   border-radius: var(--radius-lg);
-  transform: translateY(12px);
-  transition: transform var(--duration-normal) var(--ease-out);
+  box-shadow: var(--shell-panel-shadow);
+  transform: translateY(12px) scale(0.99);
+  transition:
+    transform var(--shell-duration-settle) var(--ease-out),
+    opacity var(--shell-duration-fast) var(--ease-out);
 }
 
 .overlay[data-open='true'] .panel {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .heading {
@@ -92,8 +101,8 @@
   font-family: var(--font-body);
   cursor: pointer;
   transition:
-    background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+    background var(--shell-duration-fast) var(--ease-out),
+    color var(--shell-duration-fast) var(--ease-out);
 }
 
 .segmentBtn:not(:last-child) {
@@ -115,11 +124,13 @@
   width: 40px;
   height: 22px;
   border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--shell-edge);
   background: transparent;
   cursor: pointer;
   position: relative;
-  transition: background var(--duration-fast) var(--ease-out);
+  transition:
+    background var(--shell-duration-fast) var(--ease-out),
+    border-color var(--shell-duration-fast) var(--ease-out);
   padding: 0;
 }
 
@@ -136,7 +147,7 @@
   height: 16px;
   border-radius: var(--radius-full);
   background: var(--color-frost-dim);
-  transition: transform var(--duration-fast) var(--ease-out);
+  transition: transform var(--shell-duration-fast) var(--ease-out);
 }
 
 .switch[aria-checked='true'] .switchThumb {
@@ -153,15 +164,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--shell-edge);
   border-radius: var(--radius-full);
   background: transparent;
   color: var(--color-frost-dim);
   font-size: var(--text-sm);
   cursor: pointer;
   transition:
-    border-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+    border-color var(--shell-duration-fast) var(--ease-out),
+    color var(--shell-duration-fast) var(--ease-out);
 }
 
 .close:hover {

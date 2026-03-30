@@ -1,5 +1,132 @@
 # DEVLOG
 
+## Session 7 — 2026-03-30
+
+### Stage 2 — poster-first interaction system and destination modulation
+
+**Poster-first world modulation**
+- Kept the current homepage architecture intact:
+  - [`src/app/page.tsx`](./src/app/page.tsx) still mounts `HomeShell`
+  - `HomeShell` still orchestrates the homepage layers
+  - no live 3D scene was restored to the default homepage path
+- Reused the existing poster baseline instead of rebuilding composition:
+  - expanded the poster into restrained state-driven layers for tonal wash, cavity glow, enclosure emphasis, and panel settling
+  - destination focus now modulates the same environment through opacity, gradients, masking, and cavity/dot-field bias only
+- Added distinct but non-literal environmental modes for:
+  - idle
+  - pulse focus
+  - axiom focus
+  - about focus
+  - about panel open
+  - reduced motion
+
+**State discipline and shell choreography**
+- Derived a single homepage destination/motion state in `HomeShell` from the existing Zustand store:
+  - `activeDestination`
+  - `activePanel`
+  - `scenePhase`
+  - `qualityTier`
+  - `reducedMotion`
+  - `frozen`
+  - `testMode`
+- Restored correct hash-driven state sync in `useHashRoute`:
+  - `#pulse` and `#axiom` now focus the world reliably
+  - `#about` keeps the about environment active while the panel is open
+  - clearing the hash clears stale focused state
+- Refined shell behavior without changing route or anchor semantics:
+  - bottom nav now has restrained active/muted focus treatment
+  - top-right controls sit in a calmer integrated shell surface
+  - about panel transitions settle the environment instead of fighting it
+
+**Verification**
+- `npm run build` ✅ passes with static export.
+- Added `tests/visual/stage2-shell.spec.ts` to capture:
+  - idle
+  - pulse focused
+  - axiom focused
+  - about focused
+  - reduced-motion
+- Generated desktop baselines for the Stage 2 state captures.
+
+### Stage 2 corrective pass — stronger destination separation
+
+**Corrective changes**
+- Increased destination-visible modulation without changing composition or route/shell architecture:
+  - stronger cavity scaling and glow bias for `pulse`
+  - stronger enclosure/structural emphasis for `axiom`
+  - quieter, more withdrawn field treatment for `about`
+- Increased dormant-dot readability and field-density variation:
+  - expanded poster-dot placement to all eight configured dormant dots
+  - raised dot size/opacity slightly and added restrained micro-field support
+- Pushed shell emphasis harder:
+  - clearer active nav state and stronger muting of non-focused destinations
+  - stronger top-right control and wordmark response per destination
+  - calmer, deeper panel-open settling
+
+**Verification**
+- Re-ran `npm run build` ✅.
+- Refreshed `tests/visual/stage2-shell.spec.ts` desktop baselines ✅.
+
+### Stage 2 hardening follow-up — state semantics and tier correction
+
+**State-system fixes**
+- Separated `about focused` from `panel open` in the deterministic Stage 2 visual suite.
+- Expanded shell settling so the settings/info panel also counts as a calm environmental panel-open state.
+- Improved interaction parity:
+  - hover and keyboard focus now use the same destination activation path
+  - touch gets a short-lived destination preview without creating sticky mobile states
+  - hover leave no longer clears a keyboard-focused destination prematurely
+
+**Quality-tier correction**
+- Fixed capability heuristics so desktop-class browsers without `navigator.deviceMemory` do not collapse into low quality by default.
+- Added clearer `high` / `medium` / `low` degradation handling in poster and ambient overlay layers.
+
+**Verification**
+- `npm run build` ✅.
+- Re-ran `tests/visual/stage2-shell.spec.ts` with distinct captures for:
+  - idle
+  - pulse focused
+  - axiom focused
+  - about focused
+  - panel open
+  - reduced motion
+
+### Stage 2 art-direction pivot — abstract cinematic field
+
+**Direction change**
+- Kept the same homepage architecture and state system, but moved the default homepage art direction away from the observatory read.
+- Reframed the poster/ambient world as a darker abstract pressure field with:
+  - broader frame-scale energy bands
+  - a less literal focal collapse event
+  - spectral seam veils
+  - stronger shell/world integration
+
+**Poster and ambient changes**
+- Expanded the poster stack with additional full-frame modulation layers:
+  - `pressureBands`
+  - `spectralVeil`
+- Regraded the focal center to feel less like an instrument/aperture and more like a lensing/collapse event.
+- Strengthened the ambient scene overlay with a new `shearField` and richer cavity/atmosphere balance.
+- Preserved destination semantics:
+  - `pulse` is sharper and more electrically live
+  - `axiom` is colder, cleaner, and more structural
+  - `about` is quieter and more inward
+
+**Shell integration**
+- Increased shell surface definition so the top bar and bottom nav feel authored into the same world rather than floating over a poster.
+- Kept real anchor semantics, the same `HomeShell` orchestration, and the same poster-first fallback behavior.
+
+**Amplitude correction**
+- Increased the visibility of the new abstract field so it reads in frozen screenshots:
+  - brighter frame-scale pressure bands
+  - larger, more legible focal collapse
+  - more present dormant-dot field
+  - clearer Axiom structural state separation
+
+**About sync follow-up**
+- Brought the About-focused homepage state into the same art direction so it no longer collapses back to near-idle.
+- Restyled the About panel and standalone `/about` page to use the same pressure-field and dark-card treatment as the homepage world.
+
 ## Session 6 — 2026-03-29
 
 ### Phase 3 strategic pivot — unified observatory world (non-literal destinations)
