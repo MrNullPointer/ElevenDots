@@ -3,11 +3,12 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import type { MeshPhysicalMaterial } from 'three';
-import type { QualityTier } from '@/lib/store';
+import type { DestinationId, QualityTier } from '@/lib/store';
 
 interface CryogenicOceanProps {
   qualityTier: QualityTier;
   paused: boolean;
+  mode: DestinationId | 'idle';
 }
 
 type CompiledShader = {
@@ -27,29 +28,29 @@ const OCEAN_CONFIG: Record<
   }
 > = {
   low: {
-    segments: 96,
-    envMapIntensity: 0.08,
-    primaryAmp: 0.1,
-    secondaryAmp: 0.05,
-    tertiaryAmp: 0.024,
+    segments: 72,
+    envMapIntensity: 0.016,
+    primaryAmp: 0.05,
+    secondaryAmp: 0.026,
+    tertiaryAmp: 0.016,
   },
   medium: {
-    segments: 140,
-    envMapIntensity: 0.12,
-    primaryAmp: 0.12,
-    secondaryAmp: 0.06,
-    tertiaryAmp: 0.03,
+    segments: 110,
+    envMapIntensity: 0.02,
+    primaryAmp: 0.06,
+    secondaryAmp: 0.03,
+    tertiaryAmp: 0.018,
   },
   high: {
-    segments: 184,
-    envMapIntensity: 0.16,
-    primaryAmp: 0.14,
-    secondaryAmp: 0.07,
-    tertiaryAmp: 0.036,
+    segments: 144,
+    envMapIntensity: 0.024,
+    primaryAmp: 0.065,
+    secondaryAmp: 0.034,
+    tertiaryAmp: 0.02,
   },
 };
 
-export default function CryogenicOcean({ qualityTier, paused }: CryogenicOceanProps) {
+export default function CryogenicOcean({ qualityTier, paused, mode }: CryogenicOceanProps) {
   const materialRef = useRef<MeshPhysicalMaterial>(null);
   const shaderRef = useRef<CompiledShader | null>(null);
 
@@ -65,6 +66,9 @@ export default function CryogenicOcean({ qualityTier, paused }: CryogenicOceanPr
       shader.uniforms.uPrimaryAmp = { value: config.primaryAmp };
       shader.uniforms.uSecondaryAmp = { value: config.secondaryAmp };
       shader.uniforms.uTertiaryAmp = { value: config.tertiaryAmp };
+      shader.uniforms.uPulse = { value: 0 };
+      shader.uniforms.uAxiom = { value: 0 };
+      shader.uniforms.uAbout = { value: 0 };
 
       shader.vertexShader = shader.vertexShader
         .replace(
@@ -74,15 +78,17 @@ uniform float uTime;
 uniform float uPrimaryAmp;
 uniform float uSecondaryAmp;
 uniform float uTertiaryAmp;
+varying vec3 vWorldPosCryo;
 `,
         )
         .replace(
           '#include <begin_vertex>',
           `#include <begin_vertex>
-float waveA = sin((position.x * 0.05) + (uTime * 0.18));
-float waveB = sin((position.z * 0.045) - (uTime * 0.14));
-float waveC = sin(((position.x + position.z) * 0.09) + (uTime * 0.24));
+float waveA = sin((position.x * 0.03) + (uTime * 0.1));
+float waveB = sin((position.z * 0.028) - (uTime * 0.08));
+float waveC = sin(((position.x + position.z) * 0.048) + (uTime * 0.13));
 transformed.y += (waveA * uPrimaryAmp) + (waveB * uSecondaryAmp) + (waveC * uTertiaryAmp);
+vWorldPosCryo = (modelMatrix * vec4(transformed, 1.0)).xyz;
 `,
         );
 
@@ -91,16 +97,29 @@ transformed.y += (waveA * uPrimaryAmp) + (waveB * uSecondaryAmp) + (waveC * uTer
           '#include <common>',
           `#include <common>
 uniform float uTime;
+uniform float uPulse;
+uniform float uAxiom;
+uniform float uAbout;
+varying vec3 vWorldPosCryo;
 `,
         )
         .replace(
           '#include <emissivemap_fragment>',
           `#include <emissivemap_fragment>
-float fresnel = pow(1.0 - clamp(dot(normalize(normal), normalize(vViewPosition)), 0.0, 1.0), 2.3);
-vec3 cryoFresnel = vec3(0.038, 0.07, 0.11) * fresnel * 0.16;
-float micro = sin((vViewPosition.x + uTime * 2.0) * 0.08) * sin((vViewPosition.y - uTime * 1.4) * 0.08);
-vec3 underTint = vec3(0.006, 0.014, 0.024) * (0.4 + 0.6 * micro);
-totalEmissiveRadiance += cryoFresnel + underTint * 0.22;
+float fresnel = pow(1.0 - clamp(dot(normalize(normal), normalize(vViewPosition)), 0.0, 1.0), 3.2);
+float viewDist = length(vWorldPosCryo - cameraPosition);
+float distanceAbsorb = smoothstep(3.0, 48.0, viewDist);
+float micro = sin((vWorldPosCryo.x + uTime * 0.5) * 0.05) * sin((vWorldPosCryo.z - uTime * 0.45) * 0.05);
+float pulseBand = exp(-pow(vWorldPosCryo.x * 0.095 + sin(uTime * 0.18) * 0.2, 2.0) * 8.0) * uPulse;
+float axiomBand = exp(-pow(vWorldPosCryo.z * 0.082 + cos(uTime * 0.14) * 0.12, 2.0) * 8.0) * uAxiom;
+float aboutBloom = exp(-pow(length(vWorldPosCryo.xz - vec2(0.0, -2.9)) * 0.18, 2.0)) * uAbout;
+vec3 abyss = vec3(0.0026, 0.0065, 0.013);
+vec3 depthTint = vec3(0.0035, 0.0105, 0.022);
+vec3 fresnelTint = vec3(0.015, 0.032, 0.052) * fresnel;
+vec3 modeTint = vec3(0.01, 0.03, 0.04) * pulseBand + vec3(0.016, 0.018, 0.036) * axiomBand + vec3(0.018, 0.023, 0.03) * aboutBloom;
+vec3 absorbed = mix(abyss, depthTint, clamp(micro * 0.45 + 0.5, 0.0, 1.0));
+diffuseColor.rgb = mix(diffuseColor.rgb, absorbed, distanceAbsorb * 0.92);
+totalEmissiveRadiance += fresnelTint * 0.24 + absorbed * 0.1 + modeTint * 0.28;
 `,
         );
 
@@ -111,27 +130,30 @@ totalEmissiveRadiance += cryoFresnel + underTint * 0.22;
   }, [config.primaryAmp, config.secondaryAmp, config.tertiaryAmp]);
 
   useFrame((state) => {
-    if (paused) return;
     if (!shaderRef.current) return;
-    shaderRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+    shaderRef.current.uniforms.uTime.value = paused ? 0 : state.clock.elapsedTime;
+    shaderRef.current.uniforms.uPulse.value = mode === 'pulse' ? 1 : 0;
+    shaderRef.current.uniforms.uAxiom.value = mode === 'axiom' ? 1 : 0;
+    shaderRef.current.uniforms.uAbout.value = mode === 'about' ? 1 : 0;
   });
 
   return (
-    <mesh position={[0, -0.82, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-      <planeGeometry args={[280, 280, segments, segments]} />
+    <mesh position={[0, -1.12, -3.2]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+      <planeGeometry args={[340, 340, segments, segments]} />
       <meshPhysicalMaterial
         ref={materialRef}
-        color="#040a14"
-        emissive="#051020"
-        emissiveIntensity={0.045}
-        roughness={0.36}
-        metalness={0.2}
-        clearcoat={0.82}
-        clearcoatRoughness={0.38}
-        reflectivity={0.62}
+        color="#02060e"
+        emissive="#020814"
+        emissiveIntensity={0.028}
+        roughness={0.84}
+        metalness={0.22}
+        clearcoat={0.08}
+        clearcoatRoughness={0.9}
+        reflectivity={0.035}
         envMapIntensity={config.envMapIntensity}
-        sheen={0.04}
-        sheenColor="#5e7e9c"
+        sheen={0.01}
+        sheenColor="#30425a"
+        specularIntensity={0.05}
       />
     </mesh>
   );

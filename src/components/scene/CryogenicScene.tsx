@@ -10,13 +10,11 @@ import HorizonAtmosphere from './world/HorizonAtmosphere';
 import CryogenicOcean from './world/CryogenicOcean';
 import DormantDots from './world/DormantDots';
 import ParticleField from './world/ParticleField';
-import PulseBeacon from './structures/PulseBeacon';
-import AboutCore from './structures/AboutCore';
-import AxiomMonolith from './structures/AxiomMonolith';
+import ObservatoryField from './world/ObservatoryField';
 import LightRig from './lights/LightRig';
 
-const BASE_CAMERA_POSITION = new THREE.Vector3(0, 1.85, 6);
-const CAMERA_LOOK_TARGET = new THREE.Vector3(0, 0.18, -3.0);
+const BASE_CAMERA_POSITION = new THREE.Vector3(0, 1.52, 5.34);
+const CAMERA_LOOK_TARGET = new THREE.Vector3(0, 0.3, -2.72);
 const DEG_TO_RAD = Math.PI / 180;
 
 function CameraDrift({ paused }: { paused: boolean }) {
@@ -63,42 +61,21 @@ export default function CryogenicScene() {
   const reducedMotion = useAppStore((s) => s.reducedMotion);
   const testMode = useAppStore((s) => s.testMode);
   const paused = frozen || reducedMotion || testMode;
+  const mode = activeDestination ?? 'idle';
 
   return (
     <>
       <CameraDrift paused={paused} />
 
       <BackgroundDome />
-      <HorizonAtmosphere />
-      <LightRig qualityTier={qualityTier} />
-      <CryogenicOcean qualityTier={qualityTier} paused={paused} />
+      <HorizonAtmosphere mode={mode} />
+      <LightRig qualityTier={qualityTier} mode={mode} />
+      <CryogenicOcean qualityTier={qualityTier} paused={paused} mode={mode} />
 
-      <ParticleField qualityTier={qualityTier} paused={paused} />
+      <ParticleField qualityTier={qualityTier} paused={paused} mode={mode} />
       <DormantDots paused={paused} />
 
-      <group position={[-2.5, 0.16, -3]}>
-        <PulseBeacon
-          qualityTier={qualityTier}
-          paused={paused}
-          emphasis={activeDestination === 'pulse' ? 1 : 0}
-        />
-      </group>
-
-      <group position={[0, 0, -2.35]}>
-        <AboutCore
-          qualityTier={qualityTier}
-          paused={paused}
-          emphasis={activeDestination === 'about' ? 1 : 0}
-        />
-      </group>
-
-      <group position={[2.7, 0.12, -3.4]}>
-        <AxiomMonolith
-          qualityTier={qualityTier}
-          paused={paused}
-          emphasis={activeDestination === 'axiom' ? 1 : 0}
-        />
-      </group>
+      <ObservatoryField qualityTier={qualityTier} paused={paused} mode={mode} />
 
       <PostProcessing qualityTier={qualityTier} />
     </>

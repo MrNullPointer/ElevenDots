@@ -24,11 +24,11 @@ export default function DormantDots({ paused }: DormantDotsProps) {
       const glow = glowRefs.current[i];
 
       if (core) {
-        const scale = 0.92 + breath * 0.14;
+        const scale = 0.94 + breath * 0.05;
         core.scale.set(scale, scale, scale);
       }
       if (glow) {
-        (glow.material as THREE.MeshBasicMaterial).opacity = 0.028 + breath * 0.014;
+        (glow.material as THREE.MeshBasicMaterial).opacity = 0.012 + breath * 0.006;
       }
     }
   });
@@ -37,37 +37,35 @@ export default function DormantDots({ paused }: DormantDotsProps) {
     <group>
       {DORMANT_DOTS.map((dot, i) => {
         const px = dot.position[0];
-        const py = dot.position[1] * 0.25 - 0.42;
-        const pz = dot.position[2] - 1.6;
-        const radius = 0.02 + dot.depth * 0.009;
-        const ringInner = 0.04 + dot.depth * 0.016;
-        const ringOuter = ringInner + 0.06;
+        const py = dot.position[1] * 0.23 - 0.26;
+        const pz = dot.position[2] - 1.4;
+        const radius = 0.011 + dot.depth * 0.006;
+        const glowRadius = 0.05 + dot.depth * 0.02;
 
         return (
           <group key={`${dot.constellationIndex}-${i}`} position={[px, py, pz]}>
             <mesh ref={(node) => (coreRefs.current[i] = node)}>
               <sphereGeometry args={[radius, 10, 10]} />
               <meshStandardMaterial
-                color="#869db3"
-                emissive="#6e8ca8"
-                emissiveIntensity={0.08}
-                roughness={0.46}
-                metalness={0.08}
+                color="#7b90a6"
+                emissive="#597797"
+                emissiveIntensity={0.04}
+                roughness={0.52}
+                metalness={0.06}
                 transparent
-                opacity={0.3}
+                opacity={0.18}
               />
             </mesh>
 
             <mesh
               ref={(node) => (glowRefs.current[i] = node)}
-              position={[0, -0.01, 0]}
-              rotation={[-Math.PI / 2, 0, 0]}
+              position={[0, 0, 0]}
             >
-              <ringGeometry args={[ringInner, ringOuter, 20]} />
+              <sphereGeometry args={[glowRadius, 12, 12]} />
               <meshBasicMaterial
-                color="#7a96b1"
+                color="#5f7692"
                 transparent
-                opacity={0.03}
+                opacity={0.012}
                 depthWrite={false}
                 toneMapped={false}
               />

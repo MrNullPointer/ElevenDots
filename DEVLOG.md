@@ -1,5 +1,149 @@
 # DEVLOG
 
+## Session 6 — 2026-03-29
+
+### Phase 3 strategic pivot — unified observatory world (non-literal destinations)
+
+**Concept pivot**
+- Removed homepage direction that literalized destinations as three hero props.
+- Reframed the scene as a single observatory field with one central instrumental phenomenon.
+- Kept destination anchors (`pulse`, `axiom`, `about`) as navigation-only semantics in the DOM shell.
+
+**Scene architecture changes**
+- `CryogenicScene` no longer mounts `PulseBeacon`, `AboutCore`, `AxiomMonolith` as separate visible props.
+- Added `world/ObservatoryField.tsx`:
+  - central aperture/signal chamber with layered rings, membrane shader, and restrained local practical light
+  - premium dark-glass/mineral material stack with non-decorative instrumental arcs
+  - destination mode blending based on `activeDestination` (no literal object mapping)
+- `activeDestination` now drives whole-world mode shifts:
+  - `pulse`: subtle cyan signal bias
+  - `axiom`: subtle structural/violet intelligence bias
+  - `about`: subtle intimate/mineral core bias
+
+**Environment rework**
+- Regraded `CryogenicOcean` away from showroom floor behavior:
+  - lower reflection energy, stronger black-blue absorption, slower broad motion
+  - destination-aware tint response kept extremely restrained
+- Reworked `BackgroundDome` and `HorizonAtmosphere`:
+  - deeper upper-atmosphere depth with softer transitions
+  - no hard split-band horizon treatment
+  - sparse stars kept secondary
+- Reduced decorative clutter in `DormantDots` and `ParticleField`:
+  - lower counts/opacity
+  - latent coordinate-field behavior instead of decorative accents
+
+**Lighting and framing**
+- Rebuilt `LightRig` around controlled local hierarchy instead of broad stage wash:
+  - reduced global wash
+  - centered key/rim logic
+  - destination-aware local light personality without busy effects
+- Updated camera framing and exposure to support a single central focal zone while keeping shell readability.
+
+**Verification**
+- `npm run build` ✅ passes.
+- `npx playwright test tests/visual/poster-shell.spec.ts --project=desktop` executed:
+  - 8 passed / 4 snapshot diffs (expected after major visual pivot and nav label/content changes).
+
+### Phase 3 — Look-Dev: Composition + Light Identity (refinement pass)
+
+**Composition and framing**
+- Tightened hero triad spacing to feel more authored as one family:
+  - pulse `[-2.46, 0.15, -3.02]`
+  - about `[0.0, 0.02, -2.42]`
+  - axiom `[2.62, 0.12, -3.34]`
+- Kept camera framing model and shell layering unchanged.
+
+**Ocean + atmosphere look-dev**
+- Reworked ocean shading toward black-glass sea:
+  - reduced floor-like reflection energy (lower env intensity, stronger metallic-dark response)
+  - slower/weightier swells and distance absorption for abyssal falloff
+  - controlled fresnel tint and cold emissive depth
+- Refined background dome and horizon atmosphere:
+  - deeper zenith crush with softer side falloff
+  - adjusted haze blend to avoid hard split-band horizon
+  - fog/haze tuned for depth continuity
+
+**Structure identity refinement**
+- `PulseBeacon`
+  - faceted-lathe silhouette (reduced procedural smoothness)
+  - refined taper/core proportions
+  - restrained halo geometry and stronger apex readability
+- `AboutCore`
+  - shifted from orb-read toward faceted mineral shell (`dodecahedron` outer + `octahedron` inner)
+  - stronger shell/core separation and internal luminous nucleus
+- `AxiomMonolith`
+  - increased archival edge articulation and seam readability
+  - richer layered paneling and controlled violet intelligence accents
+  - stronger local edge/back practical lighting for silhouette separation
+
+**Midtone visibility rebalance**
+- After initial dark-grade pass, lifted scene exposure and lighting hierarchy to recover object readability without returning to showroom floor behavior.
+
+**PostFX**
+- Postprocessing remains intentionally disabled in this session for stability (no reintroduction yet).
+
+**Verification**
+- `npm run build` ✅ passes after look-dev refinements.
+
+### Phase 3 follow-up — visibility correction after review
+
+- User review flagged underexposed/cartoony output.
+- Applied visibility rebalance:
+  - raised ACES exposure and midtone fill
+  - increased key/rim/environment contributions for structure readability
+  - lifted horizon haze/fog slightly while preserving dark mood
+  - reworked About/Pulse/Axiom materials to reduce flat primitive read
+- Kept ocean in dark cryogenic range while reducing neutral stage reflection behavior.
+- Re-verified with `npm run build` ✅.
+
+### Phase 3 follow-up 2 — aggressive readability correction
+
+- Raised ACES exposure and boosted structure-focused lighting (not a global white wash).
+- Increased local practical intensity for Pulse/About/Axiom so forms read clearly at idle.
+- Reduced ocean floor-like reflectivity while adding controlled depth-lift to prevent dead-black horizon strip.
+- Refined About form language away from generic smooth orb toward faceted mineral silhouette.
+- Improved Axiom seam/edge readability and violet intelligence response.
+- Re-verified with `npm run build` ✅.
+
+### Phase 3 follow-up 3 — floor/void/orb corrective pass
+
+- Removed stage-like side wash by cutting extra lateral fill lights in `LightRig`.
+- Rebalanced lighting back to controlled key/rim + local practical identity.
+- Ocean shader/material adjusted for stronger black-blue absorption and lower showroom reflection energy.
+- Upper atmosphere regraded:
+  - deeper but not dead top
+  - softer horizon transition
+  - sparse micro-star support for scale
+- About core shifted to stronger faceted mineral read (reduced generic orb behavior).
+- Pulse beacon reshaped away from lamp silhouette via slimmer faceted spire language.
+- Axiom gained explicit edge articulation via silhouette edges and richer seam readability.
+- Re-verified with `npm run build` ✅.
+
+### Phase 3 follow-up 4 — tonal separation + material identity refinement
+
+- Increased local tonal separation while keeping world-dark grading:
+  - reduced broad/global wash
+  - strengthened structure-local readability (without global brighten)
+- Ocean regraded further toward cryogenic black-glass sea:
+  - lower showroom reflection energy
+  - stronger abyssal absorption
+  - controlled cold highlight behavior
+- Atmosphere refined to avoid dead upper void and hard horizon split:
+  - deeper dome gradient layering
+  - softer, wider fog/haze transition band
+  - sparse micro-star depth support
+- AboutCore refined toward authored mineral read:
+  - stronger shell/core stratification
+  - crystalline/transmission layering tuned for internal precision
+- PulseBeacon refined away from lamp/procedural prop read:
+  - slimmer faceted spire profile
+  - improved taper/apex logic
+  - subtle structural fins for engineered signal silhouette
+- AxiomMonolith articulation increased:
+  - richer seams and edge logic
+  - improved archival surface intelligence while staying severe/quiet
+- `npm run build` ✅ still passes.
+
 ## Session 5 — 2026-03-29
 
 ### Phase 2 — Step 3 Hard Correction (anti-cartoon + flicker stabilization)

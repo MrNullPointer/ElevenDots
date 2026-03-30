@@ -46,7 +46,7 @@ export default function SceneCanvas() {
       const { gl } = state;
       gl.outputColorSpace = THREE.SRGBColorSpace;
       gl.toneMapping = THREE.ACESFilmicToneMapping;
-      gl.toneMappingExposure = 0.78;
+      gl.toneMappingExposure = 1.62;
       gl.setClearColor('#040813', 1);
 
       setScenePhase('entering');
@@ -68,7 +68,7 @@ export default function SceneCanvas() {
       <Canvas
         className={styles.canvas}
         dpr={dpr}
-        camera={{ position: [0, 1.85, 6], fov: 44, near: 0.1, far: 100 }}
+        camera={{ position: [0, 1.52, 5.34], fov: 44, near: 0.1, far: 100 }}
         gl={{
           alpha: false,
           antialias: qualityTier !== 'low',

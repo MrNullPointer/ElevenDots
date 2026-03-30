@@ -50,8 +50,7 @@ export default function Navigation() {
             ? { target: '_blank', rel: 'noopener noreferrer' }
             : {})}
         >
-          {dest.label}
-          <span className={styles.description}>{dest.description}</span>
+          {dest.id === 'about' ? 'About me' : dest.label}
         </a>
       ))}
     </nav>

@@ -33,88 +33,119 @@ export default function AboutCore({ qualityTier, paused, emphasis }: AboutCorePr
     const boost = emphasis * 0.38;
 
     if (paused) {
-      light.intensity = 0.66 + boost * 0.9;
-      filamentMaterial.opacity = 0.05 + boost * 0.08;
-      haloMaterial.opacity = 0.032 + boost * 0.075;
+      light.intensity = 0.94 + boost * 0.9;
+      filamentMaterial.opacity = 0.038 + boost * 0.08;
+      haloMaterial.opacity = 0.03 + boost * 0.075;
       return;
     }
 
     const t = state.clock.elapsedTime;
     const breath = 0.5 + 0.5 * Math.sin(t * 0.24 + 0.6);
 
-    group.position.y = Math.sin(t * 0.11) * 0.012;
-    shell.rotation.y = t * 0.07;
-    innerLayer.rotation.y = -t * 0.1;
+    group.position.y = Math.sin(t * 0.1) * 0.009;
+    shell.rotation.y = t * 0.05;
+    innerLayer.rotation.y = -t * 0.08;
 
-    light.intensity = 0.58 + breath * 0.08 + boost * 0.9;
-    filamentMaterial.opacity = 0.035 + breath * 0.012 + boost * 0.08;
-    haloMaterial.opacity = 0.026 + breath * 0.01 + boost * 0.08;
-    halo.scale.setScalar(1 + breath * 0.05);
+    light.intensity = 0.86 + breath * 0.12 + boost * 0.92;
+    filamentMaterial.opacity = 0.028 + breath * 0.01 + boost * 0.08;
+    haloMaterial.opacity = 0.014 + breath * 0.007 + boost * 0.08;
+    halo.scale.setScalar(1 + breath * 0.04);
   });
 
   return (
     <group ref={groupRef}>
       <mesh ref={shellRef}>
-        <icosahedronGeometry args={[0.86, qualityTier === 'high' ? 3 : 2]} />
+        <dodecahedronGeometry args={[0.9, 0]} />
         <meshPhysicalMaterial
-          color="#7f8ea7"
+          color="#8ea0ba"
           roughness={0.2}
-          metalness={0.05}
-          transmission={0.58}
-          thickness={1.3}
-          ior={1.34}
-          clearcoat={0.7}
-          clearcoatRoughness={0.2}
-          envMapIntensity={qualityTier === 'high' ? 0.2 : 0.14}
+          metalness={0.02}
+          transmission={0.74}
+          thickness={1.72}
+          ior={1.38}
+          clearcoat={0.78}
+          clearcoatRoughness={0.24}
+          envMapIntensity={qualityTier === 'high' ? 0.22 : 0.16}
           transparent
-          opacity={0.33}
+          opacity={0.3}
+          flatShading
         />
       </mesh>
 
-      <mesh ref={innerLayerRef}>
-        <icosahedronGeometry args={[0.63, 1]} />
+      <mesh ref={innerLayerRef} rotation={[0.24, 0.34, 0]}>
+        <octahedronGeometry args={[0.54, 0]} />
         <meshPhysicalMaterial
-          color="#5f7396"
-          emissive="#6d80a4"
-          emissiveIntensity={0.08}
-          roughness={0.22}
+          color="#7389ab"
+          emissive="#7d9cc2"
+          emissiveIntensity={0.3}
+          roughness={0.16}
           metalness={0.02}
-          transmission={0.34}
-          thickness={0.9}
+          transmission={0.46}
+          thickness={1.08}
           transparent
           opacity={0.26}
+          flatShading
         />
       </mesh>
 
-      <mesh>
-        <sphereGeometry args={[0.2, 30, 30]} />
-        <meshStandardMaterial
-          color="#d2e3f3"
-          emissive="#d3e9ff"
-          emissiveIntensity={0.42}
-          roughness={0.24}
+      <mesh scale={[1, 1.12, 0.9]} rotation={[0.15, 0.2, 0.1]}>
+        <octahedronGeometry args={[0.24, 1]} />
+        <meshPhysicalMaterial
+          color="#d7e8f8"
+          emissive="#e2f3ff"
+          emissiveIntensity={1.12}
+          roughness={0.1}
           metalness={0}
+          transmission={0.24}
+          thickness={0.42}
+          toneMapped={false}
+          flatShading
+        />
+      </mesh>
+
+      <mesh scale={[1, 1.02, 0.96]} rotation={[0.2, -0.14, 0.24]}>
+        <icosahedronGeometry args={[0.33, 0]} />
+        <meshPhysicalMaterial
+          color="#a1b8d0"
+          roughness={0.22}
+          metalness={0}
+          transmission={0.4}
+          thickness={0.82}
+          transparent
+          opacity={0.14}
+          toneMapped={false}
+          flatShading
+        />
+      </mesh>
+
+      <mesh rotation={[0.34, 0.2, 0.58]}>
+        <torusGeometry args={[0.36, 0.006, 12, 96]} />
+        <meshBasicMaterial
+          color="#b2cce2"
+          transparent
+          opacity={0.03}
+          depthWrite={false}
           toneMapped={false}
         />
       </mesh>
 
       <mesh ref={filamentRef} rotation={[0.56, 0.1, 0.22]}>
-        <torusGeometry args={[0.3, 0.009, 12, 88]} />
+        <torusGeometry args={[0.29, 0.006, 12, 92]} />
         <meshBasicMaterial
           color="#e8bb96"
           transparent
-          opacity={0.035}
+          opacity={0.028}
           depthWrite={false}
           toneMapped={false}
         />
       </mesh>
 
       <mesh ref={haloRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.14, 0]}>
-        <ringGeometry args={[0.46, 0.9, 72]} />
+        <ringGeometry args={[0.42, 0.88, 72]} />
         <meshBasicMaterial
           color="#a6bfd4"
           transparent
-          opacity={0.024}
+          opacity={0.014}
           depthWrite={false}
           toneMapped={false}
         />
@@ -122,9 +153,9 @@ export default function AboutCore({ qualityTier, paused, emphasis }: AboutCorePr
 
       <pointLight
         ref={lightRef}
-        color="#d5e8ff"
-        intensity={0.58}
-        distance={5}
+        color="#dcecff"
+        intensity={0.86}
+        distance={5.9}
         decay={2}
       />
     </group>
