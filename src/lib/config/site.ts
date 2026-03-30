@@ -22,7 +22,7 @@ export const DESTINATIONS: Record<DestinationId, DestinationConfig> = {
   axiom: {
     id: 'axiom',
     label: 'Axiom',
-    href: 'https://axiom.elevendots.dev',
+    href: 'https://elevendots.substack.com',
     description: 'Projects & proof',
     gridZone: 'right',
     dofFocusDistance: 6.0,
@@ -41,17 +41,14 @@ export const DESTINATION_LIST = Object.values(DESTINATIONS);
 
 /* ── About content ── */
 export const ABOUT = {
-  heading: 'Rishi',
-  subheading: 'Builder. Designer. Thinker.',
+  heading: 'Parikshit Dubey',
+  subheading: 'Hardware\u2013software co-design engineer, researcher, and writer.',
   bio: [
-    'I build things at the intersection of design and engineering — tools, systems, and experiences that feel inevitable in hindsight.',
-    'Currently exploring the edges of what interfaces can be. Previously shipped products used by millions.',
-    'This site is a living experiment in WebGL, motion, and restraint.',
+    'My work begins with first principles and follows the full arc of computation, from physics and silicon to software, systems, and intelligent machines. I am drawn to the layers that shape modern computing: devices, architecture, operating systems, performance, reliability, and the ideas that connect them.',
+    'ElevenDots is my observatory for that pursuit: a place for technical writing, thoughtful experiments, and the slow study of how complexity is built from fundamentals.',
   ],
   links: [
-    { label: 'GitHub', href: 'https://github.com/rishi' },
-    { label: 'Twitter', href: 'https://twitter.com/rishi' },
-    { label: 'Email', href: 'mailto:hello@elevendots.dev' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/iparikshitdubey/' },
   ],
 } as const;
 
