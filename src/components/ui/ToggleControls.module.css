@@ -2,29 +2,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--glass-border);
+  width: 38px;
+  height: 38px;
+  border: 1px solid color-mix(in srgb, var(--shell-edge) 80%, var(--shell-rail-border));
   border-radius: var(--radius-full);
-  background: transparent;
-  color: var(--color-frost-dim);
+  background: var(--shell-control-bg);
+  color: var(--shell-control-icon);
   font-size: var(--text-base);
   cursor: pointer;
   transition:
-    border-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out),
-    background var(--duration-fast) var(--ease-out);
+    border-color var(--shell-duration-fast) var(--ease-out),
+    color var(--shell-duration-fast) var(--ease-out),
+    background var(--shell-duration-fast) var(--ease-out),
+    box-shadow var(--shell-duration-settle) var(--ease-out);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-.toggle:hover {
-  border-color: var(--glass-border-hover);
-  color: var(--color-frost);
+.toggle:hover,
+.toggle:focus-visible {
+  border-color: var(--shell-edge-strong);
+  background: var(--shell-control-bg-active);
+  color: var(--shell-control-icon-active);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--shell-rail-glow) 28%, transparent);
 }
 
 .toggle[aria-pressed='true'] {
-  background: var(--color-surface-elevated);
+  background: linear-gradient(
+    180deg,
+    rgba(14, 22, 34, 0.64) 0%,
+    rgba(16, 28, 34, 0.82) 100%
+  );
   color: var(--color-accent-cyan);
-  border-color: var(--color-accent-cyan);
+  border-color: color-mix(in srgb, var(--color-accent-cyan) 60%, var(--shell-edge-strong));
+  box-shadow: 0 0 28px rgba(78, 205, 196, 0.16);
 }

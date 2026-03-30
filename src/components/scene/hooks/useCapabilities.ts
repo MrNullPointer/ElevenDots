@@ -48,18 +48,19 @@ function detectCapabilities(): Capabilities {
     }
   }
 
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, 3);
+  const mobile = /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
+  const hoverCapable = window.matchMedia('(any-hover: hover)').matches;
+  const touchOnly = window.matchMedia('(pointer: coarse)').matches && !hoverCapable;
   const memory =
     typeof navigator !== 'undefined' &&
     'deviceMemory' in navigator &&
     typeof (navigator as Navigator & { deviceMemory?: number }).deviceMemory ===
       'number'
       ? Number((navigator as Navigator & { deviceMemory?: number }).deviceMemory)
-      : 4;
-
-  const pixelRatio = Math.min(window.devicePixelRatio || 1, 3);
-  const mobile = /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent);
-  const hoverCapable = window.matchMedia('(any-hover: hover)').matches;
-  const touchOnly = window.matchMedia('(pointer: coarse)').matches && !hoverCapable;
+      : mobile || touchOnly
+        ? 4
+        : 8;
   const backdropFilter =
     typeof CSS !== 'undefined' &&
     (CSS.supports('backdrop-filter: blur(2px)') ||
@@ -82,7 +83,8 @@ function resolveInitialQualityTier(
   capabilities: Capabilities,
   reducedMotion: boolean,
 ): QualityTier {
-  if (!capabilities.webgl2 || reducedMotion) return 'low';
+  if (reducedMotion) return 'low';
+  if (!capabilities.webgl2) return 'low';
   if (capabilities.mobile || capabilities.touchOnly) return 'low';
   if (capabilities.memory <= 4) return 'low';
   if (capabilities.pixelRatio > 2.3) return 'low';
@@ -97,7 +99,15 @@ function resolveInitialQualityTier(
     return 'low';
   }
 
-  // Runtime performance monitor can later promote medium -> high.
+  if (
+    capabilities.hoverCapable &&
+    capabilities.backdropFilter &&
+    capabilities.memory >= 8 &&
+    capabilities.pixelRatio <= 2
+  ) {
+    return 'high';
+  }
+
   return 'medium';
 }
 

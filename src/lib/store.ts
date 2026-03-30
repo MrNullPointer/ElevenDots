@@ -4,11 +4,13 @@ import { create } from 'zustand';
 
 /* ── Types ── */
 export type DestinationId = 'pulse' | 'axiom' | 'about';
+export type WorldDestination = DestinationId | 'idle';
 export type PanelId = 'about' | null;
 export type ScenePhase = 'loading' | 'entering' | 'idle' | 'navigating';
 export type AudioState = 'off' | 'ambient' | 'interactive';
 export type QualityTier = 'high' | 'medium' | 'low';
 export type GlassMode = 'full' | 'reduced' | 'opaque';
+export type MotionMode = 'full' | 'reduced';
 export type InteractionSource = 'mouse' | 'touch' | 'keyboard';
 
 export interface Capabilities {

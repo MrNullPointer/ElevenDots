@@ -22,17 +22,10 @@ export function useHashRoute() {
   // Sync hash → store
   const syncHash = useCallback(() => {
     const hash = window.location.hash;
-    const dest = HASH_DESTINATIONS[hash];
+    const dest = HASH_DESTINATIONS[hash] ?? null;
 
-    if (hash === '#about') {
-      setActivePanel('about');
-    } else {
-      setActivePanel(null);
-    }
-
-    if (dest && dest !== 'about') {
-      setActiveDestination(dest);
-    }
+    setActivePanel(hash === '#about' ? 'about' : null);
+    setActiveDestination(dest);
   }, [setActivePanel, setActiveDestination]);
 
   // Read hash on mount + listen for changes
@@ -54,7 +47,8 @@ export function useHashRoute() {
     modalOpenedViaNavRef.current = true;
     window.history.pushState(null, '', '/#about');
     setActivePanel('about');
-  }, [setActivePanel]);
+    setActiveDestination('about');
+  }, [setActiveDestination, setActivePanel]);
 
   const closeAboutModal = useCallback(() => {
     if (modalOpenedViaNavRef.current) {
@@ -65,8 +59,9 @@ export function useHashRoute() {
       // Opened via direct URL → replace state to remove hash
       window.history.replaceState(null, '', '/');
       setActivePanel(null);
+      setActiveDestination(null);
     }
-  }, [setActivePanel]);
+  }, [setActiveDestination, setActivePanel]);
 
   return { activePanel, openAboutModal, closeAboutModal };
 }

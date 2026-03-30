@@ -45,7 +45,7 @@ export const ABOUT = {
   subheading: 'Hardware\u2013software co-design engineer, researcher, and writer.',
   bio: [
     'My work begins with first principles and follows the full arc of computation, from physics and silicon to software, systems, and intelligent machines. I am drawn to the layers that shape modern computing: devices, architecture, operating systems, performance, reliability, and the ideas that connect them.',
-    'ElevenDots is my observatory for that pursuit: a place for technical writing, thoughtful experiments, and the slow study of how complexity is built from fundamentals.',
+    'ElevenDots is the field for that pursuit: a place for technical writing, thoughtful experiments, and the slow study of how complexity is built from fundamentals.',
   ],
   links: [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/iparikshitdubey/' },

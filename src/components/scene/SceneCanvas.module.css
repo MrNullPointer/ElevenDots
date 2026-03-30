@@ -3,106 +3,309 @@
   inset: 0;
   z-index: var(--z-scene);
   pointer-events: none;
-  opacity: 0.34;
-  transition: opacity var(--duration-glacial) var(--ease-out);
-  --signal-accent: rgba(88, 120, 156, 0.12);
+  opacity: 0.48;
+  --ambient-opacity: 0.92;
+  --shear-opacity: 0.24;
+  --shear-accent: rgba(128, 148, 180, 0.18);
+  --signal-accent: rgba(112, 140, 176, 0.18);
+  --signal-opacity: 0.4;
+  --cavity-opacity: 0.5;
+  --structural-opacity: 0.24;
+  --structural-tint: rgba(118, 140, 172, 0.2);
+  --atmosphere-opacity: 0.82;
+  transition:
+    opacity 560ms var(--ease-out),
+    filter 560ms var(--ease-out);
 }
 
-.sceneFrame[data-exposure='lift'] {
+.sceneFrame[data-phase='loading'] {
+  opacity: 0.22;
+}
+
+.sceneFrame[data-phase='entering'] {
+  opacity: 0.3;
+}
+
+.sceneFrame[data-phase='navigating'] {
   opacity: 0.46;
 }
 
+.sceneFrame[data-exposure='lift'] {
+  opacity: 0.54;
+  --signal-opacity: 0.48;
+  --cavity-opacity: 0.56;
+}
+
 .sceneFrame[data-destination='pulse'] {
-  --signal-accent: rgba(82, 156, 170, 0.2);
+  --shear-opacity: 0.28;
+  --shear-accent: rgba(78, 205, 196, 0.18);
+  --signal-accent: rgba(78, 205, 196, 0.24);
+  opacity: 0.64;
+  --signal-opacity: 0.66;
+  --cavity-opacity: 0.62;
+  --structural-opacity: 0.12;
+  --structural-tint: rgba(78, 205, 196, 0.12);
+  --atmosphere-opacity: 0.88;
+  filter: saturate(1.12) contrast(1.04);
 }
 
 .sceneFrame[data-destination='axiom'] {
-  --signal-accent: rgba(112, 118, 170, 0.18);
+  --shear-opacity: 0.28;
+  --shear-accent: rgba(156, 168, 214, 0.18);
+  --signal-accent: rgba(146, 158, 206, 0.24);
+  opacity: 0.58;
+  --signal-opacity: 0.4;
+  --cavity-opacity: 0.44;
+  --structural-opacity: 0.56;
+  --structural-tint: rgba(156, 170, 214, 0.32);
+  --atmosphere-opacity: 0.82;
+  filter: contrast(1.1);
 }
 
 .sceneFrame[data-destination='about'] {
-  --signal-accent: rgba(122, 132, 150, 0.16);
+  --shear-opacity: 0.12;
+  --shear-accent: rgba(132, 144, 164, 0.1);
+  --signal-accent: rgba(132, 144, 164, 0.16);
+  opacity: 0.42;
+  --signal-opacity: 0.22;
+  --cavity-opacity: 0.3;
+  --structural-opacity: 0.12;
+  --structural-tint: rgba(126, 140, 160, 0.1);
+  --atmosphere-opacity: 0.62;
+  filter: brightness(0.97);
+}
+
+.sceneFrame[data-panel='open'] {
+  opacity: 0.2;
+  --shear-opacity: 0.04;
+  --signal-opacity: 0.08;
+  --cavity-opacity: 0.1;
+  --structural-opacity: 0.08;
+  --atmosphere-opacity: 0.42;
+}
+
+.sceneFrame[data-quality='high'] {
+  opacity: 0.56;
+}
+
+.sceneFrame[data-quality='medium'] {
+  opacity: 0.34;
+  --shear-opacity: 0.12;
+  --signal-opacity: 0.24;
+  --cavity-opacity: 0.22;
+  --structural-opacity: 0.12;
+  --atmosphere-opacity: 0.52;
+}
+
+.sceneFrame[data-quality='low'] {
+  opacity: 0.26;
+  --shear-opacity: 0.06;
+  --signal-opacity: 0.14;
+  --cavity-opacity: 0.14;
+  --structural-opacity: 0.08;
+  --atmosphere-opacity: 0.48;
 }
 
 .ambientVeil,
+.shearField,
 .signalField,
+.cavityHalo,
+.structuralField,
 .atmosphere {
   position: absolute;
   inset: 0;
 }
 
 .ambientVeil {
+  opacity: var(--ambient-opacity);
   background:
     radial-gradient(
-      ellipse 74% 54% at 50% 68%,
-      rgba(6, 10, 16, 0.08) 0%,
+      ellipse 78% 56% at 50% 66%,
+      rgba(6, 10, 16, 0.1) 0%,
       transparent 74%
+    ),
+    radial-gradient(
+      ellipse 70% 52% at 50% 38%,
+      rgba(10, 16, 24, 0.08) 0%,
+      transparent 76%
     ),
     linear-gradient(
       180deg,
-      rgba(4, 7, 11, 0.06) 0%,
+      rgba(4, 7, 11, 0.08) 0%,
       rgba(4, 7, 11, 0) 24%,
       rgba(3, 5, 9, 0.16) 100%
     );
 }
 
+.shearField {
+  opacity: var(--shear-opacity);
+  background:
+    linear-gradient(
+      108deg,
+      transparent 24%,
+      color-mix(in srgb, var(--shear-accent) 62%, transparent) 46%,
+      transparent 60%
+    ),
+    linear-gradient(
+      72deg,
+      transparent 28%,
+      color-mix(in srgb, var(--shear-accent) 48%, transparent) 50%,
+      transparent 64%
+    );
+  filter: blur(32px);
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(ellipse 82% 60% at 50% 42%, rgba(0, 0, 0, 0.96) 0%, transparent 92%);
+  animation: shear-drift 24s ease-in-out infinite;
+}
+
 .signalField {
+  opacity: var(--signal-opacity);
   background:
     radial-gradient(
-      circle 6% at 51.7% 39.2%,
+      ellipse 18% 12% at 51.7% 39.2%,
       rgba(4, 7, 11, 0.12) 0%,
       transparent 72%
     ),
     radial-gradient(
-      circle 4.1% at 51.7% 39.2%,
+      ellipse 11% 7% at 51.7% 39.2%,
       transparent 0 62%,
       color-mix(in srgb, var(--signal-accent) 82%, transparent) 74%,
       transparent 82%
     ),
     radial-gradient(
-      circle at 52.1% 39.5%,
-      rgba(156, 180, 208, 0.18) 0%,
-      transparent 1.9%
+      ellipse at 52.1% 39.5%,
+      color-mix(in srgb, var(--signal-accent) 64%, rgba(156, 180, 208, 0.18)) 0%,
+      transparent 2.4%
+    ),
+    radial-gradient(
+      ellipse 34% 18% at 51.7% 39.2%,
+      color-mix(in srgb, var(--signal-accent) 22%, transparent) 0%,
+      transparent 84%
     );
-  opacity: 0.28;
   filter: blur(0.15px);
   animation: signal-glow 18s ease-in-out infinite;
 }
 
-.atmosphere {
+.cavityHalo {
+  opacity: var(--cavity-opacity);
   background:
     radial-gradient(
-      ellipse 80% 52% at 50% 78%,
-      rgba(6, 10, 16, 0.06) 0%,
+      ellipse 24% 16% at 51.7% 39.2%,
+      color-mix(in srgb, var(--signal-accent) 58%, transparent) 0%,
+      transparent 82%
+    ),
+    radial-gradient(
+      ellipse 38% 20% at 51.7% 41.2%,
+      color-mix(in srgb, var(--signal-accent) 22%, transparent) 0%,
+      transparent 76%
+    );
+  filter: blur(22px);
+  mix-blend-mode: screen;
+  animation: cavity-pulse 20s ease-in-out infinite;
+}
+
+.structuralField {
+  opacity: var(--structural-opacity);
+  background:
+    radial-gradient(
+      ellipse 34% 20% at 51.7% 40.2%,
+      color-mix(in srgb, var(--structural-tint) 62%, transparent) 0%,
+      transparent 76%
+    ),
+    radial-gradient(
+      ellipse 24% 44% at 18% 44%,
+      color-mix(in srgb, var(--structural-tint) 54%, transparent) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 24% 44% at 82% 44%,
+      color-mix(in srgb, var(--structural-tint) 54%, transparent) 0%,
       transparent 72%
     ),
     linear-gradient(
       180deg,
-      rgba(4, 7, 11, 0.04) 0%,
+      transparent 8%,
+      color-mix(in srgb, var(--structural-tint) 24%, transparent) 34%,
+      transparent 62%,
+      color-mix(in srgb, var(--structural-tint) 18%, transparent) 88%,
+      transparent 100%
+    );
+  filter: blur(18px);
+  mask-image: radial-gradient(ellipse 70% 52% at 50% 44%, rgba(0, 0, 0, 1) 0%, transparent 88%);
+}
+
+.atmosphere {
+  opacity: var(--atmosphere-opacity);
+  background:
+    radial-gradient(
+      ellipse 84% 56% at 50% 76%,
+      rgba(6, 10, 16, 0.08) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 52% 28% at 50% 42%,
+      rgba(10, 16, 26, 0.04) 0%,
+      transparent 78%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(4, 7, 11, 0.06) 0%,
       rgba(4, 7, 11, 0) 26%,
       rgba(3, 5, 9, 0.16) 100%
     );
-  opacity: 0.62;
   animation: atmosphere-shift 24s ease-in-out infinite;
 }
 
-.sceneFrame[data-quality='low'] .signalField {
-  opacity: 0.18;
+.sceneFrame[data-quality='low'] .shearField,
+.sceneFrame[data-quality='low'] .structuralField,
+.sceneFrame[data-quality='low'] .cavityHalo {
+  opacity: 0.08;
 }
 
+.sceneFrame[data-quality='medium'] .shearField,
+.sceneFrame[data-quality='medium'] .structuralField {
+  opacity: 0.12;
+}
+
+.sceneFrame[data-motion='reduced'] .shearField,
 .sceneFrame[data-motion='reduced'] .signalField,
+.sceneFrame[data-motion='reduced'] .cavityHalo,
 .sceneFrame[data-motion='reduced'] .atmosphere {
   animation: none;
+}
+
+@keyframes shear-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0.18%, -0.18%, 0);
+  }
 }
 
 @keyframes signal-glow {
   0%,
   100% {
-    opacity: 0.22;
+    opacity: var(--signal-opacity);
   }
 
   50% {
-    opacity: 0.32;
+    opacity: calc(var(--signal-opacity) + 0.06);
+  }
+}
+
+@keyframes cavity-pulse {
+  0%,
+  100% {
+    opacity: var(--cavity-opacity);
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    opacity: calc(var(--cavity-opacity) + 0.04);
+    transform: translate3d(0, -0.18%, 0);
   }
 }
 
@@ -113,6 +316,6 @@
   }
 
   50% {
-    transform: translate3d(0, -0.25%, 0);
+    transform: translate3d(0, -0.22%, 0);
   }
 }

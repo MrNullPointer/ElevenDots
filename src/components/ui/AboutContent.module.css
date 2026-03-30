@@ -1,5 +1,7 @@
 .content {
   max-width: var(--measure);
+  position: relative;
+  z-index: 1;
 }
 
 .heading {
@@ -9,12 +11,15 @@
   line-height: var(--leading-tight);
   letter-spacing: -0.02em;
   margin-bottom: var(--space-2);
+  color: var(--color-frost);
+  text-wrap: balance;
 }
 
 .subheading {
   font-size: var(--text-lg);
-  color: var(--color-frost-dim);
+  color: rgba(188, 198, 218, 0.88);
   margin-bottom: var(--space-8);
+  max-width: 36rem;
 }
 
 .bio {
@@ -22,23 +27,33 @@
   flex-direction: column;
   gap: var(--space-4);
   margin-bottom: var(--space-8);
-  color: var(--color-frost-dim);
+  color: rgba(168, 180, 202, 0.9);
   line-height: var(--leading-relaxed);
+}
+
+.bio strong {
+  color: rgba(230, 236, 246, 0.96);
+  font-weight: 500;
 }
 
 .links {
   display: flex;
   gap: var(--space-6);
+  flex-wrap: wrap;
 }
 
 .link {
-  color: var(--color-accent-cyan);
+  color: rgba(144, 220, 214, 0.9);
   text-decoration: none;
   font-size: var(--text-sm);
-  letter-spacing: 0.05em;
-  transition: opacity var(--duration-fast) var(--ease-out);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 
 .link:hover {
   opacity: 0.7;
+  color: rgba(188, 236, 232, 0.96);
 }

@@ -11,28 +11,128 @@
   pointer-events: none;
 }
 
+.topBar::before,
+.topBar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: 8rem;
+  pointer-events: none;
+  filter: blur(24px);
+  opacity: 0.74;
+}
+
+.topBar::before {
+  left: 0;
+  width: min(30rem, 46vw);
+  background:
+    radial-gradient(
+      ellipse at 18% 12%,
+      color-mix(in srgb, var(--shell-accent-strong) 68%, transparent) 0%,
+      transparent 72%
+    );
+}
+
+.topBar::after {
+  right: 0;
+  width: min(28rem, 44vw);
+  background:
+    radial-gradient(
+      ellipse at 82% 12%,
+      color-mix(in srgb, var(--shell-accent) 58%, transparent) 0%,
+      transparent 72%
+    );
+}
+
 .topBar > * {
   pointer-events: auto;
+}
+
+.wordmark,
+.controls {
+  position: relative;
+  z-index: 1;
 }
 
 .wordmark {
   font-family: var(--font-display);
   font-size: var(--text-sm);
   font-weight: 400;
-  letter-spacing: 0.25em;
-  color: var(--color-frost);
-  opacity: 0.6;
+  letter-spacing: 0.27em;
+  color: var(--shell-wordmark-color);
+  opacity: var(--shell-wordmark-opacity);
   text-decoration: none;
   text-transform: lowercase;
-  transition: opacity var(--duration-fast) var(--ease-out);
+  text-shadow: var(--shell-wordmark-shadow);
+  transition:
+    opacity var(--shell-duration-fast) var(--ease-out),
+    color var(--shell-duration-fast) var(--ease-out),
+    text-shadow var(--shell-duration-settle) var(--ease-out);
   user-select: none;
-}
-
-.wordmark:hover {
-  opacity: 1;
 }
 
 .controls {
   display: flex;
   gap: var(--space-2);
+  padding: 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--shell-edge) 84%, var(--shell-rail-border));
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--shell-surface) 68%, transparent) 0%,
+    color-mix(in srgb, var(--shell-surface-strong) 88%, transparent) 100%
+  );
+  box-shadow:
+    0 22px 54px rgba(0, 0, 0, 0.3),
+    0 0 30px color-mix(in srgb, var(--shell-rail-glow) 28%, transparent);
+  transition:
+    border-color var(--shell-duration-fast) var(--ease-out),
+    background var(--shell-duration-fast) var(--ease-out),
+    box-shadow var(--shell-duration-settle) var(--ease-out);
+}
+
+.controls::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(232, 240, 255, 0.06) 0%,
+      rgba(232, 240, 255, 0.01) 30%,
+      rgba(0, 0, 0, 0.08) 100%
+    );
+  pointer-events: none;
+}
+
+.topBar[data-destination='pulse'] .wordmark {
+  opacity: 0.84;
+}
+
+.topBar[data-destination='pulse'] .controls {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.24),
+    0 0 30px rgba(78, 205, 196, 0.1);
+}
+
+.topBar[data-destination='axiom'] .wordmark {
+  opacity: 0.74;
+}
+
+.topBar[data-destination='axiom'] .controls {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.24),
+    0 0 24px rgba(132, 146, 184, 0.08);
+}
+
+.topBar[data-destination='about'] .wordmark {
+  opacity: 0.5;
+}
+
+.topBar[data-panel='open'] .controls {
+  border-color: var(--shell-edge-strong);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.3),
+    0 0 18px rgba(0, 0, 0, 0.12);
 }
