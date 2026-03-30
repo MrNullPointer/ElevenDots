@@ -62,6 +62,7 @@ export default function PosterFallback({
       <div className={styles.chamberShadow} />
       <div className={styles.apertureField}>
         <div className={styles.apertureSheath} />
+        <div className={styles.aperturePocket} />
         <div className={styles.apertureCore} />
         <div className={styles.apertureAccent} />
         <div className={styles.apertureSeam} />
