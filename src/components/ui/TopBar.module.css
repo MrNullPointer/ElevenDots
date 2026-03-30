@@ -1,0 +1,38 @@
+.topBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-navigation);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  pointer-events: none;
+}
+
+.topBar > * {
+  pointer-events: auto;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--color-frost);
+  opacity: 0.6;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: opacity var(--duration-fast) var(--ease-out);
+  user-select: none;
+}
+
+.wordmark:hover {
+  opacity: 1;
+}
+
+.controls {
+  display: flex;
+  gap: var(--space-2);
+}

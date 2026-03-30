@@ -1,0 +1,30 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-frost-dim);
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle:hover {
+  border-color: var(--glass-border-hover);
+  color: var(--color-frost);
+}
+
+.toggle[aria-pressed='true'] {
+  background: var(--color-surface-elevated);
+  color: var(--color-accent-cyan);
+  border-color: var(--color-accent-cyan);
+}
