@@ -23,28 +23,21 @@ float hash(vec3 p) {
 
 void main() {
   vec3 dir = normalize(vWorldPosition - cameraPosition);
+  float radial = length(dir.xy * vec2(1.03, 0.9));
+  float centralCavity = exp(-pow(radial * 0.9, 2.0));
+  float shellFalloff = smoothstep(0.22, 1.34, radial);
+  float depthBias = smoothstep(-0.76, 0.4, -dir.z);
+  float overheadDamp = smoothstep(0.28, 0.86, dir.y);
 
-  float y = clamp((dir.y * 0.5) + 0.5, 0.0, 1.0);
-  float zenith = smoothstep(0.0, 1.0, y);
-  float horizonLift = exp(-pow((dir.y + 0.12) * 1.32, 2.0));
-  float nearHorizon = exp(-pow((dir.y + 0.02) * 2.6, 2.0));
-  float upperDepth = exp(-pow((dir.y - 0.66) * 2.2, 2.0));
-  float sideFalloff = smoothstep(0.18, 1.28, length(dir.xz));
+  vec3 darkBase = vec3(0.0038, 0.007, 0.0128);
+  vec3 chamberLift = vec3(0.0082, 0.0138, 0.0235);
+  vec3 color = mix(darkBase, chamberLift, centralCavity * 0.42 + depthBias * 0.24);
+  color *= mix(1.0, 0.76, shellFalloff);
+  color *= mix(1.0, 0.94, overheadDamp);
 
-  vec3 zenithColor = vec3(0.0052, 0.0098, 0.0178);
-  vec3 upperColor = vec3(0.0084, 0.0152, 0.0278);
-  vec3 horizonColor = vec3(0.0104, 0.0198, 0.036);
-  vec3 color = mix(horizonColor, zenithColor, zenith);
-  color = mix(color, upperColor, upperDepth * 0.34);
-  color += vec3(0.006, 0.011, 0.021) * horizonLift * 0.24;
-  color += vec3(0.0038, 0.0072, 0.0138) * nearHorizon * 0.18;
-  color += vec3(0.0032, 0.0058, 0.0102) * upperDepth * 0.32;
-  color *= mix(1.0, 0.82, sideFalloff);
-
-  vec3 starCell = floor(dir * 180.0);
-  float stars = step(0.9985, hash(starCell));
-  stars *= smoothstep(0.24, 0.84, y);
-  color += vec3(0.038, 0.05, 0.068) * stars * 0.16;
+  vec3 grainCell = floor((dir + vec3(1.4)) * 34.0);
+  float grain = hash(grainCell);
+  color += vec3(0.0007, 0.0011, 0.0018) * grain * 0.14;
 
   gl_FragColor = vec4(color, 1.0);
 }

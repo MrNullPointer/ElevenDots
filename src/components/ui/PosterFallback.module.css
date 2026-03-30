@@ -7,11 +7,10 @@
   opacity: 1;
   visibility: visible;
   background: #04070d;
-  --signal-color: rgba(92, 126, 164, 0.3);
-  --field-lift: rgba(29, 45, 66, 0.5);
-  --aperture-core: rgba(34, 53, 78, 0.78);
-  --aperture-ring: rgba(82, 112, 148, 0.28);
-  --shell-alpha: 0.94;
+  --field-lift: rgba(24, 38, 56, 0.44);
+  --cavity-rim: rgba(108, 126, 146, 0.22);
+  --cavity-accent: rgba(86, 116, 144, 0.18);
+  --grain-opacity: 0.16;
   --review-lift: 1;
   transition: opacity var(--duration-glacial) var(--ease-out);
 }
@@ -27,36 +26,32 @@
 }
 
 .poster[data-exposure='lift'] {
-  --signal-color: rgba(116, 150, 186, 0.36);
-  --field-lift: rgba(42, 59, 84, 0.62);
-  --aperture-core: rgba(46, 68, 98, 0.9);
-  --aperture-ring: rgba(112, 146, 184, 0.34);
-  --review-lift: 1.08;
+  --field-lift: rgba(34, 50, 72, 0.56);
+  --cavity-rim: rgba(126, 146, 168, 0.28);
+  --cavity-accent: rgba(104, 138, 168, 0.22);
+  --grain-opacity: 0.2;
+  --review-lift: 1.1;
 }
 
 .poster[data-destination='pulse'] {
-  --signal-color: rgba(88, 162, 174, 0.34);
-  --aperture-ring: rgba(92, 164, 176, 0.28);
+  --cavity-accent: rgba(86, 146, 154, 0.2);
 }
 
 .poster[data-destination='axiom'] {
-  --signal-color: rgba(122, 126, 176, 0.28);
-  --aperture-ring: rgba(124, 130, 182, 0.3);
+  --cavity-accent: rgba(112, 118, 170, 0.2);
 }
 
 .poster[data-destination='about'] {
-  --signal-color: rgba(120, 132, 152, 0.26);
-  --aperture-ring: rgba(136, 146, 164, 0.28);
+  --cavity-accent: rgba(118, 132, 154, 0.18);
 }
 
 .base,
 .farField,
-.texture,
-.overheadShell,
-.sideWall,
-.midField,
+.grain,
+.canopy,
+.sideMass,
+.chamberShadow,
 .apertureField,
-.signalTraces,
 .dotField,
 .lowerDepth,
 .vignette {
@@ -66,283 +61,267 @@
 
 .base {
   z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 72% 54% at 51.5% 42%,
+      rgba(18, 28, 42, 0.34) 0%,
+      rgba(9, 14, 22, 0.14) 44%,
+      transparent 78%
+    ),
+    linear-gradient(180deg, #04070d 0%, #04070c 32%, #020409 100%);
 }
 
 .farField {
   z-index: 1;
+  opacity: calc(0.94 * var(--review-lift));
+  background:
+    radial-gradient(
+      ellipse 54% 38% at 51% 42%,
+      color-mix(in srgb, var(--field-lift) 46%, transparent) 0%,
+      rgba(14, 22, 34, 0.06) 34%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 92% 68% at 50% 78%,
+      rgba(7, 11, 17, 0.12) 0%,
+      transparent 74%
+  );
+  filter: blur(20px);
+  animation: field-breathe 24s ease-in-out infinite;
 }
 
-.texture {
+.grain {
   z-index: 2;
+  opacity: calc(var(--grain-opacity) * var(--review-lift));
+  background:
+    radial-gradient(circle at 22% 26%, rgba(150, 170, 196, 0.028) 0 0.12rem, transparent 0.2rem),
+    radial-gradient(circle at 67% 34%, rgba(136, 156, 182, 0.022) 0 0.1rem, transparent 0.18rem),
+    radial-gradient(circle at 58% 66%, rgba(124, 144, 170, 0.018) 0 0.08rem, transparent 0.16rem),
+    radial-gradient(
+      ellipse 78% 58% at 50% 44%,
+      rgba(120, 138, 162, 0.045) 0%,
+      transparent 78%
+    );
+  filter: blur(0.7px);
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(ellipse 88% 70% at 50% 42%, rgba(0, 0, 0, 0.94) 0%, transparent 88%);
 }
 
-.overheadShell,
-.sideWall,
-.midField {
+.canopy {
   z-index: 3;
-}
-
-.apertureField,
-.signalTraces,
-.dotField {
-  z-index: 4;
-}
-
-.lowerDepth {
-  z-index: 5;
-}
-
-.vignette {
-  z-index: 6;
-}
-
-.base {
-  background:
-    radial-gradient(
-      ellipse 58% 42% at 52% 46%,
-      rgba(18, 29, 46, 0.64) 0%,
-      rgba(11, 18, 29, 0.26) 46%,
-      transparent 74%
-    ),
-    linear-gradient(180deg, #05080f 0%, #05070d 28%, #030509 100%);
-}
-
-.farField {
-  background:
-    radial-gradient(
-      ellipse 54% 38% at 52% 46%,
-      color-mix(in srgb, var(--field-lift) calc(72% * var(--review-lift)), transparent) 0%,
-      rgba(18, 30, 46, 0.12) 34%,
-      transparent 68%
-    ),
-    radial-gradient(
-      ellipse 86% 70% at 50% 60%,
-      rgba(8, 13, 21, 0.16) 0%,
-      transparent 74%
-    );
-}
-
-.texture {
-  opacity: 0.16;
-  background:
-    repeating-linear-gradient(
-      112deg,
-      rgba(200, 216, 255, 0.04) 0 1px,
-      transparent 1px 22px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(148, 172, 204, 0.03) 0 1px,
-      transparent 1px 34px
-    );
-  mask-image: radial-gradient(ellipse 76% 58% at 50% 44%, rgba(0, 0, 0, 0.8) 0%, transparent 82%);
-}
-
-.overheadShell {
-  top: -26%;
-  left: -8%;
-  width: 116%;
-  height: 52%;
+  top: -4%;
+  left: -12%;
+  width: 124%;
+  height: 42%;
   inset: auto;
-  opacity: 0.8;
+  opacity: 0.82;
   background:
+    linear-gradient(
+      180deg,
+      rgba(3, 5, 8, 0.96) 0%,
+      rgba(4, 7, 11, 0.84) 18%,
+      rgba(8, 12, 18, 0.4) 48%,
+      transparent 100%
+    ),
     radial-gradient(
-      ellipse 72% 112% at 50% 100%,
-      transparent 0 53%,
-      rgba(31, 43, 60, 0.12) 58%,
-      rgba(8, 12, 19, 0.94) 65%,
-      transparent 74%
+      ellipse 54% 42% at 50% 92%,
+      rgba(24, 36, 52, 0.08) 0%,
+      transparent 72%
     );
-  filter: blur(1px);
+  filter: blur(18px);
+  mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.82) 34%,
+    rgba(0, 0, 0, 0.24) 74%,
+    transparent 100%
+  );
 }
 
-.overheadShell::after {
+.canopy::after {
   content: '';
   position: absolute;
-  inset: 12% 18% 18%;
+  inset: 18% 24% 8%;
   background:
     radial-gradient(
-      ellipse 68% 102% at 50% 100%,
-      rgba(18, 28, 42, 0.12) 0 42%,
-      rgba(6, 9, 15, 0.88) 58%,
-      transparent 70%
+      ellipse 50% 22% at 50% 100%,
+      rgba(22, 32, 46, 0.12) 0%,
+      transparent 78%
     );
-  opacity: 0.54;
+  opacity: 0.6;
 }
 
-.sideWall {
-  top: 0;
-  bottom: 0;
-  width: 34%;
-  opacity: 0.82;
-  filter: blur(0.5px);
+.sideMass {
+  z-index: 3;
+  opacity: 0.18;
+  filter: blur(72px);
 }
 
-.sideWallLeft {
-  left: -20%;
+.sideMassLeft {
+  inset: 0;
   background:
     radial-gradient(
-      ellipse 88% 88% at 100% 48%,
-      transparent 0 46%,
-      rgba(24, 36, 52, 0.12) 56%,
-      rgba(8, 12, 18, 0.94) 66%,
+      ellipse 70% 140% at -8% 50%,
+      rgba(2, 4, 7, 0.56) 0%,
+      rgba(4, 7, 11, 0.22) 34%,
+      transparent 72%
+    );
+}
+
+.sideMassRight {
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 140% at 108% 50%,
+      rgba(2, 4, 7, 0.56) 0%,
+      rgba(4, 7, 11, 0.22) 34%,
+      transparent 72%
+    );
+}
+
+.chamberShadow {
+  z-index: 4;
+  background:
+    radial-gradient(
+      ellipse 42% 28% at 51.6% 41.6%,
+      rgba(8, 12, 18, 0.06) 0%,
       transparent 76%
     );
-  transform: rotate(-5deg);
-}
-
-.sideWallRight {
-  right: -23%;
-  width: 36%;
-  background:
-    radial-gradient(
-      ellipse 92% 90% at 0 48%,
-      transparent 0 46%,
-      rgba(24, 36, 52, 0.12) 56%,
-      rgba(8, 12, 18, 0.96) 66%,
-      transparent 76%
-    );
-  transform: rotate(5deg);
-}
-
-.midField {
-  background:
-    radial-gradient(
-      ellipse 24% 20% at 52.2% 46.2%,
-      rgba(18, 28, 42, 0.14) 0%,
-      rgba(12, 18, 28, 0.06) 42%,
-      transparent 74%
-    ),
-    radial-gradient(
-      ellipse 34% 28% at 52.2% 46.2%,
-      transparent 0 54%,
-      rgba(32, 48, 68, 0.08) 66%,
-      transparent 80%
-    );
+  filter: blur(18px);
 }
 
 .apertureField {
-  position: absolute;
-  left: 52.2%;
-  top: 46.2%;
-  width: clamp(7rem, 11.8vw, 10rem);
-  height: clamp(7rem, 11.8vw, 10rem);
+  z-index: 5;
+  left: 51.7%;
+  top: 39.2%;
+  width: clamp(6.75rem, 10.2vw, 8.8rem);
+  height: clamp(6.75rem, 10.2vw, 8.8rem);
   inset: auto;
   transform: translate(-50%, -50%);
-  opacity: calc(0.92 * var(--review-lift));
+  opacity: calc(1 * var(--review-lift));
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(7, 10, 15, 0.98) 0%,
-    rgba(8, 12, 19, 0.94) 42%,
-    rgba(18, 28, 42, 0.28) 62%,
-    transparent 78%
-  );
+  background:
+    radial-gradient(
+      circle at 50% 56%,
+      rgba(0, 0, 0, 0.94) 0%,
+      rgba(12, 18, 28, 0.24) 62%,
+      transparent 78%
+    ),
+    radial-gradient(
+      circle at 50% 32%,
+      rgba(70, 92, 118, 0.08) 0%,
+      transparent 58%
+    );
   box-shadow:
-    0 0 0 1px rgba(108, 136, 170, 0.24),
-    0 0 0 14px rgba(10, 15, 23, 0.1),
-    0 0 28px rgba(26, 42, 64, 0.12);
+    0 22px 36px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(48, 68, 90, 0.18),
+    inset 0 1px 0 rgba(162, 182, 204, 0.04);
 }
 
 .apertureField::before {
   content: '';
   position: absolute;
-  inset: 12%;
+  inset: 10%;
   border-radius: 50%;
-  border: 1px solid rgba(138, 166, 198, 0.46);
-  box-shadow:
-    0 0 0 9px rgba(10, 16, 24, 0.12),
-    inset 0 0 0 1px rgba(156, 180, 210, 0.1),
-    0 0 18px rgba(44, 66, 96, 0.12);
-}
-
-.apertureHalo,
-.apertureRing,
-.apertureCore {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-}
-
-.apertureHalo {
-  inset: 6%;
+  border: 1px solid rgba(122, 142, 164, 0.14);
   background:
-    radial-gradient(
-      circle,
-      transparent 0 44%,
-      rgba(108, 136, 172, 0.18) 50%,
-      rgba(18, 28, 42, 0.28) 60%,
-      transparent 72%
-    ),
-    radial-gradient(
-      circle,
-      rgba(76, 108, 146, 0.12) 0%,
-      transparent 48%
-    );
-}
-
-.apertureRing {
-  inset: 19%;
-  border: 1px solid rgba(170, 194, 222, 0.8);
-  box-shadow:
-    0 0 0 1px rgba(22, 34, 50, 0.34),
-    inset 0 0 0 1px rgba(150, 176, 208, 0.08),
-    0 0 18px rgba(54, 80, 112, 0.16);
-}
-
-.apertureCore {
-  position: relative;
-  inset: 34%;
-  background:
-    radial-gradient(
-      circle,
-      var(--aperture-core) 0%,
-      rgba(18, 29, 43, 0.94) 30%,
-      rgba(8, 14, 22, 0.98) 70%,
-      rgba(4, 7, 11, 1) 100%
-    );
-  box-shadow:
-    0 0 0 1px rgba(142, 170, 208, 0.34),
-    0 0 0 6px rgba(12, 18, 28, 0.22),
-    0 0 16px rgba(42, 62, 88, 0.16);
-}
-
-.apertureCore::after {
-  content: '';
-  position: absolute;
-  inset: 28%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(5, 7, 12, 1) 0%, rgba(6, 9, 14, 0.98) 74%, rgba(15, 24, 36, 0.72) 100%);
-  box-shadow:
-    inset 0 0 12px rgba(0, 0, 0, 0.72),
-    0 0 0 1px rgba(94, 120, 154, 0.14);
-}
-
-.signalTraces {
-  opacity: 0.46;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      transparent 49.82%,
-      color-mix(in srgb, var(--signal-color) calc(78% * var(--review-lift)), transparent) 49.95%,
-      transparent 50.08%,
-      transparent 100%
-    ),
     linear-gradient(
       180deg,
-      transparent 0%,
-      transparent 46.18%,
-      color-mix(in srgb, var(--signal-color) calc(44% * var(--review-lift)), transparent) 46.28%,
-      transparent 46.42%,
-      transparent 100%
+      rgba(182, 202, 224, 0.12) 0%,
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 50% 54%,
+      rgba(6, 9, 14, 0.96) 0%,
+      rgba(10, 14, 22, 0.76) 48%,
+      transparent 72%
     );
-  mask-image: radial-gradient(circle at 52.2% 46.2%, rgba(0, 0, 0, 0.72) 0%, transparent 32%);
-  animation: signal-breath 14s ease-in-out infinite;
+  box-shadow:
+    inset 0 1px 0 rgba(202, 216, 230, 0.08),
+    inset 0 -16px 22px rgba(0, 0, 0, 0.48);
+}
+
+.apertureField::after {
+  content: '';
+  position: absolute;
+  inset: 24%;
+  border-radius: 50%;
+  border: 1px solid rgba(86, 106, 128, 0.1);
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(70, 92, 120, 0.12) 0%,
+      rgba(10, 16, 24, 0.14) 18%,
+      rgba(0, 0, 0, 1) 72%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  box-shadow:
+    inset 0 -10px 14px rgba(0, 0, 0, 0.54);
+  opacity: 0.96;
+}
+
+.apertureSheath,
+.apertureCore,
+.apertureAccent {
+  position: absolute;
+  border-radius: 50% / 58%;
+}
+
+.apertureSheath {
+  inset: 18%;
+  background:
+    radial-gradient(
+      circle at 50% 38%,
+      rgba(26, 38, 54, 0.16) 0%,
+      rgba(8, 12, 18, 0.04) 36%,
+      transparent 70%
+    );
+  box-shadow:
+    inset 0 8px 12px rgba(24, 36, 50, 0.12),
+    inset 0 -14px 22px rgba(0, 0, 0, 0.28);
+}
+
+.apertureSheath::after {
+  content: '';
+  position: absolute;
+  inset: 16% 18% 48%;
+  border-radius: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(192, 208, 226, 0.12) 0%,
+    transparent 100%
+  );
+  filter: blur(2px);
+  opacity: 0.5;
+}
+
+.apertureCore {
+  inset: 38%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(18, 24, 34, 0.08) 0%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.72);
+}
+
+.apertureAccent {
+  inset: 48% 48% 28%;
+  background:
+    radial-gradient(
+      circle at 58% 44%,
+      rgba(150, 176, 202, 0.18) 0%,
+      transparent 48%
+    );
+  opacity: 0.8;
+  mix-blend-mode: screen;
+  filter: blur(1.4px);
 }
 
 .dotField {
-  opacity: 0.88;
+  z-index: 6;
+  opacity: calc(0.72 * var(--review-lift));
 }
 
 .dot {
@@ -354,56 +333,85 @@
   margin-left: calc(var(--dot-size) / -2);
   margin-top: calc(var(--dot-size) / -2);
   border-radius: 50%;
-  background: rgba(150, 173, 202, 0.82);
-  box-shadow: 0 0 12px rgba(89, 122, 164, 0.12);
+  background: rgba(150, 170, 194, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(10, 14, 20, 0.14),
+    0 0 10px rgba(88, 116, 152, 0.08);
   opacity: var(--dot-opacity);
   transform: translate3d(0, 0, 0);
-  animation: dot-drift 20s ease-in-out infinite;
+  animation: dot-drift 30s ease-in-out infinite;
   animation-delay: var(--dot-delay);
 }
 
 .lowerDepth {
-  top: auto;
-  left: -6%;
-  right: -6%;
-  bottom: -18%;
-  height: 40%;
+  z-index: 7;
+  inset: 0;
   background:
     radial-gradient(
-      ellipse 70% 58% at 50% 12%,
-      rgba(16, 24, 36, 0.18) 0%,
-      rgba(9, 14, 22, 0.36) 34%,
-      rgba(4, 7, 12, 0.96) 72%,
-      rgba(3, 5, 9, 1) 100%
+      ellipse 74% 34% at 50% 88%,
+      rgba(10, 16, 24, 0.16) 0%,
+      rgba(4, 7, 11, 0.18) 22%,
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse 120% 88% at 50% 112%,
+      rgba(2, 4, 7, 0.16) 0%,
+      rgba(2, 4, 7, 0.92) 66%,
+      rgba(1, 3, 5, 1) 100%
+    ),
+    linear-gradient(
+      180deg,
+      transparent 56%,
+      rgba(1, 3, 5, 0.24) 76%,
+      rgba(1, 3, 5, 1) 100%
     );
-  filter: blur(2px);
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 54%,
+    rgba(0, 0, 0, 0.18) 66%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  filter: blur(20px);
 }
 
 .vignette {
+  z-index: 8;
   background:
     radial-gradient(
-      ellipse 108% 94% at 50% 46%,
-      transparent 34%,
-      rgba(5, 8, 14, 0.28) 62%,
-      rgba(4, 7, 12, 0.78) 84%,
-      rgba(3, 5, 9, 0.98) 100%
+      circle at 0 0,
+      rgba(2, 4, 7, 0.82) 0%,
+      rgba(2, 4, 7, 0.42) 14%,
+      transparent 28%
+    ),
+    radial-gradient(
+      ellipse 116% 94% at 50% 44%,
+      transparent 30%,
+      rgba(4, 7, 12, 0.32) 60%,
+      rgba(3, 5, 9, 0.84) 84%,
+      rgba(2, 4, 7, 1) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(2, 4, 7, 0.12) 0%,
+      rgba(2, 4, 7, 0) 18%,
+      rgba(2, 4, 7, 0.18) 100%
     );
 }
 
-.poster[data-quality='low'] .texture,
-.poster[data-quality='low'] .signalTraces {
+.poster[data-quality='low'] .grain {
   opacity: 0.08;
 }
 
-.poster[data-quality='low'] .dot:nth-child(n + 6) {
+.poster[data-quality='low'] .dot:nth-child(n + 5) {
   display: none;
 }
 
-.poster[data-quality='medium'] .dot:nth-child(n + 8) {
+.poster[data-quality='medium'] .dot:nth-child(n + 6) {
   display: none;
 }
 
-.poster[data-motion='reduced'] .signalTraces,
+.poster[data-motion='reduced'] .farField,
 .poster[data-motion='reduced'] .dot {
   animation: none;
 }
@@ -411,21 +419,21 @@
 @keyframes dot-drift {
   0%,
   100% {
-    transform: translate3d(0, 0, 0) scale(0.98);
+    transform: translate3d(0, 0, 0);
   }
 
   50% {
-    transform: translate3d(0, -0.35rem, 0) scale(1.02);
+    transform: translate3d(var(--dot-drift-x), var(--dot-drift-y), 0);
   }
 }
 
-@keyframes signal-breath {
+@keyframes field-breathe {
   0%,
   100% {
-    opacity: 0.38;
+    opacity: calc(0.9 * var(--review-lift));
   }
 
   50% {
-    opacity: 0.5;
+    opacity: calc(0.98 * var(--review-lift));
   }
 }

@@ -12,9 +12,9 @@ interface ParticleFieldProps {
 }
 
 const COUNTS: Record<QualityTier, number> = {
-  low: 72,
-  medium: 128,
-  high: 186,
+  low: 20,
+  medium: 34,
+  high: 48,
 };
 
 function createSeededRandom(seed: number) {
@@ -26,39 +26,67 @@ function createSeededRandom(seed: number) {
 }
 
 export default function ParticleField({ qualityTier, paused, mode }: ParticleFieldProps) {
-  const pointsRef = useRef<THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>>(null);
+  const linesRef = useRef<THREE.LineSegments<THREE.BufferGeometry, THREE.LineBasicMaterial>>(
+    null,
+  );
   const modeBlendRef = useRef({ pulse: 0, axiom: 0, about: 0 });
   const count = COUNTS[qualityTier];
 
-  const { basePositions, positions, phases } = useMemo(() => {
-    const random = createSeededRandom(11235813 + count);
-    const nextBase = new Float32Array(count * 3);
-    const nextPositions = new Float32Array(count * 3);
+  const { baseCenters, axisOffsets, positions, phases } = useMemo(() => {
+    const random = createSeededRandom(27182818 + count);
+    const nextBaseCenters = new Float32Array(count * 3);
+    const nextAxisOffsets = new Float32Array(count * 3);
+    const nextPositions = new Float32Array(count * 6);
     const nextPhases = new Float32Array(count);
 
     for (let i = 0; i < count; i += 1) {
-      const idx = i * 3;
-      const spread = 15 + random() * 8;
+      const centerIdx = i * 3;
+      const posIdx = i * 6;
+      const spread = 2.4 + random() * 5.8;
       const angle = random() * Math.PI * 2;
-      nextBase[idx] = Math.cos(angle) * spread * (0.35 + random() * 0.65);
-      nextBase[idx + 1] = -0.4 + random() * 4.8;
-      nextBase[idx + 2] = -13.5 + random() * 14;
-      nextPositions[idx] = nextBase[idx];
-      nextPositions[idx + 1] = nextBase[idx + 1];
-      nextPositions[idx + 2] = nextBase[idx + 2];
+
+      const cx = Math.cos(angle) * spread;
+      const cy = -1.5 + random() * 4.0;
+      const cz = -8.2 + random() * 4.9;
+
+      const dx = random() * 2 - 1;
+      const dy = random() * 2 - 1;
+      const dz = random() * 2 - 1;
+      const norm = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
+      const length = 0.14 + random() * 0.34;
+
+      const ox = (dx / norm) * length;
+      const oy = (dy / norm) * length;
+      const oz = (dz / norm) * length;
+
+      nextBaseCenters[centerIdx] = cx;
+      nextBaseCenters[centerIdx + 1] = cy;
+      nextBaseCenters[centerIdx + 2] = cz;
+
+      nextAxisOffsets[centerIdx] = ox;
+      nextAxisOffsets[centerIdx + 1] = oy;
+      nextAxisOffsets[centerIdx + 2] = oz;
       nextPhases[i] = random() * Math.PI * 2;
+
+      nextPositions[posIdx] = cx - ox;
+      nextPositions[posIdx + 1] = cy - oy;
+      nextPositions[posIdx + 2] = cz - oz;
+      nextPositions[posIdx + 3] = cx + ox;
+      nextPositions[posIdx + 4] = cy + oy;
+      nextPositions[posIdx + 5] = cz + oz;
     }
 
     return {
-      basePositions: nextBase,
+      baseCenters: nextBaseCenters,
+      axisOffsets: nextAxisOffsets,
       positions: nextPositions,
       phases: nextPhases,
     };
   }, [count]);
 
   useFrame((state) => {
-    const points = pointsRef.current;
-    if (!points) return;
+    const lines = linesRef.current;
+    if (!lines) return;
 
     const targetPulse = mode === 'pulse' ? 1 : 0;
     const targetAxiom = mode === 'axiom' ? 1 : 0;
@@ -68,34 +96,47 @@ export default function ParticleField({ qualityTier, paused, mode }: ParticleFie
     modeBlend.axiom += (targetAxiom - modeBlend.axiom) * 0.08;
     modeBlend.about += (targetAbout - modeBlend.about) * 0.08;
 
-    const material = points.material;
-    const tintR = 0.42 + modeBlend.about * 0.06 + modeBlend.axiom * 0.05;
-    const tintG = 0.5 + modeBlend.pulse * 0.12 + modeBlend.about * 0.05;
-    const tintB = 0.58 + modeBlend.axiom * 0.1 + modeBlend.pulse * 0.08;
-    material.color.setRGB(tintR, tintG, tintB);
+    const material = lines.material;
+    material.color.setRGB(
+      0.36 + modeBlend.about * 0.05 + modeBlend.axiom * 0.06,
+      0.42 + modeBlend.pulse * 0.08 + modeBlend.about * 0.05,
+      0.5 + modeBlend.axiom * 0.08 + modeBlend.pulse * 0.06,
+    );
     material.opacity =
-      0.045 + modeBlend.pulse * 0.012 + modeBlend.axiom * 0.008 + modeBlend.about * 0.01;
+      0.054 + modeBlend.pulse * 0.01 + modeBlend.axiom * 0.008 + modeBlend.about * 0.01;
 
     if (paused) return;
 
-    const attr = points.geometry.attributes.position as THREE.BufferAttribute;
+    const attr = lines.geometry.attributes.position as THREE.BufferAttribute;
     const arr = attr.array as Float32Array;
-    const time = state.clock.elapsedTime * 0.08;
+    const t = state.clock.elapsedTime * 0.08;
 
     for (let i = 0; i < count; i += 1) {
-      const idx = i * 3;
+      const centerIdx = i * 3;
+      const posIdx = i * 6;
       const phase = phases[i];
-      arr[idx] = basePositions[idx] + Math.sin(time + phase) * 0.014;
-      arr[idx + 1] =
-        basePositions[idx + 1] + Math.sin(time * 1.1 + phase * 1.6) * 0.017;
-      arr[idx + 2] = basePositions[idx + 2] + Math.cos(time * 0.72 + phase) * 0.016;
+
+      const cx = baseCenters[centerIdx] + Math.sin(t + phase) * 0.04;
+      const cy = baseCenters[centerIdx + 1] + Math.cos(t * 1.2 + phase * 1.4) * 0.034;
+      const cz = baseCenters[centerIdx + 2] + Math.sin(t * 0.9 + phase * 0.8) * 0.024;
+
+      const ox = axisOffsets[centerIdx];
+      const oy = axisOffsets[centerIdx + 1];
+      const oz = axisOffsets[centerIdx + 2];
+
+      arr[posIdx] = cx - ox;
+      arr[posIdx + 1] = cy - oy;
+      arr[posIdx + 2] = cz - oz;
+      arr[posIdx + 3] = cx + ox;
+      arr[posIdx + 4] = cy + oy;
+      arr[posIdx + 5] = cz + oz;
     }
 
     attr.needsUpdate = true;
   });
 
   return (
-    <points ref={pointsRef}>
+    <lineSegments ref={linesRef}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -103,15 +144,7 @@ export default function ParticleField({ qualityTier, paused, mode }: ParticleFie
           count={positions.length / 3}
         />
       </bufferGeometry>
-      <pointsMaterial
-        color="#72859a"
-        size={qualityTier === 'low' ? 0.007 : 0.009}
-        sizeAttenuation
-        transparent
-        opacity={0.045}
-        depthWrite={false}
-        toneMapped={false}
-      />
-    </points>
+      <lineBasicMaterial color="#5f7288" transparent opacity={0.054} depthWrite={false} />
+    </lineSegments>
   );
 }
