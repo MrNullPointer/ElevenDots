@@ -36,24 +36,24 @@ export default function DormantDots({ paused }: DormantDotsProps) {
   return (
     <group>
       {DORMANT_DOTS.map((dot, i) => {
-        const px = dot.position[0];
-        const py = dot.position[1] * 0.23 - 0.26;
-        const pz = dot.position[2] - 1.4;
-        const radius = 0.011 + dot.depth * 0.006;
-        const glowRadius = 0.05 + dot.depth * 0.02;
+        const px = dot.position[0] * 1.08;
+        const py = dot.position[1] * 0.2 + 0.12;
+        const pz = dot.position[2] - 5.6 - dot.depth * 0.38;
+        const radius = 0.008 + dot.depth * 0.004;
+        const glowRadius = 0.034 + dot.depth * 0.016;
 
         return (
           <group key={`${dot.constellationIndex}-${i}`} position={[px, py, pz]}>
             <mesh ref={(node) => (coreRefs.current[i] = node)}>
               <sphereGeometry args={[radius, 10, 10]} />
               <meshStandardMaterial
-                color="#7b90a6"
-                emissive="#597797"
-                emissiveIntensity={0.04}
-                roughness={0.52}
+                color="#6d8096"
+                emissive="#4e6884"
+                emissiveIntensity={0.03}
+                roughness={0.56}
                 metalness={0.06}
                 transparent
-                opacity={0.18}
+                opacity={0.14}
               />
             </mesh>
 
@@ -63,9 +63,9 @@ export default function DormantDots({ paused }: DormantDotsProps) {
             >
               <sphereGeometry args={[glowRadius, 12, 12]} />
               <meshBasicMaterial
-                color="#5f7692"
+                color="#566a82"
                 transparent
-                opacity={0.012}
+                opacity={0.009}
                 depthWrite={false}
                 toneMapped={false}
               />

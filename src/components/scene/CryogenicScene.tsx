@@ -5,17 +5,20 @@ import { useRef } from 'react';
 import * as THREE from 'three';
 import { useAppStore } from '@/lib/store';
 import PostProcessing from './PostProcessing';
-import BackgroundDome from './world/BackgroundDome';
-import HorizonAtmosphere from './world/HorizonAtmosphere';
-import CryogenicOcean from './world/CryogenicOcean';
-import DormantDots from './world/DormantDots';
-import ParticleField from './world/ParticleField';
-import ObservatoryField from './world/ObservatoryField';
 import LightRig from './lights/LightRig';
+import BackgroundDome from './world/BackgroundDome';
+import DormantDots from './world/DormantDots';
+import HorizonAtmosphere from './world/HorizonAtmosphere';
+import NearFieldOcclusion from './world/NearFieldOcclusion';
+import ObservatoryField from './world/ObservatoryField';
 
-const BASE_CAMERA_POSITION = new THREE.Vector3(0, 1.52, 5.34);
-const CAMERA_LOOK_TARGET = new THREE.Vector3(0, 0.3, -2.72);
+const BASE_CAMERA_POSITION = new THREE.Vector3(0.22, 0.94, 4.68);
+const CAMERA_LOOK_TARGET = new THREE.Vector3(0.02, 0.42, -2.84);
 const DEG_TO_RAD = Math.PI / 180;
+
+interface CryogenicSceneProps {
+  reviewMode?: 'dark' | 'tonal' | 'clay';
+}
 
 function CameraDrift({ paused }: { paused: boolean }) {
   const { camera } = useThree();
@@ -33,10 +36,11 @@ function CameraDrift({ paused }: { paused: boolean }) {
     }
 
     const elapsed = state.clock.elapsedTime;
-    const yaw = Math.sin(elapsed * 0.08) * (2.5 * DEG_TO_RAD);
-    const pitch = Math.sin(elapsed * 0.055 + 0.9) * (1.1 * DEG_TO_RAD);
+    const yaw = Math.sin(elapsed * 0.05) * (0.9 * DEG_TO_RAD);
+    const pitch = Math.sin(elapsed * 0.037 + 0.7) * (0.55 * DEG_TO_RAD);
+    const roll = Math.sin(elapsed * 0.043 + 1.2) * (0.08 * DEG_TO_RAD);
 
-    eulerRef.current.set(pitch, yaw, 0);
+    eulerRef.current.set(pitch, yaw, roll);
     quatRef.current.setFromEuler(eulerRef.current);
     targetRef.current.copy(BASE_CAMERA_POSITION).applyQuaternion(quatRef.current);
 
@@ -44,7 +48,7 @@ function CameraDrift({ paused }: { paused: boolean }) {
       camera.position.copy(targetRef.current);
       initializedRef.current = true;
     } else {
-      const easing = 1 - Math.exp(-delta * 0.95);
+      const easing = 1 - Math.exp(-delta * 0.8);
       camera.position.lerp(targetRef.current, easing);
     }
 
@@ -54,7 +58,7 @@ function CameraDrift({ paused }: { paused: boolean }) {
   return null;
 }
 
-export default function CryogenicScene() {
+export default function CryogenicScene({ reviewMode = 'dark' }: CryogenicSceneProps) {
   const qualityTier = useAppStore((s) => s.qualityTier);
   const activeDestination = useAppStore((s) => s.activeDestination);
   const frozen = useAppStore((s) => s.frozen);
@@ -69,13 +73,16 @@ export default function CryogenicScene() {
 
       <BackgroundDome />
       <HorizonAtmosphere mode={mode} />
-      <LightRig qualityTier={qualityTier} mode={mode} />
-      <CryogenicOcean qualityTier={qualityTier} paused={paused} mode={mode} />
+      <LightRig qualityTier={qualityTier} mode={mode} reviewMode={reviewMode} />
 
-      <ParticleField qualityTier={qualityTier} paused={paused} mode={mode} />
       <DormantDots paused={paused} />
-
-      <ObservatoryField qualityTier={qualityTier} paused={paused} mode={mode} />
+      <ObservatoryField
+        qualityTier={qualityTier}
+        paused={paused}
+        mode={mode}
+        reviewMode={reviewMode}
+      />
+      <NearFieldOcclusion paused={paused} mode={mode} reviewMode={reviewMode} />
 
       <PostProcessing qualityTier={qualityTier} />
     </>

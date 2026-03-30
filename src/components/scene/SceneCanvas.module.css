@@ -2,18 +2,117 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-scene);
-  opacity: 0;
   pointer-events: none;
+  opacity: 0.34;
   transition: opacity var(--duration-glacial) var(--ease-out);
+  --signal-accent: rgba(88, 120, 156, 0.12);
 }
 
-.sceneFrame[data-phase='entering'],
-.sceneFrame[data-phase='idle'],
-.sceneFrame[data-phase='navigating'] {
-  opacity: 1;
+.sceneFrame[data-exposure='lift'] {
+  opacity: 0.46;
 }
 
-.canvas {
-  width: 100%;
-  height: 100%;
+.sceneFrame[data-destination='pulse'] {
+  --signal-accent: rgba(82, 156, 170, 0.2);
+}
+
+.sceneFrame[data-destination='axiom'] {
+  --signal-accent: rgba(112, 118, 170, 0.18);
+}
+
+.sceneFrame[data-destination='about'] {
+  --signal-accent: rgba(122, 132, 150, 0.16);
+}
+
+.ambientVeil,
+.signalField,
+.atmosphere {
+  position: absolute;
+  inset: 0;
+}
+
+.ambientVeil {
+  background:
+    radial-gradient(
+      ellipse 74% 54% at 50% 68%,
+      rgba(6, 10, 16, 0.08) 0%,
+      transparent 74%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(4, 7, 11, 0.06) 0%,
+      rgba(4, 7, 11, 0) 24%,
+      rgba(3, 5, 9, 0.16) 100%
+    );
+}
+
+.signalField {
+  background:
+    radial-gradient(
+      circle 6% at 51.7% 39.2%,
+      rgba(4, 7, 11, 0.12) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      circle 4.1% at 51.7% 39.2%,
+      transparent 0 62%,
+      color-mix(in srgb, var(--signal-accent) 82%, transparent) 74%,
+      transparent 82%
+    ),
+    radial-gradient(
+      circle at 52.1% 39.5%,
+      rgba(156, 180, 208, 0.18) 0%,
+      transparent 1.9%
+    );
+  opacity: 0.28;
+  filter: blur(0.15px);
+  animation: signal-glow 18s ease-in-out infinite;
+}
+
+.atmosphere {
+  background:
+    radial-gradient(
+      ellipse 80% 52% at 50% 78%,
+      rgba(6, 10, 16, 0.06) 0%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(4, 7, 11, 0.04) 0%,
+      rgba(4, 7, 11, 0) 26%,
+      rgba(3, 5, 9, 0.16) 100%
+    );
+  opacity: 0.62;
+  animation: atmosphere-shift 24s ease-in-out infinite;
+}
+
+.sceneFrame[data-quality='low'] .signalField {
+  opacity: 0.18;
+}
+
+.sceneFrame[data-motion='reduced'] .signalField,
+.sceneFrame[data-motion='reduced'] .atmosphere {
+  animation: none;
+}
+
+@keyframes signal-glow {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+
+  50% {
+    opacity: 0.32;
+  }
+}
+
+@keyframes atmosphere-shift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -0.25%, 0);
+  }
 }

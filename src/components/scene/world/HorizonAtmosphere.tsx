@@ -27,17 +27,28 @@ varying vec3 vWorldPosition;
 
 void main() {
   vec3 dir = normalize(vWorldPosition - cameraPosition);
-  float lowerBand = exp(-pow((dir.y + 0.24) * 1.35, 2.0));
-  float middleBand = exp(-pow((dir.y + 0.03) * 1.95, 2.0));
-  float upperBand = exp(-pow((dir.y - 0.5) * 2.1, 2.0));
-  float side = 1.0 - smoothstep(0.58, 1.32, length(dir.xz));
+  float radial = length(dir.xy * vec2(1.02, 0.88));
+  float cavity = exp(-pow(radial * 0.92, 2.0));
+  float shell = smoothstep(0.22, 1.38, radial);
+  float deep = smoothstep(-0.8, 0.35, -dir.z);
+  float lowerAbsorb = exp(-pow((dir.y + 0.9) * 1.1, 2.0));
 
-  vec3 base = vec3(0.012, 0.022, 0.038);
-  vec3 modeTint = vec3(0.012, 0.03, 0.042) * uPulse + vec3(0.02, 0.02, 0.044) * uAxiom + vec3(0.022, 0.028, 0.036) * uAbout;
-  float alpha = (lowerBand * 0.12 + middleBand * 0.09 + upperBand * 0.06) * side;
-  alpha += uPulse * lowerBand * 0.018 + uAxiom * middleBand * 0.016 + uAbout * upperBand * 0.014;
+  vec3 base = vec3(0.005, 0.009, 0.016);
+  vec3 shellLift = vec3(0.012, 0.018, 0.03);
+  vec3 modeTint =
+    vec3(0.015, 0.04, 0.055) * uPulse +
+    vec3(0.028, 0.026, 0.048) * uAxiom +
+    vec3(0.03, 0.035, 0.042) * uAbout;
 
-  gl_FragColor = vec4(base + modeTint * 0.08, alpha);
+  vec3 color = mix(base, shellLift, cavity * 0.45 + deep * 0.22);
+  color *= mix(1.0, 0.78, shell);
+  color += modeTint * (0.035 + cavity * 0.025);
+
+  float alpha = 0.1 + cavity * 0.09 + deep * 0.06 + lowerAbsorb * 0.08;
+  alpha *= mix(1.0, 0.6, shell);
+  alpha += uPulse * 0.012 + uAxiom * 0.01 + uAbout * 0.012;
+
+  gl_FragColor = vec4(color, clamp(alpha, 0.0, 0.24));
 }
 `;
 
@@ -61,8 +72,8 @@ export default function HorizonAtmosphere({ mode }: HorizonAtmosphereProps) {
 
   return (
     <>
-      <fog attach="fog" args={['#070e1b', 6.8, 42]} />
-      <mesh renderOrder={-1} position={[0, -1.12, -2.8]}>
+      <fog attach="fog" args={['#040812', 4.6, 29]} />
+      <mesh renderOrder={-1} position={[0.1, -0.1, -3.8]}>
         <sphereGeometry args={[62, 60, 60]} />
         <shaderMaterial
           ref={shaderRef}

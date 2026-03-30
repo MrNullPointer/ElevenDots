@@ -398,3 +398,53 @@
 - Home page: dynamically imports HomeShell with `ssr: false`
 - /about page: static page using shared AboutContent
 - Final build: ✓ all 3 routes statically exported
+
+## Session 3 — 2026-03-30
+
+### Phase 1B/1C — Observatory Chamber Silhouette Reset (in progress)
+
+- Reworked scene composition away from center-object read toward chamber enclosure:
+  - removed floor/ocean from live scene composition
+  - reduced center complexity and removed center-crossing decorative slash behavior
+  - moved mass to periphery with top/side chamber framing geometry
+  - strengthened near-field lower-frame occlusion for depth falloff
+- Re-authored `ObservatoryField` for periphery-first chamber structure and smaller recessed aperture cavity.
+- Suppressed pasted-pattern behavior in backdrop/atmosphere shaders.
+- Added optional review exposure capture support via `?exposure=lift` in `SceneCanvas` renderer setup.
+- Preserved shell architecture and route semantics (HomeShell orchestration, poster/scene/DOM stack, anchor behavior, standalone `/about`, shared Zustand model).
+- Validation:
+  - `npm run build` passes with static export routes.
+  - Local dev server running on `127.0.0.1:6001` for review captures.
+
+### Phase 1D — Poster Composition Lock Pass (complete)
+
+- Preserved the poster-first shell contract:
+  - `/src/app/page.tsx` still mounts `HomeShell`
+  - `HomeShell` remains the orchestrator for poster + scene veil + UI
+  - real anchor navigation and standalone `/about` behavior unchanged
+  - Zustand store, destination config, reduced-motion support, and static-export architecture preserved
+- Rebuilt the homepage poster as a controlled observatory title card instead of a generic atmospheric wallpaper:
+  - replaced the broader center-glow language with a smaller recessed aperture treatment positioned slightly above center
+  - removed decorative ring/crosshair traces from the poster composition
+  - replaced wallpaper-like striping with restrained tonal grain and softer field density
+  - tuned side and canopy masses into lower-contrast chamber enclosure shapes
+  - reduced the dormant-dot field to a smaller, more deliberate measurement layout on the poster
+  - strengthened the lower-frame depth falloff without introducing a floor or horizon line
+- Added restrained material cues only where useful:
+  - subtle liquid-glass/crystal micro-highlights concentrated at the aperture
+  - `SceneCanvas` CSS veil retuned to support the poster instead of flattening it with a broad center glow
+- Validation:
+  - `npm run build` passes
+  - production captures rendered from built `out/` export via local static server on `127.0.0.1:6002`
+
+### Phase 1E — Poster Lock Refinement Pass (complete)
+
+- Reduced remaining decorative/radial read in the poster layers and simplified the scene veil further so the homepage stays poster-first without reintroducing live 3D.
+- Replaced mapped dot scattering with a smaller, hand-placed five-dot measurement field derived from the shared dormant-dot config.
+- Tightened chamber composition with softer canopy and sidewall masses, then smoothed the remaining hard transition at the lower basin/sidewall handoff.
+- Rebuilt the lower-depth field as a feathered basin so the frame continues downward instead of visibly terminating at a horizontal seam.
+- Replaced bounded sidewall/basin overlays with full-frame anchored gradients to eliminate residual left-edge and lower-edge blend seams.
+- Flattened the remaining left/right mid-field blobs by simplifying `farField`, reducing sidewall mass visibility, and collapsing the chamber-shadow layer into a softer single depression.
+- Validation:
+  - `npm run build` passes after refinement
+  - updated production and lifted review captures regenerated from the built `out/` export
