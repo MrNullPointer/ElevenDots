@@ -18,6 +18,9 @@ export interface Capabilities {
   memory: number;
   pixelRatio: number;
   mobile: boolean;
+  hoverCapable: boolean;
+  touchOnly: boolean;
+  backdropFilter: boolean;
 }
 
 /* ── State shape ── */
@@ -112,7 +115,7 @@ export const useAppStore = create<AppState & AppActions>()((set) => ({
   // State
   scenePhase: 'loading',
   frozen: false,
-  qualityTier: 'high',
+  qualityTier: 'medium',
   capabilities: null,
   activeDestination: null,
   activePanel: null,

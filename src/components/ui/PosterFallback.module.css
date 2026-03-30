@@ -4,6 +4,22 @@
   z-index: var(--z-poster);
   background: var(--color-obsidian);
   overflow: hidden;
+  pointer-events: none;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--duration-glacial) var(--ease-out),
+    visibility var(--duration-glacial) var(--ease-out);
+}
+
+.poster[data-phase='entering'] {
+  opacity: 0.92;
+}
+
+.poster[data-phase='idle'],
+.poster[data-phase='navigating'] {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .gradient {

@@ -1,0 +1,19 @@
+.sceneFrame {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-scene);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-glacial) var(--ease-out);
+}
+
+.sceneFrame[data-phase='entering'],
+.sceneFrame[data-phase='idle'],
+.sceneFrame[data-phase='navigating'] {
+  opacity: 1;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
