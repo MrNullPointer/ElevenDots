@@ -10,8 +10,10 @@
   --signal-accent: rgba(112, 140, 176, 0.18);
   --signal-opacity: 0.4;
   --cavity-opacity: 0.5;
+  --cavity-blur: 22px;
   --structural-opacity: 0.24;
   --structural-tint: rgba(118, 140, 172, 0.2);
+  --structural-blur: 18px;
   --atmosphere-opacity: 0.82;
   transition:
     opacity 560ms var(--ease-out),
@@ -43,8 +45,10 @@
   opacity: 0.64;
   --signal-opacity: 0.66;
   --cavity-opacity: 0.62;
+  --cavity-blur: 24px;
   --structural-opacity: 0.12;
   --structural-tint: rgba(78, 205, 196, 0.12);
+  --structural-blur: 20px;
   --atmosphere-opacity: 0.88;
   filter: saturate(1.12) contrast(1.04);
 }
@@ -56,8 +60,10 @@
   opacity: 0.58;
   --signal-opacity: 0.4;
   --cavity-opacity: 0.44;
+  --cavity-blur: 18px;
   --structural-opacity: 0.56;
   --structural-tint: rgba(156, 170, 214, 0.32);
+  --structural-blur: 12px;
   --atmosphere-opacity: 0.82;
   filter: contrast(1.1);
 }
@@ -69,8 +75,10 @@
   opacity: 0.42;
   --signal-opacity: 0.22;
   --cavity-opacity: 0.3;
+  --cavity-blur: 24px;
   --structural-opacity: 0.12;
   --structural-tint: rgba(126, 140, 160, 0.1);
+  --structural-blur: 20px;
   --atmosphere-opacity: 0.62;
   filter: brightness(0.97);
 }
@@ -80,6 +88,7 @@
   --shear-opacity: 0.04;
   --signal-opacity: 0.08;
   --cavity-opacity: 0.1;
+  --cavity-blur: 20px;
   --structural-opacity: 0.08;
   --atmosphere-opacity: 0.42;
 }
@@ -93,7 +102,9 @@
   --shear-opacity: 0.12;
   --signal-opacity: 0.24;
   --cavity-opacity: 0.22;
+  --cavity-blur: 20px;
   --structural-opacity: 0.12;
+  --structural-blur: 16px;
   --atmosphere-opacity: 0.52;
 }
 
@@ -102,7 +113,9 @@
   --shear-opacity: 0.06;
   --signal-opacity: 0.14;
   --cavity-opacity: 0.14;
+  --cavity-blur: 18px;
   --structural-opacity: 0.08;
+  --structural-blur: 14px;
   --atmosphere-opacity: 0.48;
 }
 
@@ -199,7 +212,7 @@
       color-mix(in srgb, var(--signal-accent) 22%, transparent) 0%,
       transparent 76%
     );
-  filter: blur(22px);
+  filter: blur(var(--cavity-blur));
   mix-blend-mode: screen;
   animation: cavity-pulse 20s ease-in-out infinite;
 }
@@ -230,7 +243,7 @@
       color-mix(in srgb, var(--structural-tint) 18%, transparent) 88%,
       transparent 100%
     );
-  filter: blur(18px);
+  filter: blur(var(--structural-blur));
   mask-image: radial-gradient(ellipse 70% 52% at 50% 44%, rgba(0, 0, 0, 1) 0%, transparent 88%);
 }
 

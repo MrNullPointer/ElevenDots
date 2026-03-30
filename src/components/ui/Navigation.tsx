@@ -24,6 +24,7 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
   const setLastInteractionSource = useAppStore((s) => s.setLastInteractionSource);
   const activeId = activeDestination === 'idle' ? null : activeDestination;
   const navRef = useRef<HTMLElement>(null);
+  const navResetTimeoutRef = useRef<number | null>(null);
   const touchPreviewTimeoutRef = useRef<number | null>(null);
 
   const clearTouchPreview = useCallback(() => {
@@ -33,7 +34,36 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
     }
   }, []);
 
-  useEffect(() => () => clearTouchPreview(), [clearTouchPreview]);
+  const clearPendingNavReset = useCallback(() => {
+    if (navResetTimeoutRef.current !== null) {
+      window.clearTimeout(navResetTimeoutRef.current);
+      navResetTimeoutRef.current = null;
+    }
+  }, []);
+
+  const scheduleIdleReturn = useCallback(
+    (delay = 140) => {
+      clearPendingNavReset();
+      navResetTimeoutRef.current = window.setTimeout(() => {
+        if (navRef.current?.contains(document.activeElement)) {
+          navResetTimeoutRef.current = null;
+          return;
+        }
+
+        setActiveDestination(null);
+        navResetTimeoutRef.current = null;
+      }, delay);
+    },
+    [clearPendingNavReset, setActiveDestination],
+  );
+
+  useEffect(
+    () => () => {
+      clearTouchPreview();
+      clearPendingNavReset();
+    },
+    [clearPendingNavReset, clearTouchPreview],
+  );
 
   const handleAboutClick = (e: MouseEvent<HTMLAnchorElement>) => {
     // Modifier key passthrough — let browser handle natively
@@ -42,37 +72,42 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
     }
 
     e.preventDefault();
+    clearPendingNavReset();
     clearTouchPreview();
     setActiveDestination('about');
     openAboutModal();
   };
 
   const handleDestinationEnter = (id: DestinationId) => () => {
+    clearPendingNavReset();
     clearTouchPreview();
     setLastInteractionSource('mouse');
     setActiveDestination(id);
   };
 
   const handleDestinationFocus = (id: DestinationId) => () => {
+    clearPendingNavReset();
     clearTouchPreview();
     setLastInteractionSource('keyboard');
     setActiveDestination(id);
   };
 
-  const handleDestinationLeave = () => {
+  const handleDestinationBlur = (e: FocusEvent<HTMLAnchorElement>) => {
+    if (navRef.current?.contains(e.relatedTarget as Node | null)) {
+      return;
+    }
+
+    clearTouchPreview();
+    scheduleIdleReturn(120);
+  };
+
+  const handleNavLeave = () => {
     if (navRef.current?.contains(document.activeElement)) {
       return;
     }
 
     clearTouchPreview();
-    setActiveDestination(null);
-  };
-
-  const handleDestinationBlur = (e: FocusEvent<HTMLAnchorElement>) => {
-    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-      clearTouchPreview();
-      setActiveDestination(null);
-    }
+    scheduleIdleReturn();
   };
 
   const handleDestinationPointerDown =
@@ -81,6 +116,7 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
         return;
       }
 
+      clearPendingNavReset();
       clearTouchPreview();
       setLastInteractionSource('touch');
       setActiveDestination(id);
@@ -102,6 +138,7 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
       data-active={activeId ?? 'idle'}
       data-panel={panelOpen ? 'open' : 'closed'}
       aria-label="Main navigation"
+      onMouseLeave={handleNavLeave}
     >
       {DESTINATION_LIST.map((dest) => (
         <a
@@ -113,7 +150,6 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
           onClick={dest.id === 'about' ? handleAboutClick : undefined}
           onMouseEnter={handleDestinationEnter(dest.id)}
           onFocus={handleDestinationFocus(dest.id)}
-          onMouseLeave={handleDestinationLeave}
           onBlur={handleDestinationBlur}
           onPointerDown={handleDestinationPointerDown(dest.id)}
           {...(dest.href.startsWith('http')

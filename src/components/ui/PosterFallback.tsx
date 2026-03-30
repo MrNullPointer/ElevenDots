@@ -53,6 +53,7 @@ export default function PosterFallback({
       <div className={styles.base} />
       <div className={styles.farField} />
       <div className={styles.pressureBands} />
+      <div className={styles.edgeMute} />
       <div className={styles.tonePlane} />
       <div className={styles.grain} />
       <div className={styles.canopy} />
@@ -63,6 +64,7 @@ export default function PosterFallback({
         <div className={styles.apertureSheath} />
         <div className={styles.apertureCore} />
         <div className={styles.apertureAccent} />
+        <div className={styles.apertureSeam} />
       </div>
       <div className={styles.cavityGlow} />
       <div className={styles.enclosureVeil} />
