@@ -3,7 +3,12 @@
 import { useAppStore } from '@/lib/store';
 import styles from './ToggleControls.module.css';
 
-export default function ToggleControls() {
+interface ToggleControlsProps {
+  onInfoToggle: () => void;
+  infoOpen: boolean;
+}
+
+export default function ToggleControls({ onInfoToggle, infoOpen }: ToggleControlsProps) {
   const frozen = useAppStore((s) => s.frozen);
   const toggleFrozen = useAppStore((s) => s.toggleFrozen);
   const setFrozen = useAppStore((s) => s.setFrozen);
@@ -28,7 +33,7 @@ export default function ToggleControls() {
         aria-label={frozen ? 'Resume animations' : 'Pause animations'}
         title={frozen ? 'Resume' : 'Pause'}
       >
-        {frozen ? '▶' : '⏸'}
+        {frozen ? '\u25B6' : '\u23F8'}
       </button>
       <button
         className={styles.toggle}
@@ -37,7 +42,16 @@ export default function ToggleControls() {
         aria-label={`Audio: ${audioState}`}
         title={`Audio: ${audioState}`}
       >
-        {audioState === 'off' ? '🔇' : '🔊'}
+        {audioState === 'off' ? '\uD83D\uDD07' : '\uD83D\uDD0A'}
+      </button>
+      <button
+        className={styles.toggle}
+        onClick={onInfoToggle}
+        aria-pressed={infoOpen}
+        aria-label={infoOpen ? 'Close settings' : 'Open settings'}
+        title="Settings"
+      >
+        {'\u2139'}
       </button>
     </>
   );

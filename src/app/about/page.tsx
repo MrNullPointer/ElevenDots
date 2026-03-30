@@ -1,16 +1,12 @@
 import AboutContent from '@/components/ui/AboutContent';
+import styles from './about.module.css';
 
 export default function AboutPage() {
   return (
-    <main
-      style={{
-        minHeight: '100dvh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem',
-      }}
-    >
+    <main className={styles.page}>
+      <a href="/" className={styles.backLink}>
+        elevendots
+      </a>
       <AboutContent />
     </main>
   );
