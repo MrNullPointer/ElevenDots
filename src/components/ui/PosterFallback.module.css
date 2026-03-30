@@ -15,6 +15,7 @@
   --pressure-opacity: 0.34;
   --pressure-tint: rgba(128, 150, 182, 0.22);
   --pressure-shift: -0.3%;
+  --edge-mute-opacity: 0.76;
   --tone-opacity: 0.48;
   --tone-wash: rgba(112, 136, 168, 0.28);
   --grain-opacity: 0.18;
@@ -28,6 +29,14 @@
   --focal-width: 1.12;
   --focal-height: 1.16;
   --focal-tilt: -5deg;
+  --seam-opacity: 0.34;
+  --seam-tint: rgba(186, 204, 226, 0.22);
+  --seam-horizontal-inset: 37.5%;
+  --seam-top: 13%;
+  --seam-bottom: 16%;
+  --seam-lean: -1deg;
+  --seam-blur: 3px;
+  --core-pocket: rgba(32, 42, 56, 0.12);
   --cavity-glow-opacity: 0.88;
   --cavity-shimmer-opacity: 0.52;
   --enclosure-opacity: 0.42;
@@ -59,6 +68,7 @@
   --field-lift: rgba(42, 58, 82, 0.62);
   --field-core: rgba(28, 42, 60, 0.38);
   --pressure-opacity: 0.26;
+  --edge-mute-opacity: 0.7;
   --tone-opacity: 0.4;
   --cavity-rim: rgba(136, 156, 180, 0.3);
   --cavity-accent: rgba(114, 146, 176, 0.24);
@@ -85,6 +95,14 @@
   --focal-width: 1.18;
   --focal-height: 1.22;
   --focal-tilt: -6deg;
+  --seam-opacity: 0.54;
+  --seam-tint: rgba(154, 244, 236, 0.32);
+  --seam-horizontal-inset: 36.5%;
+  --seam-top: 12%;
+  --seam-bottom: 15%;
+  --seam-lean: -2deg;
+  --seam-blur: 4px;
+  --core-pocket: rgba(26, 54, 60, 0.16);
   --cavity-glow-opacity: 1;
   --cavity-shimmer-opacity: 0.64;
   --enclosure-opacity: 0.22;
@@ -115,6 +133,14 @@
   --focal-width: 1.08;
   --focal-height: 1.12;
   --focal-tilt: -2deg;
+  --seam-opacity: 0.58;
+  --seam-tint: rgba(202, 210, 255, 0.3);
+  --seam-horizontal-inset: 39.5%;
+  --seam-top: 11%;
+  --seam-bottom: 14%;
+  --seam-lean: 0deg;
+  --seam-blur: 2px;
+  --core-pocket: rgba(38, 44, 70, 0.14);
   --cavity-glow-opacity: 0.58;
   --cavity-shimmer-opacity: 0.18;
   --enclosure-opacity: 0.86;
@@ -147,6 +173,14 @@
   --focal-width: 1.08;
   --focal-height: 1.12;
   --focal-tilt: -4deg;
+  --seam-opacity: 0.22;
+  --seam-tint: rgba(176, 188, 208, 0.18);
+  --seam-horizontal-inset: 38.6%;
+  --seam-top: 15%;
+  --seam-bottom: 18%;
+  --seam-lean: -0.5deg;
+  --seam-blur: 2.4px;
+  --core-pocket: rgba(28, 36, 48, 0.16);
   --cavity-glow-opacity: 0.4;
   --cavity-shimmer-opacity: 0.16;
   --enclosure-opacity: 0.26;
@@ -165,6 +199,7 @@
 .poster[data-panel='open'] {
   --field-opacity: 0.82;
   --pressure-opacity: 0.08;
+  --edge-mute-opacity: 0.88;
   --tone-opacity: 0.1;
   --grain-opacity: 0.08;
   --cavity-scale: 0.94;
@@ -187,6 +222,7 @@
 .poster[data-quality='medium'] {
   --field-opacity: 0.92;
   --pressure-opacity: 0.2;
+  --edge-mute-opacity: 0.82;
   --cavity-glow-opacity: 0.42;
   --cavity-shimmer-opacity: 0.22;
   --enclosure-opacity: 0.26;
@@ -199,6 +235,7 @@
 .poster[data-quality='low'] {
   --field-breathe-scale: 1.006;
   --pressure-opacity: 0.08;
+  --edge-mute-opacity: 0.9;
   --tone-opacity: 0.14;
   --grain-opacity: 0.08;
   --cavity-glow-opacity: 0.22;
@@ -222,6 +259,7 @@
 .base,
 .farField,
 .pressureBands,
+.edgeMute,
 .tonePlane,
 .grain,
 .canopy,
@@ -309,8 +347,33 @@
   animation: pressure-drift 22s ease-in-out infinite;
 }
 
-.tonePlane {
+.edgeMute {
   z-index: 3;
+  opacity: var(--edge-mute-opacity);
+  background:
+    radial-gradient(
+      ellipse 28% 20% at -2% 0%,
+      rgba(4, 7, 11, 0.96) 0%,
+      rgba(4, 7, 11, 0.74) 32%,
+      transparent 66%
+    ),
+    radial-gradient(
+      ellipse 24% 16% at 102% 0%,
+      rgba(4, 7, 11, 0.82) 0%,
+      rgba(4, 7, 11, 0.44) 34%,
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(3, 5, 8, 0.28) 0%,
+      rgba(3, 5, 8, 0.06) 18%,
+      transparent 30%
+    );
+  pointer-events: none;
+}
+
+.tonePlane {
+  z-index: 4;
   opacity: var(--tone-opacity);
   background:
     radial-gradient(
@@ -329,7 +392,7 @@
 }
 
 .grain {
-  z-index: 4;
+  z-index: 5;
   opacity: var(--grain-opacity);
   background:
     radial-gradient(circle at 22% 26%, rgba(150, 170, 196, 0.028) 0 0.12rem, transparent 0.2rem),
@@ -347,7 +410,7 @@
 }
 
 .canopy {
-  z-index: 5;
+  z-index: 6;
   top: -4%;
   left: -12%;
   width: 124%;
@@ -391,7 +454,7 @@
 }
 
 .sideMass {
-  z-index: 5;
+  z-index: 6;
   opacity: var(--side-mass-opacity);
   filter: blur(72px);
 }
@@ -419,7 +482,7 @@
 }
 
 .chamberShadow {
-  z-index: 6;
+  z-index: 7;
   opacity: var(--chamber-opacity);
   background:
     radial-gradient(
@@ -431,7 +494,7 @@
 }
 
 .apertureField {
-  z-index: 7;
+  z-index: 8;
   left: 51.7%;
   top: 39%;
   width: calc(clamp(11.4rem, 19vw, 18rem) * var(--focal-width));
@@ -532,10 +595,43 @@
   background:
     radial-gradient(
       ellipse at 54% 24%,
-      rgba(28, 36, 48, 0.12) 0%,
+      var(--core-pocket) 0%,
       rgba(0, 0, 0, 1) 100%
     );
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.72);
+}
+
+.apertureCore::before {
+  content: '';
+  position: absolute;
+  inset: 8% 26% 18%;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--seam-tint) 82%, transparent) 0%,
+      color-mix(in srgb, var(--seam-tint) 42%, rgba(20, 26, 36, 0.18)) 24%,
+      rgba(0, 0, 0, 0.84) 64%,
+      rgba(0, 0, 0, 0.98) 100%
+    );
+  opacity: var(--seam-opacity);
+  filter: blur(calc(var(--seam-blur) * 0.7));
+}
+
+.apertureCore::after {
+  content: '';
+  position: absolute;
+  inset: 12% 34% 42%;
+  border-radius: 999px;
+  background:
+    radial-gradient(
+      ellipse,
+      color-mix(in srgb, var(--seam-tint) 92%, transparent) 0%,
+      transparent 72%
+    );
+  opacity: calc(var(--seam-opacity) * 0.86);
+  filter: blur(calc(var(--seam-blur) * 1.15));
+  mix-blend-mode: screen;
 }
 
 .apertureAccent {
@@ -551,8 +647,27 @@
   filter: blur(4px);
 }
 
+.apertureSeam {
+  position: absolute;
+  inset: var(--seam-top) var(--seam-horizontal-inset) var(--seam-bottom);
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      color-mix(in srgb, var(--seam-tint) 86%, transparent) 14%,
+      color-mix(in srgb, var(--seam-tint) 48%, rgba(22, 30, 40, 0.12)) 34%,
+      rgba(0, 0, 0, 0.82) 68%,
+      rgba(0, 0, 0, 0.98) 100%
+    );
+  opacity: var(--seam-opacity);
+  filter: blur(var(--seam-blur));
+  transform: translateX(-2%) skewY(var(--seam-lean));
+  mix-blend-mode: screen;
+}
+
 .cavityGlow {
-  z-index: 8;
+  z-index: 9;
   opacity: var(--cavity-glow-opacity);
   background:
     radial-gradient(
@@ -571,7 +686,7 @@
 }
 
 .enclosureVeil {
-  z-index: 9;
+  z-index: 10;
   opacity: var(--enclosure-opacity);
   background:
     radial-gradient(
@@ -595,7 +710,7 @@
 }
 
 .spectralVeil {
-  z-index: 10;
+  z-index: 11;
   opacity: var(--spectral-veil-opacity);
   background:
     linear-gradient(
@@ -622,7 +737,7 @@
 }
 
 .dotField {
-  z-index: 11;
+  z-index: 12;
   opacity: var(--dot-field-opacity);
   filter: blur(var(--dot-blur));
   transition: opacity 520ms var(--ease-out);
@@ -688,7 +803,7 @@
 }
 
 .destinationWash {
-  z-index: 12;
+  z-index: 13;
   opacity: var(--destination-wash-opacity);
   background:
     radial-gradient(
@@ -712,7 +827,7 @@
 }
 
 .panelSettle {
-  z-index: 13;
+  z-index: 14;
   opacity: var(--panel-settle-opacity);
   background:
     radial-gradient(
@@ -730,7 +845,7 @@
 }
 
 .lowerDepth {
-  z-index: 14;
+  z-index: 15;
   opacity: var(--lower-depth-opacity);
   background:
     linear-gradient(
@@ -742,7 +857,7 @@
 }
 
 .vignette {
-  z-index: 15;
+  z-index: 16;
   opacity: var(--vignette-opacity);
   background:
     radial-gradient(

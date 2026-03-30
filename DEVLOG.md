@@ -575,3 +575,19 @@
 - Validation:
   - `npm run build` passes after refinement
   - updated production and lifted review captures regenerated from the built `out/` export
+
+### Phase 2C — State Refinement and Nav Handoff (complete)
+
+- Sharpened the poster-first focal event without changing the homepage architecture:
+  - added an `edgeMute` layer to suppress the lingering upper-corner arc read
+  - introduced a restrained internal `apertureSeam` so the central collapse reads as one authored event instead of a diffuse glow
+  - tuned scene veil blur and structural emphasis per destination so Pulse/Axiom/About separate more cleanly in frozen frames
+- Smoothed shell choreography at the navigation rail:
+  - moved idle reset behavior from per-link boundaries to whole-nav exit/blur handling
+  - added a short destination clear delay so pointer travel between tabs no longer flashes through idle
+  - preserved hover, focus-visible, touch preview, real anchor semantics, and About modal interception rules
+- Added direct standalone `/about` visual coverage:
+  - new Playwright capture in `tests/visual/about-page.spec.ts`
+- Validation:
+  - `npm run build` passes
+  - `npx playwright test tests/visual/stage2-shell.spec.ts tests/visual/about-page.spec.ts --project=desktop --config=.tmp-playwright-6001.config.ts --update-snapshots` passes against local dev server on `localhost:6001`
