@@ -591,3 +591,21 @@
 - Validation:
   - `npm run build` passes
   - `npx playwright test tests/visual/stage2-shell.spec.ts tests/visual/about-page.spec.ts --project=desktop --config=.tmp-playwright-6001.config.ts --update-snapshots` passes against local dev server on `localhost:6001`
+
+### Phase 2D — Collapse Silhouette and Coverage Expansion (complete)
+
+- Tightened the homepage center into a more singular collapse event without changing the poster-first architecture:
+  - added a recessed `aperturePocket` layer inside the existing focal field
+  - parameterized the inner shell, lens, pocket, core, and accent insets so Pulse, Axiom, and About can change character through shape rather than only wash/opacity
+  - kept the world coherent by reusing the same focal stack and only modulating its emphasis per destination
+- Strengthened destination separation in the ambient veil:
+  - pulse now carries a narrower, more energized signal cluster
+  - axiom reads more exact through a tighter structural core
+  - about opens into a softer, deeper center with reduced signal density
+- Expanded visual coverage beyond desktop-high:
+  - added desktop `medium` and `low` pulse baselines
+  - added mobile homepage baselines for shared Stage 2 states plus mobile-specific pulse/about captures
+  - added mobile `/about` coverage alongside the existing desktop capture
+- Validation:
+  - `next build` passes via direct Node invocation
+  - Playwright visual suite passes on `desktop` and `mobile` against `localhost:6001`

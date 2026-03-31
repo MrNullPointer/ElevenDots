@@ -9,11 +9,21 @@
   --shear-accent: rgba(128, 148, 180, 0.18);
   --signal-accent: rgba(112, 140, 176, 0.18);
   --signal-opacity: 0.4;
+  --signal-core-width: 11%;
+  --signal-core-height: 7%;
+  --signal-bloom-width: 34%;
+  --signal-bloom-height: 18%;
   --cavity-opacity: 0.5;
   --cavity-blur: 22px;
+  --cavity-core-width: 24%;
+  --cavity-core-height: 16%;
+  --cavity-bloom-width: 38%;
+  --cavity-bloom-height: 20%;
   --structural-opacity: 0.24;
   --structural-tint: rgba(118, 140, 172, 0.2);
   --structural-blur: 18px;
+  --structural-core-width: 34%;
+  --structural-core-height: 20%;
   --atmosphere-opacity: 0.82;
   transition:
     opacity 560ms var(--ease-out),
@@ -44,8 +54,16 @@
   --signal-accent: rgba(78, 205, 196, 0.24);
   opacity: 0.64;
   --signal-opacity: 0.66;
+  --signal-core-width: 10%;
+  --signal-core-height: 6%;
+  --signal-bloom-width: 36%;
+  --signal-bloom-height: 18%;
   --cavity-opacity: 0.62;
   --cavity-blur: 24px;
+  --cavity-core-width: 22%;
+  --cavity-core-height: 14%;
+  --cavity-bloom-width: 36%;
+  --cavity-bloom-height: 18%;
   --structural-opacity: 0.12;
   --structural-tint: rgba(78, 205, 196, 0.12);
   --structural-blur: 20px;
@@ -59,11 +77,21 @@
   --signal-accent: rgba(146, 158, 206, 0.24);
   opacity: 0.58;
   --signal-opacity: 0.4;
+  --signal-core-width: 10%;
+  --signal-core-height: 6%;
+  --signal-bloom-width: 30%;
+  --signal-bloom-height: 16%;
   --cavity-opacity: 0.44;
   --cavity-blur: 18px;
+  --cavity-core-width: 22%;
+  --cavity-core-height: 14%;
+  --cavity-bloom-width: 32%;
+  --cavity-bloom-height: 18%;
   --structural-opacity: 0.56;
   --structural-tint: rgba(156, 170, 214, 0.32);
   --structural-blur: 12px;
+  --structural-core-width: 30%;
+  --structural-core-height: 18%;
   --atmosphere-opacity: 0.82;
   filter: contrast(1.1);
 }
@@ -74,8 +102,16 @@
   --signal-accent: rgba(132, 144, 164, 0.16);
   opacity: 0.42;
   --signal-opacity: 0.22;
+  --signal-core-width: 13%;
+  --signal-core-height: 8%;
+  --signal-bloom-width: 38%;
+  --signal-bloom-height: 22%;
   --cavity-opacity: 0.3;
   --cavity-blur: 24px;
+  --cavity-core-width: 28%;
+  --cavity-core-height: 18%;
+  --cavity-bloom-width: 42%;
+  --cavity-bloom-height: 24%;
   --structural-opacity: 0.12;
   --structural-tint: rgba(126, 140, 160, 0.1);
   --structural-blur: 20px;
@@ -103,8 +139,14 @@
   --signal-opacity: 0.24;
   --cavity-opacity: 0.22;
   --cavity-blur: 20px;
+  --signal-bloom-width: 32%;
+  --signal-bloom-height: 16%;
+  --cavity-bloom-width: 34%;
+  --cavity-bloom-height: 18%;
   --structural-opacity: 0.12;
   --structural-blur: 16px;
+  --structural-core-width: 30%;
+  --structural-core-height: 18%;
   --atmosphere-opacity: 0.52;
 }
 
@@ -114,8 +156,14 @@
   --signal-opacity: 0.14;
   --cavity-opacity: 0.14;
   --cavity-blur: 18px;
+  --signal-bloom-width: 28%;
+  --signal-bloom-height: 14%;
+  --cavity-bloom-width: 30%;
+  --cavity-bloom-height: 16%;
   --structural-opacity: 0.08;
   --structural-blur: 14px;
+  --structural-core-width: 28%;
+  --structural-core-height: 16%;
   --atmosphere-opacity: 0.48;
 }
 
@@ -186,12 +234,12 @@
       transparent 82%
     ),
     radial-gradient(
-      ellipse at 52.1% 39.5%,
+      ellipse var(--signal-core-width) var(--signal-core-height) at 52.1% 39.5%,
       color-mix(in srgb, var(--signal-accent) 64%, rgba(156, 180, 208, 0.18)) 0%,
       transparent 2.4%
     ),
     radial-gradient(
-      ellipse 34% 18% at 51.7% 39.2%,
+      ellipse var(--signal-bloom-width) var(--signal-bloom-height) at 51.7% 39.2%,
       color-mix(in srgb, var(--signal-accent) 22%, transparent) 0%,
       transparent 84%
     );
@@ -203,12 +251,12 @@
   opacity: var(--cavity-opacity);
   background:
     radial-gradient(
-      ellipse 24% 16% at 51.7% 39.2%,
+      ellipse var(--cavity-core-width) var(--cavity-core-height) at 51.7% 39.2%,
       color-mix(in srgb, var(--signal-accent) 58%, transparent) 0%,
       transparent 82%
     ),
     radial-gradient(
-      ellipse 38% 20% at 51.7% 41.2%,
+      ellipse var(--cavity-bloom-width) var(--cavity-bloom-height) at 51.7% 41.2%,
       color-mix(in srgb, var(--signal-accent) 22%, transparent) 0%,
       transparent 76%
     );
@@ -221,7 +269,7 @@
   opacity: var(--structural-opacity);
   background:
     radial-gradient(
-      ellipse 34% 20% at 51.7% 40.2%,
+      ellipse var(--structural-core-width) var(--structural-core-height) at 51.7% 40.2%,
       color-mix(in srgb, var(--structural-tint) 62%, transparent) 0%,
       transparent 76%
     ),

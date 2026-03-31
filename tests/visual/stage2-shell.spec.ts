@@ -93,6 +93,28 @@ test.describe('Stage 2 shell states', () => {
     });
     await expect(page).toHaveScreenshot('stage2-panel-open.png');
   });
+
+  test('medium quality pulse', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'desktop-only quality coverage');
+    await openStageState(page, {
+      state: {
+        activeDestination: 'pulse',
+        qualityTier: 'medium',
+      },
+    });
+    await expect(page).toHaveScreenshot('stage2-medium-pulse.png');
+  });
+
+  test('low quality pulse', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'desktop-only quality coverage');
+    await openStageState(page, {
+      state: {
+        activeDestination: 'pulse',
+        qualityTier: 'low',
+      },
+    });
+    await expect(page).toHaveScreenshot('stage2-low-pulse.png');
+  });
 });
 
 test.describe('Stage 2 reduced motion', () => {
@@ -106,5 +128,27 @@ test.describe('Stage 2 reduced motion', () => {
       },
     });
     await expect(page).toHaveScreenshot('stage2-reduced-motion.png');
+  });
+});
+
+test.describe('Stage 2 mobile shell', () => {
+  test('mobile pulse focused', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile', 'mobile-only coverage');
+    await openStageState(page, {
+      state: {
+        activeDestination: 'pulse',
+      },
+    });
+    await expect(page).toHaveScreenshot('stage2-mobile-pulse.png');
+  });
+
+  test('mobile about focused', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile', 'mobile-only coverage');
+    await openStageState(page, {
+      state: {
+        activeDestination: 'about',
+      },
+    });
+    await expect(page).toHaveScreenshot('stage2-mobile-about.png');
   });
 });
