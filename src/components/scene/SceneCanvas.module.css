@@ -3,31 +3,37 @@
   inset: 0;
   z-index: var(--z-scene);
   pointer-events: none;
-  opacity: 0.48;
-  --ambient-opacity: 0.92;
-  --shear-opacity: 0.24;
-  --shear-accent: rgba(128, 148, 180, 0.18);
-  --signal-accent: rgba(112, 140, 176, 0.18);
-  --signal-opacity: 0.4;
-  --signal-core-width: 11%;
-  --signal-core-height: 7%;
-  --signal-bloom-width: 34%;
-  --signal-bloom-height: 18%;
-  --cavity-opacity: 0.5;
-  --cavity-blur: 22px;
-  --cavity-core-width: 24%;
-  --cavity-core-height: 16%;
-  --cavity-bloom-width: 38%;
-  --cavity-bloom-height: 20%;
-  --structural-opacity: 0.24;
-  --structural-tint: rgba(118, 140, 172, 0.2);
-  --structural-blur: 18px;
-  --structural-core-width: 34%;
-  --structural-core-height: 20%;
-  --atmosphere-opacity: 0.82;
+  opacity: 0.22;
+  --ambient-opacity: 0.74;
+  --shear-opacity: 0.08;
+  --shear-accent: rgba(120, 140, 172, 0.1);
+  --signal-accent: rgba(112, 140, 176, 0.16);
+  --signal-opacity: 0.18;
+  --signal-core-width: 8%;
+  --signal-core-height: 10%;
+  --signal-bloom-width: 20%;
+  --signal-bloom-height: 14%;
+  --cavity-opacity: 0.18;
+  --cavity-blur: 16px;
+  --cavity-core-width: 18%;
+  --cavity-core-height: 12%;
+  --cavity-bloom-width: 24%;
+  --cavity-bloom-height: 15%;
+  --structural-opacity: 0.16;
+  --structural-tint: rgba(118, 140, 172, 0.14);
+  --structural-blur: 14px;
+  --structural-core-width: 30%;
+  --structural-core-height: 16%;
+  --atmosphere-opacity: 0.46;
   transition:
     opacity 560ms var(--ease-out),
-    filter 560ms var(--ease-out);
+    filter 560ms var(--ease-out),
+    transform 760ms cubic-bezier(0.2, 0.84, 0.24, 1);
+  transform: translate3d(
+    calc(var(--depth-x) * 0.16rem),
+    calc(var(--depth-y) * 0.12rem),
+    0
+  );
 }
 
 .sceneFrame[data-phase='loading'] {
@@ -35,136 +41,133 @@
 }
 
 .sceneFrame[data-phase='entering'] {
-  opacity: 0.3;
+  opacity: 0.18;
 }
 
 .sceneFrame[data-phase='navigating'] {
-  opacity: 0.46;
+  opacity: 0.26;
 }
 
 .sceneFrame[data-exposure='lift'] {
-  opacity: 0.54;
-  --signal-opacity: 0.48;
-  --cavity-opacity: 0.56;
+  opacity: 0.28;
+  --signal-opacity: 0.22;
+  --cavity-opacity: 0.22;
 }
 
 .sceneFrame[data-destination='pulse'] {
-  --shear-opacity: 0.28;
-  --shear-accent: rgba(78, 205, 196, 0.18);
-  --signal-accent: rgba(78, 205, 196, 0.24);
-  opacity: 0.64;
-  --signal-opacity: 0.66;
-  --signal-core-width: 10%;
-  --signal-core-height: 6%;
-  --signal-bloom-width: 36%;
-  --signal-bloom-height: 18%;
-  --cavity-opacity: 0.62;
-  --cavity-blur: 24px;
-  --cavity-core-width: 22%;
-  --cavity-core-height: 14%;
-  --cavity-bloom-width: 36%;
-  --cavity-bloom-height: 18%;
-  --structural-opacity: 0.12;
-  --structural-tint: rgba(78, 205, 196, 0.12);
-  --structural-blur: 20px;
-  --atmosphere-opacity: 0.88;
-  filter: saturate(1.12) contrast(1.04);
+  --shear-opacity: 0.12;
+  --shear-accent: rgba(78, 205, 196, 0.12);
+  --signal-accent: rgba(78, 205, 196, 0.2);
+  opacity: 0.3;
+  --signal-opacity: 0.34;
+  --signal-core-width: 7.4%;
+  --signal-core-height: 11%;
+  --signal-bloom-width: 19%;
+  --signal-bloom-height: 14%;
+  --cavity-opacity: 0.28;
+  --cavity-blur: 18px;
+  --cavity-core-width: 16%;
+  --cavity-core-height: 12%;
+  --cavity-bloom-width: 22%;
+  --cavity-bloom-height: 16%;
+  --structural-opacity: 0.08;
+  --structural-tint: rgba(78, 205, 196, 0.08);
+  --structural-blur: 16px;
+  --atmosphere-opacity: 0.52;
+  filter: saturate(1.04) contrast(1.03);
 }
 
 .sceneFrame[data-destination='axiom'] {
-  --shear-opacity: 0.28;
-  --shear-accent: rgba(156, 168, 214, 0.18);
-  --signal-accent: rgba(146, 158, 206, 0.24);
-  opacity: 0.58;
-  --signal-opacity: 0.4;
-  --signal-core-width: 10%;
-  --signal-core-height: 6%;
-  --signal-bloom-width: 30%;
-  --signal-bloom-height: 16%;
-  --cavity-opacity: 0.44;
-  --cavity-blur: 18px;
-  --cavity-core-width: 22%;
-  --cavity-core-height: 14%;
-  --cavity-bloom-width: 32%;
-  --cavity-bloom-height: 18%;
-  --structural-opacity: 0.56;
-  --structural-tint: rgba(156, 170, 214, 0.32);
-  --structural-blur: 12px;
-  --structural-core-width: 30%;
-  --structural-core-height: 18%;
-  --atmosphere-opacity: 0.82;
-  filter: contrast(1.1);
+  --shear-opacity: 0.08;
+  --shear-accent: rgba(156, 168, 214, 0.12);
+  --signal-accent: rgba(146, 158, 206, 0.18);
+  opacity: 0.26;
+  --signal-opacity: 0.18;
+  --signal-core-width: 7.8%;
+  --signal-core-height: 10%;
+  --signal-bloom-width: 16%;
+  --signal-bloom-height: 12%;
+  --cavity-opacity: 0.16;
+  --cavity-blur: 14px;
+  --cavity-core-width: 15%;
+  --cavity-core-height: 11%;
+  --cavity-bloom-width: 20%;
+  --cavity-bloom-height: 14%;
+  --structural-opacity: 0.3;
+  --structural-tint: rgba(156, 170, 214, 0.22);
+  --structural-blur: 10px;
+  --structural-core-width: 28%;
+  --structural-core-height: 14%;
+  --atmosphere-opacity: 0.44;
+  filter: contrast(1.06);
 }
 
 .sceneFrame[data-destination='about'] {
-  --shear-opacity: 0.12;
-  --shear-accent: rgba(132, 144, 164, 0.1);
-  --signal-accent: rgba(132, 144, 164, 0.16);
-  opacity: 0.42;
-  --signal-opacity: 0.22;
-  --signal-core-width: 13%;
-  --signal-core-height: 8%;
-  --signal-bloom-width: 38%;
-  --signal-bloom-height: 22%;
-  --cavity-opacity: 0.3;
-  --cavity-blur: 24px;
-  --cavity-core-width: 28%;
-  --cavity-core-height: 18%;
-  --cavity-bloom-width: 42%;
-  --cavity-bloom-height: 24%;
-  --structural-opacity: 0.12;
-  --structural-tint: rgba(126, 140, 160, 0.1);
-  --structural-blur: 20px;
-  --atmosphere-opacity: 0.62;
+  --shear-opacity: 0.04;
+  --shear-accent: rgba(132, 144, 164, 0.08);
+  --signal-accent: rgba(132, 144, 164, 0.12);
+  opacity: 0.16;
+  --signal-opacity: 0.08;
+  --signal-core-width: 9%;
+  --signal-core-height: 11%;
+  --signal-bloom-width: 18%;
+  --signal-bloom-height: 16%;
+  --cavity-opacity: 0.12;
+  --cavity-blur: 18px;
+  --cavity-core-width: 18%;
+  --cavity-core-height: 13%;
+  --cavity-bloom-width: 22%;
+  --cavity-bloom-height: 16%;
+  --structural-opacity: 0.08;
+  --structural-tint: rgba(126, 140, 160, 0.08);
+  --structural-blur: 16px;
+  --atmosphere-opacity: 0.32;
   filter: brightness(0.97);
 }
 
 .sceneFrame[data-panel='open'] {
-  opacity: 0.2;
+  opacity: 0.1;
   --shear-opacity: 0.04;
-  --signal-opacity: 0.08;
-  --cavity-opacity: 0.1;
-  --cavity-blur: 20px;
+  --signal-opacity: 0.04;
+  --cavity-opacity: 0.04;
+  --cavity-blur: 14px;
   --structural-opacity: 0.08;
-  --atmosphere-opacity: 0.42;
+  --atmosphere-opacity: 0.22;
 }
 
 .sceneFrame[data-quality='high'] {
-  opacity: 0.56;
 }
 
 .sceneFrame[data-quality='medium'] {
-  opacity: 0.34;
-  --shear-opacity: 0.12;
-  --signal-opacity: 0.24;
-  --cavity-opacity: 0.22;
-  --cavity-blur: 20px;
-  --signal-bloom-width: 32%;
-  --signal-bloom-height: 16%;
-  --cavity-bloom-width: 34%;
-  --cavity-bloom-height: 18%;
+  --shear-opacity: 0.04;
+  --signal-opacity: 0.12;
+  --cavity-opacity: 0.12;
+  --cavity-blur: 14px;
+  --signal-bloom-width: 18%;
+  --signal-bloom-height: 12%;
+  --cavity-bloom-width: 20%;
+  --cavity-bloom-height: 14%;
   --structural-opacity: 0.12;
-  --structural-blur: 16px;
-  --structural-core-width: 30%;
-  --structural-core-height: 18%;
-  --atmosphere-opacity: 0.52;
+  --structural-blur: 12px;
+  --structural-core-width: 28%;
+  --structural-core-height: 15%;
+  --atmosphere-opacity: 0.28;
 }
 
 .sceneFrame[data-quality='low'] {
-  opacity: 0.26;
-  --shear-opacity: 0.06;
-  --signal-opacity: 0.14;
-  --cavity-opacity: 0.14;
-  --cavity-blur: 18px;
-  --signal-bloom-width: 28%;
-  --signal-bloom-height: 14%;
-  --cavity-bloom-width: 30%;
-  --cavity-bloom-height: 16%;
-  --structural-opacity: 0.08;
-  --structural-blur: 14px;
+  --shear-opacity: 0.02;
+  --signal-opacity: 0.06;
+  --cavity-opacity: 0.06;
+  --cavity-blur: 12px;
+  --signal-bloom-width: 14%;
+  --signal-bloom-height: 10%;
+  --cavity-bloom-width: 16%;
+  --cavity-bloom-height: 12%;
+  --structural-opacity: 0.06;
+  --structural-blur: 10px;
   --structural-core-width: 28%;
-  --structural-core-height: 16%;
-  --atmosphere-opacity: 0.48;
+  --structural-core-height: 14%;
+  --atmosphere-opacity: 0.22;
 }
 
 .ambientVeil,
@@ -181,20 +184,20 @@
   opacity: var(--ambient-opacity);
   background:
     radial-gradient(
-      ellipse 78% 56% at 50% 66%,
-      rgba(6, 10, 16, 0.1) 0%,
+      ellipse 92% 64% at 50% 84%,
+      rgba(4, 7, 11, 0.08) 0%,
       transparent 74%
     ),
     radial-gradient(
-      ellipse 70% 52% at 50% 38%,
-      rgba(10, 16, 24, 0.08) 0%,
-      transparent 76%
+      ellipse 90% 60% at 50% 8%,
+      rgba(4, 7, 11, 0.1) 0%,
+      transparent 82%
     ),
     linear-gradient(
       180deg,
-      rgba(4, 7, 11, 0.08) 0%,
+      rgba(4, 7, 11, 0.06) 0%,
       rgba(4, 7, 11, 0) 24%,
-      rgba(3, 5, 9, 0.16) 100%
+      rgba(3, 5, 9, 0.12) 100%
     );
 }
 
@@ -202,49 +205,55 @@
   opacity: var(--shear-opacity);
   background:
     linear-gradient(
-      108deg,
-      transparent 24%,
-      color-mix(in srgb, var(--shear-accent) 62%, transparent) 46%,
-      transparent 60%
+      102deg,
+      transparent 34%,
+      color-mix(in srgb, var(--shear-accent) 58%, transparent) 46%,
+      transparent 56%
     ),
     linear-gradient(
-      72deg,
-      transparent 28%,
-      color-mix(in srgb, var(--shear-accent) 48%, transparent) 50%,
-      transparent 64%
+      78deg,
+      transparent 36%,
+      color-mix(in srgb, var(--shear-accent) 42%, transparent) 50%,
+      transparent 60%
     );
-  filter: blur(32px);
+  filter: blur(24px);
   mix-blend-mode: screen;
-  mask-image: radial-gradient(ellipse 82% 60% at 50% 42%, rgba(0, 0, 0, 0.96) 0%, transparent 92%);
+  mask-image: radial-gradient(ellipse 62% 42% at 50% 40%, rgba(0, 0, 0, 0.94) 0%, transparent 90%);
   animation: shear-drift 24s ease-in-out infinite;
+  transform: translate3d(
+    calc(var(--depth-x) * -0.48rem),
+    calc(var(--depth-y) * -0.3rem),
+    0
+  );
 }
 
 .signalField {
   opacity: var(--signal-opacity);
   background:
     radial-gradient(
-      ellipse 18% 12% at 51.7% 39.2%,
-      rgba(4, 7, 11, 0.12) 0%,
-      transparent 72%
-    ),
-    radial-gradient(
-      ellipse 11% 7% at 51.7% 39.2%,
-      transparent 0 62%,
-      color-mix(in srgb, var(--signal-accent) 82%, transparent) 74%,
-      transparent 82%
-    ),
-    radial-gradient(
       ellipse var(--signal-core-width) var(--signal-core-height) at 52.1% 39.5%,
-      color-mix(in srgb, var(--signal-accent) 64%, rgba(156, 180, 208, 0.18)) 0%,
-      transparent 2.4%
+      transparent 0 44%,
+      color-mix(in srgb, var(--signal-accent) 76%, transparent) 58%,
+      transparent 76%
     ),
     radial-gradient(
       ellipse var(--signal-bloom-width) var(--signal-bloom-height) at 51.7% 39.2%,
-      color-mix(in srgb, var(--signal-accent) 22%, transparent) 0%,
-      transparent 84%
+      color-mix(in srgb, var(--signal-accent) 16%, transparent) 0%,
+      transparent 82%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 38%,
+      color-mix(in srgb, var(--signal-accent) 24%, transparent) 50%,
+      transparent 62%
     );
   filter: blur(0.15px);
   animation: signal-glow 18s ease-in-out infinite;
+  transform: translate3d(
+    calc(var(--depth-x) * -0.72rem),
+    calc(var(--depth-y) * -0.44rem),
+    0
+  );
 }
 
 .cavityHalo {
@@ -252,17 +261,23 @@
   background:
     radial-gradient(
       ellipse var(--cavity-core-width) var(--cavity-core-height) at 51.7% 39.2%,
-      color-mix(in srgb, var(--signal-accent) 58%, transparent) 0%,
+      transparent 0 52%,
+      color-mix(in srgb, var(--signal-accent) 42%, transparent) 68%,
       transparent 82%
     ),
     radial-gradient(
       ellipse var(--cavity-bloom-width) var(--cavity-bloom-height) at 51.7% 41.2%,
-      color-mix(in srgb, var(--signal-accent) 22%, transparent) 0%,
+      color-mix(in srgb, var(--signal-accent) 12%, transparent) 0%,
       transparent 76%
     );
   filter: blur(var(--cavity-blur));
   mix-blend-mode: screen;
   animation: cavity-pulse 20s ease-in-out infinite;
+  transform: translate3d(
+    calc(var(--depth-x) * -0.96rem),
+    calc(var(--depth-y) * -0.58rem),
+    0
+  );
 }
 
 .structuralField {
@@ -270,49 +285,55 @@
   background:
     radial-gradient(
       ellipse var(--structural-core-width) var(--structural-core-height) at 51.7% 40.2%,
-      color-mix(in srgb, var(--structural-tint) 62%, transparent) 0%,
-      transparent 76%
+      transparent 0 56%,
+      color-mix(in srgb, var(--structural-tint) 58%, transparent) 74%,
+      transparent 82%
     ),
     radial-gradient(
-      ellipse 24% 44% at 18% 44%,
-      color-mix(in srgb, var(--structural-tint) 54%, transparent) 0%,
+      ellipse 14% 30% at 18% 58%,
+      color-mix(in srgb, var(--structural-tint) 46%, transparent) 0%,
       transparent 72%
     ),
     radial-gradient(
-      ellipse 24% 44% at 82% 44%,
-      color-mix(in srgb, var(--structural-tint) 54%, transparent) 0%,
+      ellipse 14% 30% at 82% 58%,
+      color-mix(in srgb, var(--structural-tint) 46%, transparent) 0%,
       transparent 72%
     ),
     linear-gradient(
       180deg,
-      transparent 8%,
-      color-mix(in srgb, var(--structural-tint) 24%, transparent) 34%,
+      transparent 16%,
+      color-mix(in srgb, var(--structural-tint) 18%, transparent) 34%,
       transparent 62%,
-      color-mix(in srgb, var(--structural-tint) 18%, transparent) 88%,
+      color-mix(in srgb, var(--structural-tint) 12%, transparent) 84%,
       transparent 100%
     );
   filter: blur(var(--structural-blur));
-  mask-image: radial-gradient(ellipse 70% 52% at 50% 44%, rgba(0, 0, 0, 1) 0%, transparent 88%);
+  mask-image: radial-gradient(ellipse 64% 44% at 50% 42%, rgba(0, 0, 0, 1) 0%, transparent 86%);
+  transform: translate3d(
+    calc(var(--depth-x) * -0.36rem),
+    calc(var(--depth-y) * -0.22rem),
+    0
+  );
 }
 
 .atmosphere {
   opacity: var(--atmosphere-opacity);
   background:
     radial-gradient(
-      ellipse 84% 56% at 50% 76%,
-      rgba(6, 10, 16, 0.08) 0%,
+      ellipse 84% 56% at 50% 80%,
+      rgba(6, 10, 16, 0.06) 0%,
       transparent 72%
     ),
     radial-gradient(
-      ellipse 52% 28% at 50% 42%,
-      rgba(10, 16, 26, 0.04) 0%,
+      ellipse 30% 18% at 50% 42%,
+      rgba(10, 16, 26, 0.03) 0%,
       transparent 78%
     ),
     linear-gradient(
       180deg,
-      rgba(4, 7, 11, 0.06) 0%,
+      rgba(4, 7, 11, 0.04) 0%,
       rgba(4, 7, 11, 0) 26%,
-      rgba(3, 5, 9, 0.16) 100%
+      rgba(3, 5, 9, 0.1) 100%
     );
   animation: atmosphere-shift 24s ease-in-out infinite;
 }
@@ -333,6 +354,17 @@
 .sceneFrame[data-motion='reduced'] .cavityHalo,
 .sceneFrame[data-motion='reduced'] .atmosphere {
   animation: none;
+}
+
+.sceneFrame[data-motion='reduced'] {
+  transform: none;
+}
+
+.sceneFrame[data-motion='reduced'] .shearField,
+.sceneFrame[data-motion='reduced'] .signalField,
+.sceneFrame[data-motion='reduced'] .cavityHalo,
+.sceneFrame[data-motion='reduced'] .structuralField {
+  transform: none;
 }
 
 @keyframes shear-drift {

@@ -67,6 +67,7 @@ export default function PosterFallback({
         <div className={styles.apertureAccent} />
         <div className={styles.apertureSeam} />
       </div>
+      <div className={styles.focalOcclusion} />
       <div className={styles.cavityGlow} />
       <div className={styles.enclosureVeil} />
       <div className={styles.spectralVeil} />

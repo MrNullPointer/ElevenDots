@@ -12,6 +12,8 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --depth-x: 0;
+  --depth-y: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
