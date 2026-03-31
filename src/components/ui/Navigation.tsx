@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  type CSSProperties,
   type FocusEvent,
   type MouseEvent,
   type PointerEvent,
@@ -23,6 +24,7 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
   const setActiveDestination = useAppStore((s) => s.setActiveDestination);
   const setLastInteractionSource = useAppStore((s) => s.setLastInteractionSource);
   const activeId = activeDestination === 'idle' ? null : activeDestination;
+  const activeIndex = activeId ? DESTINATION_LIST.findIndex((dest) => dest.id === activeId) : -1;
   const navRef = useRef<HTMLElement>(null);
   const navResetTimeoutRef = useRef<number | null>(null);
   const touchPreviewTimeoutRef = useRef<number | null>(null);
@@ -137,6 +139,7 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
       className={styles.nav}
       data-active={activeId ?? 'idle'}
       data-panel={panelOpen ? 'open' : 'closed'}
+      style={{ '--nav-active-index': String(Math.max(activeIndex, 0)) } as CSSProperties}
       aria-label="Main navigation"
       onMouseLeave={handleNavLeave}
     >

@@ -16,31 +16,31 @@
   content: '';
   position: absolute;
   top: 0;
-  height: 8rem;
+  height: 7.2rem;
   pointer-events: none;
-  filter: blur(24px);
-  opacity: 0.74;
+  filter: blur(28px);
+  opacity: 0.58;
 }
 
 .topBar::before {
   left: 0;
-  width: min(30rem, 46vw);
+  width: min(24rem, 36vw);
   background:
     radial-gradient(
-      ellipse at 18% 12%,
-      color-mix(in srgb, var(--shell-accent-strong) 68%, transparent) 0%,
-      transparent 72%
+      ellipse at 14% 8%,
+      color-mix(in srgb, var(--shell-accent-strong) 42%, transparent) 0%,
+      transparent 78%
     );
 }
 
 .topBar::after {
   right: 0;
-  width: min(28rem, 44vw);
+  width: min(20rem, 32vw);
   background:
     radial-gradient(
-      ellipse at 82% 12%,
-      color-mix(in srgb, var(--shell-accent) 58%, transparent) 0%,
-      transparent 72%
+      ellipse at 86% 10%,
+      color-mix(in srgb, var(--shell-accent) 38%, transparent) 0%,
+      transparent 78%
     );
 }
 
@@ -56,39 +56,40 @@
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: var(--text-sm);
+  font-size: 0.72rem;
   font-weight: 400;
-  letter-spacing: 0.27em;
+  letter-spacing: 0.3em;
   color: var(--shell-wordmark-color);
   opacity: var(--shell-wordmark-opacity);
   text-decoration: none;
   text-transform: lowercase;
   text-shadow: var(--shell-wordmark-shadow);
   transition:
-    opacity var(--shell-duration-fast) var(--ease-out),
-    color var(--shell-duration-fast) var(--ease-out),
-    text-shadow var(--shell-duration-settle) var(--ease-out);
+    opacity var(--shell-duration-fast) var(--shell-ease-primary),
+    color var(--shell-duration-fast) var(--shell-ease-primary),
+    text-shadow var(--shell-duration-settle) var(--shell-ease-settle);
   user-select: none;
 }
 
 .controls {
+  position: relative;
   display: flex;
-  gap: var(--space-2);
-  padding: 0.25rem;
-  border: 1px solid color-mix(in srgb, var(--shell-edge) 84%, var(--shell-rail-border));
+  gap: 0.34rem;
+  padding: 0.28rem;
+  border: 1px solid color-mix(in srgb, var(--shell-edge) 72%, var(--shell-rail-border));
   border-radius: var(--radius-full);
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--shell-surface) 68%, transparent) 0%,
-    color-mix(in srgb, var(--shell-surface-strong) 88%, transparent) 100%
+    color-mix(in srgb, var(--shell-surface) 76%, transparent) 0%,
+    color-mix(in srgb, var(--shell-surface-strong) 92%, transparent) 100%
   );
   box-shadow:
-    0 22px 54px rgba(0, 0, 0, 0.3),
-    0 0 30px color-mix(in srgb, var(--shell-rail-glow) 28%, transparent);
+    0 18px 42px rgba(0, 0, 0, 0.28),
+    0 0 20px color-mix(in srgb, var(--shell-rail-glow) 18%, transparent);
   transition:
-    border-color var(--shell-duration-fast) var(--ease-out),
-    background var(--shell-duration-fast) var(--ease-out),
-    box-shadow var(--shell-duration-settle) var(--ease-out);
+    border-color var(--shell-duration-fast) var(--shell-ease-primary),
+    background var(--shell-duration-fast) var(--shell-ease-primary),
+    box-shadow var(--shell-duration-settle) var(--shell-ease-settle);
 }
 
 .controls::before {
@@ -99,8 +100,8 @@
   background:
     linear-gradient(
       180deg,
-      rgba(232, 240, 255, 0.06) 0%,
-      rgba(232, 240, 255, 0.01) 30%,
+      rgba(232, 240, 255, 0.05) 0%,
+      rgba(232, 240, 255, 0.008) 34%,
       rgba(0, 0, 0, 0.08) 100%
     );
   pointer-events: none;
@@ -112,8 +113,8 @@
 
 .topBar[data-destination='pulse'] .controls {
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.24),
-    0 0 30px rgba(78, 205, 196, 0.1);
+    0 18px 42px rgba(0, 0, 0, 0.26),
+    0 0 18px rgba(78, 205, 196, 0.08);
 }
 
 .topBar[data-destination='axiom'] .wordmark {
@@ -123,7 +124,7 @@
 .topBar[data-destination='axiom'] .controls {
   box-shadow:
     0 18px 40px rgba(0, 0, 0, 0.24),
-    0 0 24px rgba(132, 146, 184, 0.08);
+    0 0 14px rgba(132, 146, 184, 0.06);
 }
 
 .topBar[data-destination='about'] .wordmark {
@@ -133,6 +134,6 @@
 .topBar[data-panel='open'] .controls {
   border-color: var(--shell-edge-strong);
   box-shadow:
-    0 22px 50px rgba(0, 0, 0, 0.3),
-    0 0 18px rgba(0, 0, 0, 0.12);
+    0 20px 46px rgba(0, 0, 0, 0.28),
+    0 0 14px rgba(0, 0, 0, 0.08);
 }

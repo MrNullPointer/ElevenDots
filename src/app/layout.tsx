@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import '@/styles/globals.css';
+import RouteTransitionProvider from '@/components/ui/RouteTransitionProvider';
 
 export const metadata: Metadata = {
   title: 'elevendots',
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <RouteTransitionProvider>{children}</RouteTransitionProvider>
+      </body>
     </html>
   );
 }

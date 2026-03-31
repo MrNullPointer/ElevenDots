@@ -609,3 +609,38 @@
 - Validation:
   - `next build` passes via direct Node invocation
   - Playwright visual suite passes on `desktop` and `mobile` against `localhost:6001`
+
+### Phase 2E — Premium Shell Recovery and Overlay Restraint (in progress)
+
+- Started a clean recovery pass from `origin/main` in separate branch `rishi/premium-ui-recovery` to avoid inheriting the unresolved local visual experiments from the main workspace.
+- Re-authored the shell surfaces to reduce the generic glass/UI-kit feel:
+  - replaced Unicode control glyphs in `ToggleControls.tsx` with inline SVG icons
+  - tightened control-rail/button materials, shadows, and focus states
+  - rebuilt the bottom nav as a three-track rail with a shared sliding active plate instead of per-link jump emphasis
+  - slowed and softened shell transitions with dedicated shell easing variables
+- Reduced the ambient overlay from primary image-maker to secondary modulation layer:
+  - cut global `SceneCanvas` opacity and simplified signal/cavity/structural fields
+  - shifted side-structure emphasis downward so it stops leaking obvious corner arcs
+  - preserved destination identity while degrading by detail rather than by losing state meaning
+- Reworked the poster focal stack toward subtraction instead of additive haze:
+  - inserted `focalOcclusion` to carve a darker authored center
+  - tightened `farField`, `pressureBands`, `tonePlane`, and `cavityGlow` so the frame does not collapse back into one broad oval wash
+  - retuned Pulse/Axiom/About to separate more by focal hierarchy and enclosure feel than by color wash alone
+- Validation:
+  - `next build --webpack` passes from the clean worktree
+  - local dev server is running on `http://127.0.0.1:6001` using webpack mode
+  - `playwright test tests/visual/stage2-shell.spec.ts --project=desktop --config=.tmp-playwright-6001.config.ts --update-snapshots` passes
+  - `playwright test tests/visual/about-page.spec.ts --project=desktop --config=.tmp-playwright-6001.config.ts --update-snapshots` passes
+
+### Phase 2F — Route Transition Stability Fix (complete)
+
+- Diagnosed the page-switch flash as a transition-system issue rather than a rendering issue:
+  - the first route wrapper was fading the whole page down too aggressively
+  - it was also mounted through a `Suspense` fallback because of `useSearchParams()`, which made the handoff visually unstable during navigation
+- Rebuilt the internal route transition layer to be more conservative:
+  - removed `useSearchParams()` so the provider only keys off pathname changes
+  - removed the `Suspense` wrapper from the root layout
+  - changed page transitions from heavy fade/blur to a much steadier opacity/transform settle with a restrained scrim
+  - limited interception to real same-origin pathname transitions only, so hash changes and same-page interactions are left alone
+- Validation:
+  - `next build --webpack` passes after the route-transition fix
