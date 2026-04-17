@@ -159,7 +159,7 @@ export default function Navigation({ activeDestination, panelOpen }: NavigationP
             ? { target: '_blank', rel: 'noopener noreferrer' }
             : {})}
         >
-          {dest.id === 'about' ? 'About me' : dest.label}
+          <span className={styles.anchorLabel}>{dest.label}</span>
         </a>
       ))}
     </nav>

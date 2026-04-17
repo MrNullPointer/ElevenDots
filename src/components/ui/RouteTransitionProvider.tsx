@@ -9,8 +9,8 @@ import {
 } from 'react';
 import styles from './RouteTransitionProvider.module.css';
 
-const ROUTE_EXIT_MS = 220;
-const ROUTE_ENTER_MS = 520;
+const ROUTE_EXIT_MS = 280;
+const ROUTE_ENTER_MS = 640;
 
 type RoutePhase = 'idle' | 'leaving' | 'entering';
 

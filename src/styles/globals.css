@@ -1,5 +1,80 @@
 @import './tokens.css';
 
+/* ── Registered custom properties for smooth transitions ── */
+/* Colors used in gradients — registration enables interpolation */
+@property --field-lift { syntax: "<color>"; inherits: true; initial-value: rgba(30,46,68,0.56); }
+@property --field-core { syntax: "<color>"; inherits: true; initial-value: rgba(20,32,48,0.38); }
+@property --pressure-tint { syntax: "<color>"; inherits: true; initial-value: rgba(128,150,182,0.18); }
+@property --tone-wash { syntax: "<color>"; inherits: true; initial-value: rgba(112,136,168,0.18); }
+@property --cavity-rim { syntax: "<color>"; inherits: true; initial-value: rgba(156,178,206,0.62); }
+@property --cavity-accent { syntax: "<color>"; inherits: true; initial-value: rgba(130,156,186,0.22); }
+@property --cavity-glow { syntax: "<color>"; inherits: true; initial-value: rgba(168,196,226,0.18); }
+@property --seam-tint { syntax: "<color>"; inherits: true; initial-value: rgba(196,214,236,0.36); }
+@property --core-pocket { syntax: "<color>"; inherits: true; initial-value: rgba(4,8,14,0.62); }
+@property --enclosure-tint { syntax: "<color>"; inherits: true; initial-value: rgba(114,138,170,0.18); }
+@property --spectral-veil-tint { syntax: "<color>"; inherits: true; initial-value: rgba(138,162,194,0.14); }
+@property --destination-wash { syntax: "<color>"; inherits: true; initial-value: rgba(112,138,168,0.16); }
+@property --dot-shadow { syntax: "<color>"; inherits: true; initial-value: rgba(178,202,230,0.36); }
+@property --panel-settle { syntax: "<color>"; inherits: true; initial-value: rgba(4,7,11,0.48); }
+@property --shear-accent { syntax: "<color>"; inherits: true; initial-value: rgba(128,148,180,0.14); }
+@property --signal-accent { syntax: "<color>"; inherits: true; initial-value: rgba(112,140,176,0.14); }
+@property --structural-tint { syntax: "<color>"; inherits: true; initial-value: rgba(118,140,172,0.14); }
+
+/* Numeric properties — opacities and scales */
+@property --field-opacity { syntax: "<number>"; inherits: true; initial-value: 0.92; }
+@property --pressure-opacity { syntax: "<number>"; inherits: true; initial-value: 0.28; }
+@property --edge-mute-opacity { syntax: "<number>"; inherits: true; initial-value: 0.8; }
+@property --tone-opacity { syntax: "<number>"; inherits: true; initial-value: 0.28; }
+@property --grain-opacity { syntax: "<number>"; inherits: true; initial-value: 0.14; }
+@property --canopy-opacity { syntax: "<number>"; inherits: true; initial-value: 0.9; }
+@property --side-mass-opacity { syntax: "<number>"; inherits: true; initial-value: 0.32; }
+@property --chamber-opacity { syntax: "<number>"; inherits: true; initial-value: 0.94; }
+@property --sheath-opacity { syntax: "<number>"; inherits: true; initial-value: 0.94; }
+@property --pocket-opacity { syntax: "<number>"; inherits: true; initial-value: 0.88; }
+@property --accent-opacity { syntax: "<number>"; inherits: true; initial-value: 0.52; }
+@property --occlusion-opacity { syntax: "<number>"; inherits: true; initial-value: 0.64; }
+@property --occlusion-rim-opacity { syntax: "<number>"; inherits: true; initial-value: 0.46; }
+@property --occlusion-slit-opacity { syntax: "<number>"; inherits: true; initial-value: 0.56; }
+@property --seam-opacity { syntax: "<number>"; inherits: true; initial-value: 0.58; }
+@property --cavity-glow-opacity { syntax: "<number>"; inherits: true; initial-value: 0.62; }
+@property --cavity-shimmer-opacity { syntax: "<number>"; inherits: true; initial-value: 0.32; }
+@property --enclosure-opacity { syntax: "<number>"; inherits: true; initial-value: 0.28; }
+@property --spectral-veil-opacity { syntax: "<number>"; inherits: true; initial-value: 0.16; }
+@property --dot-field-opacity { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --dot-scale { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --micro-field-opacity { syntax: "<number>"; inherits: true; initial-value: 0.3; }
+@property --destination-wash-opacity { syntax: "<number>"; inherits: true; initial-value: 0.2; }
+@property --panel-settle-opacity { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --lower-depth-opacity { syntax: "<number>"; inherits: true; initial-value: 0.88; }
+@property --vignette-opacity { syntax: "<number>"; inherits: true; initial-value: 0.92; }
+@property --cavity-scale { syntax: "<number>"; inherits: true; initial-value: 1.06; }
+@property --focal-width { syntax: "<number>"; inherits: true; initial-value: 1.08; }
+@property --focal-height { syntax: "<number>"; inherits: true; initial-value: 1.1; }
+@property --occlusion-width-scale { syntax: "<number>"; inherits: true; initial-value: 1.04; }
+@property --occlusion-height-scale { syntax: "<number>"; inherits: true; initial-value: 1.02; }
+
+/* Angle properties */
+@property --focal-tilt { syntax: "<angle>"; inherits: true; initial-value: -4deg; }
+@property --pocket-lean { syntax: "<angle>"; inherits: true; initial-value: -1deg; }
+@property --core-tilt { syntax: "<angle>"; inherits: true; initial-value: -1deg; }
+@property --seam-lean { syntax: "<angle>"; inherits: true; initial-value: -1deg; }
+
+/* Length properties */
+@property --occlusion-blur { syntax: "<length>"; inherits: true; initial-value: 2.4px; }
+@property --seam-blur { syntax: "<length>"; inherits: true; initial-value: 2.6px; }
+@property --dot-blur { syntax: "<length>"; inherits: true; initial-value: 0.2px; }
+@property --micro-field-blur { syntax: "<length>"; inherits: true; initial-value: 0.36px; }
+
+/* Scene canvas properties */
+@property --ambient-opacity { syntax: "<number>"; inherits: true; initial-value: 0.62; }
+@property --shear-opacity { syntax: "<number>"; inherits: true; initial-value: 0.16; }
+@property --signal-opacity { syntax: "<number>"; inherits: true; initial-value: 0.28; }
+@property --cavity-opacity { syntax: "<number>"; inherits: true; initial-value: 0.34; }
+@property --structural-opacity { syntax: "<number>"; inherits: true; initial-value: 0.16; }
+@property --atmosphere-opacity { syntax: "<number>"; inherits: true; initial-value: 0.56; }
+@property --cavity-blur { syntax: "<length>"; inherits: true; initial-value: 20px; }
+@property --structural-blur { syntax: "<length>"; inherits: true; initial-value: 16px; }
+
 *,
 *::before,
 *::after {

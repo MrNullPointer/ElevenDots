@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import PosterFallback from './PosterFallback';
 import TopBar from './TopBar';
 import Navigation from './Navigation';
+import HeroSignal from './HeroSignal';
 import AboutPanel from './AboutPanel';
 import InfoPanel from './InfoPanel';
 import { useHashRoute } from '@/lib/hooks/useHashRoute';
@@ -49,76 +50,10 @@ export default function HomeShell() {
 
   useEffect(() => {
     const root = document.documentElement;
-
-    if (motionMode === 'reduced') {
-      root.style.setProperty('--depth-x', '0');
-      root.style.setProperty('--depth-y', '0');
-      return;
-    }
-
-    const pointerQuery = window.matchMedia('(pointer: fine)');
-    if (!pointerQuery.matches) {
-      root.style.setProperty('--depth-x', '0');
-      root.style.setProperty('--depth-y', '0');
-      return;
-    }
-
-    let frameId = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-
-    const render = () => {
-      currentX += (targetX - currentX) * 0.08;
-      currentY += (targetY - currentY) * 0.08;
-
-      root.style.setProperty('--depth-x', currentX.toFixed(4));
-      root.style.setProperty('--depth-y', currentY.toFixed(4));
-
-      if (
-        Math.abs(targetX - currentX) > 0.0008 ||
-        Math.abs(targetY - currentY) > 0.0008
-      ) {
-        frameId = window.requestAnimationFrame(render);
-      } else {
-        frameId = 0;
-      }
-    };
-
-    const queueRender = () => {
-      if (frameId === 0) {
-        frameId = window.requestAnimationFrame(render);
-      }
-    };
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (event.pointerType !== 'mouse') {
-        return;
-      }
-
-      targetX = Math.max(-1, Math.min(1, event.clientX / window.innerWidth * 2 - 1));
-      targetY = Math.max(-1, Math.min(1, event.clientY / window.innerHeight * 2 - 1));
-      queueRender();
-    };
-
-    const resetDepth = () => {
-      targetX = 0;
-      targetY = 0;
-      queueRender();
-    };
-
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    document.documentElement.addEventListener('pointerleave', resetDepth);
-    window.addEventListener('blur', resetDepth);
+    root.style.setProperty('--depth-x', '0');
+    root.style.setProperty('--depth-y', '0');
 
     return () => {
-      window.removeEventListener('pointermove', handlePointerMove);
-      document.documentElement.removeEventListener('pointerleave', resetDepth);
-      window.removeEventListener('blur', resetDepth);
-      if (frameId !== 0) {
-        window.cancelAnimationFrame(frameId);
-      }
       root.style.setProperty('--depth-x', '0');
       root.style.setProperty('--depth-y', '0');
     };
@@ -180,6 +115,7 @@ export default function HomeShell() {
         data-motion={motionMode}
         data-panel={shellPanelOpen ? 'open' : 'closed'}
       >
+        <HeroSignal activeDestination={destination} panelOpen={shellPanelOpen} />
         <TopBar
           onInfoToggle={toggleInfo}
           infoOpen={infoOpen}

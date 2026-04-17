@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
-import '@/styles/globals.css';
 import RouteTransitionProvider from '@/components/ui/RouteTransitionProvider';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: 'elevendots',
