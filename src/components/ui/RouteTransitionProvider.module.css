@@ -1,0 +1,88 @@
+.stage {
+  position: relative;
+  min-height: 100dvh;
+  transition:
+    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 520ms cubic-bezier(0.2, 0.84, 0.24, 1);
+}
+
+.stage::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 68% 42% at 50% 38%,
+      rgba(8, 12, 18, 0.04) 0%,
+      transparent 76%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(4, 7, 11, 0) 0%,
+      rgba(4, 7, 11, 0.08) 100%
+    );
+  opacity: 0;
+  transition:
+    opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 520ms cubic-bezier(0.2, 0.84, 0.24, 1);
+}
+
+.stage[data-route-phase='leaving'] {
+  pointer-events: none;
+  opacity: 0.975;
+  transform: translate3d(0, 0.2rem, 0) scale(0.998);
+}
+
+.stage[data-route-phase='leaving']::after {
+  opacity: 0.58;
+}
+
+.stage[data-route-phase='entering'] {
+  animation: route-enter 640ms cubic-bezier(0.2, 0.84, 0.24, 1) both;
+}
+
+.stage[data-route-phase='entering']::after {
+  animation: route-scrim-enter 640ms cubic-bezier(0.2, 0.84, 0.24, 1) both;
+}
+
+@keyframes route-enter {
+  0% {
+    opacity: 0.965;
+    transform: translate3d(0, 0.22rem, 0) scale(1.002);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes route-scrim-enter {
+  0% {
+    opacity: 0.28;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .stage[data-route-phase='leaving'],
+  .stage[data-route-phase='entering'] {
+    transition: none;
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .stage::after,
+  .stage[data-route-phase='leaving']::after,
+  .stage[data-route-phase='entering']::after {
+    transition: none;
+    animation: none;
+    opacity: 0;
+  }
+}

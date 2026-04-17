@@ -1,5 +1,108 @@
 # DEVLOG
 
+## Session 8 — 2026-04-16
+
+### Space / nebula / supernova homepage upgrade
+
+**Direction correction**
+- Pivoted the homepage away from a simple readable portfolio shell toward a richer cinematic space field.
+- Added a default live ambient WebGL path instead of requiring `?ambient=live`.
+- Added a procedural R3F nebula/supernova layer with deterministic shader noise, stable star hashing, slow shockwave motion, and reduced-motion freeze behavior.
+
+**Poster fallback**
+- Upgraded the no-WebGL/static poster with nebula cloud, shockwave, supernova core, and stable star-sea layers.
+- Kept animation slow and non-flashing to avoid flicker/seizure-trigger behavior.
+- Disabled the Next dev indicator because it overlapped the mobile navigation in local previews.
+
+**UI layer**
+- Added an identity/destination layer with destination-synced hover/focus state and 3D transform treatment.
+- Tightened top controls and bottom navigation while preserving real anchor semantics and About modal routing.
+
+**Verification**
+- `npm run build` ✅ passes with static export.
+- Captured desktop and mobile smoke screenshots for the upgraded space direction.
+- Refreshed `tests/visual/stage2-shell.spec.ts` desktop/mobile baselines for the new art direction.
+- Re-ran `tests/visual/stage2-shell.spec.ts` ✅:
+  - 16 passed
+  - 4 skipped project-specific cases
+
+**Animation refinement**
+- Reworked the selected hero region away from a generic portfolio card stack:
+  - larger gradient display typography
+  - lighter orbital telemetry destination rows instead of glass cards
+  - subtle scan passes and staged destination entrance motion
+- Improved supernova/nebula motion:
+  - WebGL shader swirl around the supernova core
+  - slow layered inner/outer shockwave motion
+  - poster fallback nebula drift and supernova breathing
+- Preserved no-flicker behavior with slow deterministic animation and reduced-motion freezes.
+
+**Typography refinement**
+- Replaced the generic Inter/system display treatment with a stronger offline-safe type system:
+  - high-contrast editorial serif stack for the primary name
+  - condensed technical stack for wordmark, nav, and destination labels
+  - humanist sans stack for body copy
+- Retuned desktop and mobile hero sizing so the new font metrics remain readable.
+- Refreshed and re-ran `tests/visual/stage2-shell.spec.ts` ✅:
+  - 16 passed
+  - 4 skipped project-specific cases
+
+**Monospaced identity refinement**
+- Converted the primary name into accessible per-letter monospaced spans with an `aria-label` on the full heading.
+- Added premium technical lettering treatment:
+  - direct luminous glyph color instead of low-contrast clipped transparency
+  - selective cryogenic cyan and warm supernova accents
+  - per-letter measurement marks and horizontal instrument rules
+- Tuned the lockup down from oversized novelty weight into a sharper technical identity on desktop and mobile.
+- Verification:
+  - `npm run build` ✅ passes with static export.
+  - Refreshed and re-ran `tests/visual/stage2-shell.spec.ts` ✅:
+    - 16 passed
+    - 4 skipped project-specific cases
+
+**Animation correction**
+- Rebalanced motion away from busy UI loops and toward slow atmospheric depth:
+  - removed the looping per-letter title scan
+  - slowed the hero rules, orbital arc, destination scan, and instrument rotations
+  - softened hover/focus transforms so destination rows no longer lurch in 3D
+  - reduced CSS poster breathing, shimmer, shockwave, and dot-drift amplitudes
+  - slowed WebGL nebula drift, core breathing, shockwave radius motion, star drift, and scene-plane parallax
+- Verification:
+  - `npm run build` ✅ passes with static export.
+  - Local browser probe on `http://localhost:3000/` reported zero console errors.
+  - Refreshed and re-ran `tests/visual/stage2-shell.spec.ts` ✅:
+    - 16 passed
+    - 4 skipped project-specific cases
+
+**Motion / typography reset**
+- Removed the remaining jump sources:
+  - disabled pointer-driven DOM parallax
+  - reduced WebGL camera pointer sway to a very small, slow response
+  - removed title entrance staggering, destination row entrance animation, destination scan passes, instrument rotation loops, and poster fallback animation loops
+- Reworked the text/color treatment again:
+  - replaced multicolor glyph accents with a single frost/cyan system
+  - switched the mono stack to `ui-monospace` / `SFMono-Regular` / Menlo-style system fonts
+  - reduced title scale, weight, and glow so the name reads cleaner and less blunt
+- Verification:
+  - `npm run build` ✅ passes with static export.
+  - Local browser probe on `http://localhost:3000/` reported zero console errors.
+  - Refreshed and re-ran `tests/visual/stage2-shell.spec.ts` ✅:
+    - 16 passed
+    - 4 skipped project-specific cases
+
+**Controlled 3D depth pass**
+- Added depth back without restoring jittery motion:
+  - gave the hero a fixed perspective plane with subtle title Z layering
+  - raised destination rows and markers into a shallow 3D stack
+  - strengthened the orbital instrument with stable Z offsets
+  - added fixed-depth transforms to the scene overlay layers so the fallback reads less flat when WebGL is unavailable or visually subtle
+- Tuned the mobile version separately so the title does not clip or skew aggressively.
+- Verification:
+  - `npm run build` ✅ passes with static export.
+  - Refreshed and re-ran `tests/visual/stage2-shell.spec.ts` ✅:
+    - 16 passed
+    - 4 skipped project-specific cases
+
 ## Session 7 — 2026-03-30
 
 ### Stage 2 — poster-first interaction system and destination modulation
@@ -608,4 +711,17 @@
   - added mobile `/about` coverage alongside the existing desktop capture
 - Validation:
   - `next build` passes via direct Node invocation
+  - Playwright visual suite passes on `desktop` and `mobile` against `localhost:6001`
+
+### Phase 2E — Visibility Correction Pass (complete)
+
+- Increased the visible separation of Stage 2 states after the previous pass landed below the readability threshold:
+  - pulse now uses a narrower, more energized focal pocket with stronger cyan wash and shell emphasis
+  - axiom now carries a tighter structural lock with clearer enclosure weight and a more exact shell response
+  - about now reads quieter through a softer, darker inward pocket and reduced shell energy rather than just a mild tone shift
+- Tightened the homepage center again without changing the composition system:
+  - retuned the aperture shell, lens, pocket, core, accent, and seam insets so the center reads as a stronger single event
+  - increased destination-specific differences through focal geometry and emphasis, not new scene content
+- Validation:
+  - `next build` passes
   - Playwright visual suite passes on `desktop` and `mobile` against `localhost:6001`

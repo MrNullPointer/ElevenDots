@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import PosterFallback from './PosterFallback';
 import TopBar from './TopBar';
 import Navigation from './Navigation';
+import HeroSignal from './HeroSignal';
 import AboutPanel from './AboutPanel';
 import InfoPanel from './InfoPanel';
 import { useHashRoute } from '@/lib/hooks/useHashRoute';
@@ -46,6 +47,17 @@ export default function HomeShell() {
     ? 'about'
     : activeDestination ?? 'idle';
   const motionMode: MotionMode = reducedMotion || frozen || testMode ? 'reduced' : 'full';
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--depth-x', '0');
+    root.style.setProperty('--depth-y', '0');
+
+    return () => {
+      root.style.setProperty('--depth-x', '0');
+      root.style.setProperty('--depth-y', '0');
+    };
+  }, [motionMode]);
 
   useEffect(() => {
     document.body.classList.toggle('frozen', frozen || testMode);
@@ -103,6 +115,7 @@ export default function HomeShell() {
         data-motion={motionMode}
         data-panel={shellPanelOpen ? 'open' : 'closed'}
       >
+        <HeroSignal activeDestination={destination} panelOpen={shellPanelOpen} />
         <TopBar
           onInfoToggle={toggleInfo}
           infoOpen={infoOpen}

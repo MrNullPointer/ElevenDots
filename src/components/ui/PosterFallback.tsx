@@ -53,9 +53,12 @@ export default function PosterFallback({
       <div className={styles.base} />
       <div className={styles.farField} />
       <div className={styles.pressureBands} />
+      <div className={styles.nebulaCloud} />
+      <div className={styles.shockwave} />
       <div className={styles.edgeMute} />
       <div className={styles.tonePlane} />
       <div className={styles.grain} />
+      <div className={styles.starSea} />
       <div className={styles.canopy} />
       <div className={`${styles.sideMass} ${styles.sideMassLeft}`} />
       <div className={`${styles.sideMass} ${styles.sideMassRight}`} />
@@ -67,7 +70,9 @@ export default function PosterFallback({
         <div className={styles.apertureAccent} />
         <div className={styles.apertureSeam} />
       </div>
+      <div className={styles.coreOcclusion} />
       <div className={styles.cavityGlow} />
+      <div className={styles.supernovaCore} />
       <div className={styles.enclosureVeil} />
       <div className={styles.spectralVeil} />
       <div className={styles.dotField}>

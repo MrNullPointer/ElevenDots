@@ -1,14 +1,21 @@
 .toggle {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid color-mix(in srgb, var(--shell-edge) 80%, var(--shell-rail-border));
-  border-radius: var(--radius-full);
-  background: var(--shell-control-bg);
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(232, 240, 255, 0.1);
+  border-radius: var(--radius-sm);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16, 22, 34, 0.62) 0%,
+      rgba(8, 12, 20, 0.82) 100%
+    );
   color: var(--shell-control-icon);
-  font-size: var(--text-base);
+  font-size: 0;
+  line-height: 0;
   cursor: pointer;
   transition:
     border-color var(--shell-duration-fast) var(--ease-out),
@@ -19,21 +26,51 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.toggle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(232, 240, 255, 0.04) 0%,
+      rgba(232, 240, 255, 0) 40%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+  pointer-events: none;
+}
+
 .toggle:hover,
 .toggle:focus-visible {
-  border-color: var(--shell-edge-strong);
-  background: var(--shell-control-bg-active);
+  border-color: rgba(232, 240, 255, 0.2);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16, 22, 32, 0.6) 0%,
+      rgba(12, 18, 28, 0.84) 100%
+    );
   color: var(--shell-control-icon-active);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--shell-rail-glow) 28%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--shell-rail-glow) 18%, transparent);
 }
 
 .toggle[aria-pressed='true'] {
-  background: linear-gradient(
-    180deg,
-    rgba(14, 22, 34, 0.64) 0%,
-    rgba(16, 28, 34, 0.82) 100%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(14, 22, 34, 0.68) 0%,
+      rgba(12, 20, 28, 0.88) 100%
+    );
   color: var(--color-accent-cyan);
-  border-color: color-mix(in srgb, var(--color-accent-cyan) 60%, var(--shell-edge-strong));
-  box-shadow: 0 0 28px rgba(78, 205, 196, 0.16);
+  border-color: color-mix(in srgb, var(--color-accent-cyan) 32%, rgba(232, 240, 255, 0.06));
+  box-shadow:
+    0 0 16px rgba(78, 205, 196, 0.08),
+    inset 0 0 8px rgba(78, 205, 196, 0.04);
+}
+
+@media (max-width: 520px) {
+  .toggle {
+    width: 34px;
+    height: 34px;
+  }
 }
